@@ -1,25 +1,23 @@
-# Starter folder
+# Analysis of Voting Behavior in the 2022 U.S. Midterm Elections
 
 ## Overview
 
-This repo provides students with a foundation for their own projects associated with *Telling Stories with Data*. You do not need every aspect for every paper and you should delete aspects that you do not need.
-
+This repository contains all code and data used to complete the 2022 U.S. Midterm Election Analysis Paper. It was created by Talia Fabregas.
 
 ## File Structure
 
 The repo is structured as:
 
--   `data/raw_data` contains the raw data as obtained from X.
+-   `data/raw_data` contains the raw data as obtained from Harvard Dataverse.
 -   `data/analysis_data` contains the cleaned dataset that was constructed.
 -   `model` contains fitted models. 
--   `other` contains relevant literature, details about LLM chat interactions, and sketches.
+-   `other` contains relevant literature, details about LLM chat interactions, sketches, a datasheet and a model card.
 -   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper. 
 -   `scripts` contains the R scripts used to simulate, download and clean data.
 
 
 ## Statement on LLM usage
-
-Aspects of the code were written with the help of the auto-complete tool, Codriver. The abstract and introduction were written with the help of ChatHorse and the entire chat history is available in inputs/llms/usage.txt.
+Aspects of this code, including the data visualizations and tables, were created with the assistance of a Large Language Model, ChatGPT-3.5. The entire interaction history with ChatGPT is available in other/llms/usage.txt.
 
 ## Some checks
 
