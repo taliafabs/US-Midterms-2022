@@ -44,3 +44,7 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# Raw data dta file
+.CCES22_Common_OUTPUT_vv_topost.dta
+.CCES22_Common_OUTPUT_vv_topost.csv
