@@ -17,7 +17,7 @@ library(arrow)
 
 #### Download data ####
 # Read in the data
-raw_data <- read_dta("data/01-raw_data/CCES22_Common_OUTPUT_vv_topost.dta")
+raw_data_dta <- read_dta("data/01-raw_data/CCES22_Common_OUTPUT_vv_topost.dta")
 raw_data_csv <- read_csv("data/01-raw_data/CCES22_Common_OUTPUT_vv_topost.csv")
 
 #### Save data ####
