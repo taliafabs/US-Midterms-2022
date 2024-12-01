@@ -169,7 +169,19 @@ reduced_raw_data <- reduced_raw_data |>
         newsint == 4 ~ "Hardly at all",
         newsint == 5 ~ "Don't know",
         is.na(newsint) ~ "No"
-      )
+      ),
+      race = case_when(
+        race == 1 ~ "White",
+        race == 2 ~ "Black",
+        race == 3 ~ "Hispanic",
+        race == 4 ~ "Asian",
+        race == 5 ~ "Native American",
+        race == 6 ~ "Middle Eastern",
+        race == 7 ~ "Two or more races",
+        race == 8 ~ "Other",
+        is.na(race) ~ "Other"
+      ),
+      vote_trump = if_else(presvote2020 == "Donald Trump", 1, 0)
       
   )
 
@@ -177,7 +189,7 @@ reduced_raw_data <- reduced_raw_data |>
 # voted_in_2022, presvote20, age_bracket, educ, truststate, trustfed, know_house, know_senate, political_interest
 
 clean_data <- reduced_raw_data |>
-  select(voted_in_2022, presvote2020, age_bracket, educ, truststate, trustfed, 
+  select(voted_in_2022, presvote2020, state, race, gender, age_bracket, educ, truststate, trustfed, 
          know_us_house, know_us_senate, political_interest, commonweight)
 
 clean_data$presvote2020 <- as.factor(clean_data$presvote2020)
@@ -188,6 +200,8 @@ clean_data$trustfed <- as.factor(clean_data$trustfed)
 clean_data$know_us_house <- as.factor(clean_data$know_us_house)
 clean_data$know_us_senate <- as.factor(clean_data$know_us_senate)
 clean_data$political_interest <- as.factor(clean_data$political_interest)
+clean_data$state <- as.factor(clean_data$state)
+clean_data$race <- as.factor(clean_data$race)
 
 clean_data <- na.omit(clean_data)
   
