@@ -1,10 +1,10 @@
 # Analysis of Voting Behavior in the 2022 U.S. Midterm Elections
 
-## Overview
+## 📌 Overview
 
 This repository contains all code and data used to complete the 2022 U.S. Midterm Election Analysis Paper. It was created by Talia Fabregas.
 
-## File Structure
+## 🗂️ File Structure
 
 The repo is structured as:
 
@@ -16,7 +16,7 @@ The repo is structured as:
 -   `scripts` contains the R scripts used to simulate, download and clean data.
 
 
-## Statement on LLM usage
+## 🤖 Statement on LLM usage
 Aspects of this code, including the data visualizations and tables, were created with the assistance of a Large Language Model, ChatGPT-3.5. The entire interaction history with ChatGPT is available in other/llms/usage.txt.
 
 ## Some checks
