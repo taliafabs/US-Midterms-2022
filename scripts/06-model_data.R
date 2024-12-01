@@ -31,7 +31,7 @@ set.seed(538)
 
 ces_2022_reduced <- 
   ces22_analysis_data |>
-  slice_sample(n = 5000)
+  slice_sample(n = 7500)
 
 # use presvote20post, educ, and stuff about trust/engagement to predict whether or not someone voted in midterms
 
