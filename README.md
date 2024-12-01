@@ -1,6 +1,6 @@
 # Analysis of Voting Behavior in the 2022 U.S. Midterm Elections
 
-## 📌 Overview
+## 🗳️ Overview
 
 This repository contains all code and data used to complete the 2022 U.S. Midterm Election Analysis Paper. It was created by Talia Fabregas.
 
