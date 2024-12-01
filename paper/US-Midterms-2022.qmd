@@ -14,16 +14,23 @@ bibliography: references.bib
 
 ```{r}
 #| include: false
+#| echo: false
 #| warning: false
 #| message: false
 
 library(tidyverse)
 library(janitor)
+library(dplyr)
 library(ggplot2)
+library(arrow)
+library(rstanarm)
+library(modelsummary)
 library(kableExtra)
 library(RColorBrewer)
 
 # load the analysis data
+setwd(here::here())
+analysis_data <- read_parquet("data/02-analysis_data/ces2022_analysis_data.parquet")
 ```
 
 
@@ -50,7 +57,7 @@ Telegraphing paragraph: The remainder of this paper is structured as follows. @s
 
 ## Overview
 
-We use the statistical programming language R [@citeR].... Our data [@ces2022].... Following @tellingstories, we consider...
+We use the statistical programming language R [@citeR].... Our data [@ces2022].... Following @tswd, we consider...
 
 Overview text
 
@@ -64,44 +71,19 @@ Add graphs, tables and text. Use sub-sub-headings for each outcome variable or u
 
 
 
-Some of our data is of penguins (@fig-bills), from @palmerpenguins.
+Some of our data is of penguins (@fig-fig1), from ...
 
 ```{r}
-#| label: fig-bills
-#| fig-cap: Bills of penguins
+#| label: fig-fig1
+#| fig-cap: Figure 1!!!
 #| echo: false
 #| warning: false
 #| message: false
-
-# ggplot(penguins, aes(x = island, fill = species)) +
-#   geom_bar(alpha = 0.8) +
-#   scale_fill_manual(values = c("darkorange","purple","cyan4"),
-#                     guide = "none") +
-#   theme_minimal() +
-#   facet_wrap(~species, ncol = 1) +
-#   coord_flip()
+  
 ```
 
 Talk more about it.
 
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
-
-```{r}
-#| label: fig-planes
-#| fig-cap: Relationship between wing length and width
-#| echo: false
-#| warning: false
-#| message: false
-
-analysis_data <- read_csv(here::here("data/02-analysis_data/analysis_data.csv"))
-
-analysis_data |> 
-  ggplot(aes(x = width, y = length)) +
-  geom_point(alpha = 0.8) +
-  theme_minimal() +
-  labs(x = "Wing width (mm)",
-       y = "Wing length (mm)")
-```
 
 Talk way more about it. 
 
@@ -126,12 +108,16 @@ Here we briefly describe the Bayesian analysis model used to investigate... Back
 Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.  
 
 \begin{align} 
-y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha + \beta_i + \gamma_i\\
-\alpha &\sim \mbox{Normal}(0, 2.5) \\
-\beta &\sim \mbox{Normal}(0, 2.5) \\
-\gamma &\sim \mbox{Normal}(0, 2.5) \\
-\sigma &\sim \mbox{Exponential}(1)
+y_i | \pi_i &\sim \mbox{Bern}(\pi_i) \\
+\mbox{logit}(\pi_i) &= \beta_0 + \beta_1 \times presvote2020_i + \beta_2 \times educ_i + \beta_3 \times trust_i + \beta_4 \times know\_us\_house_i \\
+&+ \beta_5 \times know\_us\_senate_i + \beta_6 \times political\_interest_i  \\
+\beta_0 &\sim ~ \mbox{Normal}(0, 2.5) \\
+\beta_1 &\sim ~ \mbox{Normal}(0, 2.5) \\
+\beta_2 &\sim ~ \mbox{Normal}(0, 2.5) \\
+\beta_3 &\sim ~ \mbox{Normal}(0, 2.5) \\
+\beta_4 &\sim ~ \mbox{Normal}(0, 2.5) \\
+\beta_5 &\sim ~ \mbox{Normal}(0, 2.5) \\
+\beta_6 &\sim ~ \mbox{Normal}(0, 2.5) \\
 \end{align}
 
 We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
@@ -143,10 +129,13 @@ We expect a positive relationship between the size of the wings and time spent a
 
 We can use maths by including latex between dollar signs, for instance $\theta$.
 
+## Model Weaknesses and Limitations
+Trained using a random subset of the data. Refer to codebook about the risks of that. 
+
 
 # Results
 
-Our results are summarized in @tbl-modelresults.
+The results are summarized in [Appendix -@sec-model-results]. 
 
 ```{r}
 #| echo: false
@@ -156,25 +145,11 @@ Our results are summarized in @tbl-modelresults.
 
 library(rstanarm)
 
-first_model <-
-  readRDS(file = here::here("models/first_model.rds"))
+turnout_model_2022 <-
+  readRDS(file = here::here("models/turnout_model_2022.rds"))
 ```
 
-```{r}
-#| echo: false
-#| eval: true
-#| label: tbl-modelresults
-#| tbl-cap: "Explanatory models of flight time based on wing width and wing length"
-#| warning: false
 
-modelsummary::modelsummary(
-  list(
-    "First model" = first_model
-  ),
-  statistic = "mad",
-  fmt = 2
-)
-```
 
 
 
@@ -222,9 +197,29 @@ Weaknesses and next steps should also be included.
 
 # Model details {#sec-model-details}
 
+## Model Results {#sec-model-results}
+The model summary is shown in @tbl-model-summary.
+```{r}
+#| echo: false
+#| eval: true
+#| label: tbl-model-summary
+#| tbl-cap: "Explanatory model of voter turnout in 2022 U.S. midterm elections based on ..."
+#| warning: false
+
+modelsummary::modelsummary(
+  list(
+    "Voter Turnout Model" = turnout_model_2022
+  ),
+  statistic = "mad",
+  fmt = 2,
+  output = "kableExtra"
+) %>%
+  kableExtra::kable_styling(font_size = 11)
+```
+
 ## Posterior predictive check
 
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
+In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows the comparison of the outcome variable $vote\_2022$, with simulations from the posterior distribution [@tswd].
 
 In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
 
@@ -238,15 +233,15 @@ In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. Th
 #| fig-cap: "Examining how the model fits, and is affected by, the data"
 #| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
 
-pp_check(first_model) +
-  theme_classic() +
-  theme(legend.position = "bottom")
-
-posterior_vs_prior(first_model) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1") +
-  theme(legend.position = "bottom") +
-  coord_flip()
+# pp_check(turnout_model_2022) +
+#   theme_classic() +
+#   theme(legend.position = "bottom")
+# 
+# posterior_vs_prior(turnout_model_2022) +
+#   theme_minimal() +
+#   scale_color_brewer(palette = "Set1") +
+#   theme(legend.position = "bottom") +
+#   coord_flip()
 ```
 
 ## Diagnostics
@@ -265,9 +260,9 @@ posterior_vs_prior(first_model) +
 #| fig-subcap: ["Trace plot", "Rhat plot"]
 #| layout-ncol: 2
 
-plot(first_model, "trace")
+plot(turnout_model_2022, "trace")
 
-plot(first_model, "rhat")
+plot(turnout_model_2022, "rhat")
 ```
 
 
