@@ -1,5 +1,5 @@
 ---
-title: "Title"
+title: "Abortion is More Popular than Your Favorite Politician"
 subtitle: "My subtitle if needed"
 author: 
   - Talia Fabregas
@@ -50,7 +50,7 @@ Telegraphing paragraph: The remainder of this paper is structured as follows. @s
 
 ## Overview
 
-We use the statistical programming language R [@citeR].... Our data [@shelter].... Following @tellingstories, we consider...
+We use the statistical programming language R [@citeR].... Our data [@ces2022].... Following @tellingstories, we consider...
 
 Overview text
 
@@ -214,7 +214,7 @@ Weaknesses and next steps should also be included.
 
 ## Second Point: Idealized Survey Methodology to Study 2024 Down-Ballot Voter Attrition
 
-## Third Point
+## Social Desirability Bias and Identifying Non-Voters
 
 # Additional data details
 
