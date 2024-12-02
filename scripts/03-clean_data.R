@@ -181,7 +181,8 @@ reduced_raw_data <- reduced_raw_data |>
         race == 8 ~ "Other",
         is.na(race) ~ "Other"
       ),
-      vote_trump = if_else(presvote2020 == "Donald Trump", 1, 0)
+      voted_for_trump = if_else(presvote2020 == "Donald Trump", 1, 0),
+      know_power = if_else((know_us_house == "Yes" & know_us_senate == "Yes"), "Yes", "No")
       
   )
 
@@ -189,8 +190,8 @@ reduced_raw_data <- reduced_raw_data |>
 # voted_in_2022, presvote20, age_bracket, educ, truststate, trustfed, know_house, know_senate, political_interest
 
 clean_data <- reduced_raw_data |>
-  select(voted_in_2022, presvote2020, state, race, gender, age_bracket, educ, truststate, trustfed, 
-         know_us_house, know_us_senate, political_interest, commonweight)
+  select(voted_in_2022, presvote2020, voted_for_trump, gender, age_bracket, educ, truststate, trustfed, 
+         know_us_house, know_us_senate, political_interest, commonweight, know_power, state, race)
 
 clean_data$presvote2020 <- as.factor(clean_data$presvote2020)
 clean_data$age_bracket <- as.factor(clean_data$age_bracket)
@@ -200,6 +201,7 @@ clean_data$trustfed <- as.factor(clean_data$trustfed)
 clean_data$know_us_house <- as.factor(clean_data$know_us_house)
 clean_data$know_us_senate <- as.factor(clean_data$know_us_senate)
 clean_data$political_interest <- as.factor(clean_data$political_interest)
+clean_data$know_power <- as.factor(clean_data$know_power)
 clean_data$state <- as.factor(clean_data$state)
 clean_data$race <- as.factor(clean_data$race)
 
