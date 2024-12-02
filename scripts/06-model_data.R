@@ -25,7 +25,8 @@ ces22_analysis_data <- read_parquet("data/02-analysis_data/ces2022_analysis_data
 
 ces22_analysis_data <- 
   ces22_analysis_data |>
-  mutate(voted_in_2022 = as_factor(voted_in_2022))
+  mutate(voted_in_2022 = as_factor(voted_in_2022)) |>
+  mutate(voted_for_trump = as_factor(voted_for_trump))
 
 set.seed(538)
 
@@ -50,7 +51,7 @@ ces_2022_reduced <-
 
 turnout_model_2022 <- 
   stan_glm(
-    voted_in_2022 ~ presvote2020 + age_bracket + educ + trustfed + truststate + know_us_house + know_us_senate + political_interest,
+    voted_in_2022 ~ presvote2020 + age_bracket + educ + trustfed + truststate + know_us_house + political_interest,
     data = ces_2022_reduced,
     family = binomial(link="logit"),
     weights = commonweight,
@@ -59,24 +60,38 @@ turnout_model_2022 <-
     seed = 538
   )
 
-# first_model <-
-#   stan_glm(
-#     formula = flying_time ~ length + width,
-#     data = analysis_data,
-#     family = gaussian(),
-#     prior = normal(location = 0, scale = 2.5, autoscale = TRUE),
-#     prior_intercept = normal(location = 0, scale = 2.5, autoscale = TRUE),
-#     prior_aux = exponential(rate = 1, autoscale = TRUE),
-#     seed = 853
-#   )
-# 
+political_preferences <- stan_glm(
+  voted_for_trump ~ age_bracket + gender + race + educ + trustfed + know_us_house,
+  data = ces_2022_reduced,
+  family = binomial(link="logit"),
+  weights = commonweight,
+  prior = normal(location = 0, scale = 2.5, autoscale = TRUE),
+  prior_intercept = normal(location = 0, scale = 2.5, autoscale = TRUE),
+  seed = 538
+)
 
+# model for vote preference
+# political_preferences <- 
+#   stan_glm(
+#     voted_for_trump ~ age_bracket + educ + trustfed + know_us_house + know_us_senate,
+#     data = ces_2022_reduced,
+#     family = binomial(link="logit"),
+#     weights = commonweight,
+#     prior = normal(location=0, scale=2.5, autoscale=TRUE),
+#     prior_intercept = normal(location = 0, scale = 2.5, autoscale = TRUE),
+#     seed = 538
+#   )
 
 
 #### Save model ####
 saveRDS(
   turnout_model_2022,
   file = "models/turnout_model_2022.rds"
+)
+
+saveRDS(
+  political_preferences,
+  file = "models/political_preference_model.rds"
 )
 
 
