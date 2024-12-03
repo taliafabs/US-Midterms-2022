@@ -1,5 +1,5 @@
 ---
-title: "Education, Hig"
+title: "Title"
 subtitle: "Logistic Regression Analysis of Voter Behavior"
 author: 
   - Talia Fabregas
@@ -49,17 +49,23 @@ Based on the results of applying logistic regression models to predict voter tur
 
 Why it matters paragraph In the 2024 election, Democratic Senate candidates (both incumbent and non-incumbent) were elected in states that President-Elect Trump carried: Michigan, Wisconsin, Nevada, and Arizona. In Nevada and Wisconsin, Senators Jackie Rosen and Tammy Baldwin
 
-The remainder of this paper is structured as follows. @sec-data contains an overview of the survey data set from @ces2022 that was used, visualizations of different variables, and summary statistics. @sec-model contains the logistic regression models used to predict the probability that an individual who voted for either Trump or Biden in the 2020 presidential election would also vote in the 2022 midterm election and the probability that an individual would support Trump over Biden in 2020. @sec-results contains tables and data visualizations that present results about what characteristics made individuals who voted in the 2020 presidential election more likely to also vote in the 2022 midterm election and what characteristics make individuals more likely to support Trump. @sec-discussion contains detailed a detailed discussion about the results presented in @sec-results, including demographics where support for Trump is strong, why some 2020 presidential election voters were more likely than others to vote in the 2022 midterm election, and how the 2016, 2020, and 2024 polling misses can be explained by low civic engagement and distrust in government among Trump voters. [Appendix - \@sec-surveys] contains a deep-dive into CES survey methodology.
+The remainder of this paper is structured as follows. @sec-data contains an overview of the survey data set from @ces2022 that was used, visualizations of different variables, and summary statistics. @sec-model contains the logistic regression models used to predict the probability that an individual who voted for either Trump or Biden in the 2020 presidential election would also vote in the 2022 midterm election and the probability that an individual would support Trump over Biden in 2020. @sec-results contains tables and data visualizations that present results about what characteristics made individuals who voted in the 2020 presidential election more likely to also vote in the 2022 midterm election and what characteristics make individuals more likely to support Trump. @sec-discussion contains detailed a detailed discussion about the results presented in @sec-results, including demographics where support for Trump is strong, why some 2020 presidential election voters were more likely than others to vote in the 2022 midterm election, and how the 2016, 2020, and 2024 polling misses can be explained by low civic engagement and distrust in government among Trump voters. [Appendix -@sec-surveys] contains an in-depth discussion about and evaluation of CES 2022 survey methodologies.
 
 # Data {#sec-data}
 
 ## Overview
 
-The survey data set from @ces2022 contains ...
+The 2022 Comprehensive Election Study (CES) data set from @ces2022 was used for this project. The Comprehensive Election Study (CES)
 
-I cleaned the data set to include only individuals who
+The data used for this project is the 2022 Comprehensive Election Study (CES) survey data set from @ces2022. The data was obtained from Harvard Dataverse on November 27, 2024. The CES is a nationally-representative survey that aims to study voting behavior in the United States. It is conducted every year
 
-We use the statistical programming language R [@citeR].... Our data [@ces2022].... Following @tswd, we consider...
+The Comprehensive Election Study (CES) was previously known as the Cooperative Congressional Election Study (CCES) [@ces2022].
+
+from @ces2022 60,000 responses
+
+I cleaned the 2022 CES data set to only include respondents who voted for either Donald Trump or Joe Biden in the 2020 U.S. presidential election. I used the *pres20votepost* variable, which is each participant's response to a post-election survey wave question about who they voted for in 2020, to determine who each respondent voted for. This is not a perfect way to find out who each respondent voted for because it is subject to social desirability bias [@silvergut]. I am confident that most Trump and Biden 2020 voters are correctly labeled because most CES 2022 respondents' 2020 presidential votes are consistent with their party affiliation or ideological leanings [@ces2022]. However, there is still is a chance respondents who actually voted for Trump may have said that they voted for Biden in 2020 because of Trump's controversial nature or to say that they voted for the winning candidate [@silvergut]. I discuss this in depth in @sec-discussion-weaknesses. After sub-setting the data to only include identified Trump and Biden 2020 voters, I used TargetSmart voter file match status to determine which respondents voted in the 2022 midterm election and which respondents did not. Additional data details can be found in [Appendix -@sec-additional-data].
+
+I used the statistical programming language R [@citeR] and the `dplyr`, `janitor`, `ggplot2`, and `kable` packages to clean the data, prepare the data, and create tables and data visualizations.
 
 ## Measurement
 
@@ -69,8 +75,8 @@ The Cooperative Election Study (CES) survey data set that I used is a collection
 
 The transformation of an individual American adult's opinion to an entry in the CES 2022 data set follows three steps, as outlined by @ces2022:
 
-1.  **Survey:** selected voters from a nationally representative sample respond to a Common Content survey.
-2.  **Adjustment:** survey responses are weighted to adjust for any imbalances that exist in the sample.
+1.  **Survey data collection:** selected voters from a nationally representative sample respond to a Common Content survey.
+2.  **Weighting:** survey responses are weighted to adjust for any imbalances that exist in the sample. Respondents who are less likely to answer a survey are given higher weights.
 3.  **Reporting:** the weighted survey results are recorded as entries in the data set. The data set then serves as a snapshot of American public opinion in the weeks leading up to and shortly after the midterm election.
 
 ## Outcome variables
@@ -308,7 +314,7 @@ The CES 2022 survey does not contain an explicit question about civic engagement
 
 -   `trustfed`: response to the question about how much they trust the federal government)
 
--    `newsint`: response to survey question about interest in politics
+-   `newsint`: response to survey question about interest in politics
 
 -   `CC22_310b`: response to survey question asking which party has a majority in the U.S. House of Representatives.
 
@@ -520,7 +526,7 @@ Trained using a random subset of the data. Refer to codebook about the risks of 
 
 # Results {#sec-resuls}
 
-The results are summarized in [Appendix -@sec-model-results].
+The model results are summarized in [Appendix -@sec-model-results].
 
 ```{r}
 #| echo: false
@@ -734,7 +740,7 @@ kable(lp_table)
 
 ```
 
-# Discussion
+# Discussion {#sec-discussion}
 
 ## First discussion point {#sec-first-point}
 
@@ -750,9 +756,11 @@ Young men who are not college-educated, do not know which party controls the U.S
 
 ## 2024 Polling Misses and Non-Response Bias
 
-## Weaknesses and next steps
+## Weaknesses and next steps {#sec-discussion-weaknesses}
 
 Weaknesses and next steps should also be included.
+
+One weakness is correctly identifying 2020 Trump voters and 2022 midterm non-voters in the 2022 CES survey data set.
 
 \newpage
 
@@ -764,7 +772,9 @@ Weaknesses and next steps should also be included.
 
 ## Deep Dive into CES Methodology
 
-### Sampling Method
+### Overview
+
+### Sampling method
 
 ### Weighting
 
@@ -831,17 +841,17 @@ kable(weighting_data_trust)
 
 ```
 
-### Verification
+### Vote validation
 
-### Weaknesses and Limitations
+### Weaknesses and limitations
 
 ## Second Point: Idealized Survey Methodology to Study 2024 Down-Ballot Voter Attrition
 
 ## Social Desirability Bias and Identifying Non-Voters
 
-# Additional data details
+# Additional data details {#sec-data-details}
 
-## Data cleaning
+## Data cleaning {#sec-additional-data-cleaning}
 
 ## Identifying non-voters in the 2022 midterm election
 
@@ -893,15 +903,15 @@ In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. Th
 #| fig-cap: "Examining how the model fits, and is affected by, the data"
 #| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
 
-# pp_check(turnout_model_2022) +
-#   theme_classic() +
-#   theme(legend.position = "bottom")
-# 
-# posterior_vs_prior(turnout_model_2022) +
-#   theme_minimal() +
-#   scale_color_brewer(palette = "Set1") +
-#   theme(legend.position = "bottom") +
-#   coord_flip()
+pp_check(turnout_model_2022) +
+  theme_classic() +
+  theme(legend.position = "bottom")
+
+posterior_vs_prior(turnout_model_2022) +
+  theme_minimal() +
+  scale_color_brewer(palette = "Set1") +
+  theme(legend.position = "bottom") +
+  coord_flip()
 ```
 
 ## Credibility Intervals
