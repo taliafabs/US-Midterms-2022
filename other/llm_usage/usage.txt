@@ -1432,6 +1432,62 @@ print(df)
 Both approaches will compute the logistic transformation for every value in the scores column.
 
 
+You said:
+make them two separate tables in the same column
+ChatGPT said:
+ChatGPT
+To create two separate tables (one for Trump voters and one for Biden voters) displayed in the same column, you can split the data by presvote2020 and use kable() for each subset, stacking them vertically in the output.
+
+Here's the updated R code:
+
+r
+Copy code
+library(dplyr)
+library(knitr)
+
+# Summarize 2020 voters who voted in 2022
+vote_2020_in_2022 <- ces2022_analysis_data %>%
+  filter(presvote2020 %in% c("Donald Trump", "Joe Biden")) %>%
+  group_by(presvote2020, voted_in_2022) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  group_by(presvote2020) %>%
+  mutate(
+    total_voters = sum(n),
+    percentage = (n / total_voters) * 100
+  ) %>%
+  mutate(voted_status = ifelse(voted_in_2022 == 1, "Voted", "Did Not Vote")) %>%
+  select(presvote2020, voted_status, n, percentage)
+
+# Separate tables for Trump and Biden voters
+trump_table <- vote_2020_in_2022 %>%
+  filter(presvote2020 == "Donald Trump") %>%
+  select(voted_status, n, percentage) %>%
+  kable(
+    col.names = c("2022 Voting Status (Trump)", "Number of Respondents", "Percentage of Trump Voters"),
+    format = "html",
+    digits = 1
+  )
+
+biden_table <- vote_2020_in_2022 %>%
+  filter(presvote2020 == "Joe Biden") %>%
+  select(voted_status, n, percentage) %>%
+  kable(
+    col.names = c("2022 Voting Status (Biden)", "Number of Respondents", "Percentage of Biden Voters"),
+    format = "html",
+    digits = 1
+  )
+
+# Print both tables
+trump_table
+biden_table
+Explanation:
+filter(presvote2020 == "Donald Trump"): Creates a subset for Trump voters.
+filter(presvote2020 == "Joe Biden"): Creates a subset for Biden voters.
+kable(): Formats each subset into a table with appropriate column names for clarity.
+Separate Output: The two tables are printed sequentially, appearing one below the other in the output.
+When this code runs, it will produce two separate tables, one for Trump voters and one for Biden voters, each showing the 2022 voting status, the number of respondents, and the percentage within their respective 2020 voter groups
+
+
 
 
 
