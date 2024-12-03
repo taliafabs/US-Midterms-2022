@@ -1,12 +1,14 @@
 # Analysis of Voting Behavior in the 2022 U.S. Midterm Elections
 
 ## 🗳️ Overview
-
-This repository contains all code and data used to complete the 2022 U.S. Midterm Election Analysis Paper. It was created by Talia Fabregas.
+This project examines voting behavior in the 2022 U.S. midterm election using Comprehensive Election Study (CES) 2022 data and logistic regression.
 
 ### ⭐️ Inspiration
+In 2024, 4 Democratic Senators were elected in states that President-Elect Donald Trump won. Elissa Slotkin (MI), Tammy Baldwin (WI), and Jackie Rosen (NV) all received fewer votes than Kamala Harris in their respective states. Ruben Gallego (AZ) is the only Democratic U.S. Senate candidate who won a state that Kamala Harris lost and received more votes than her. We know that pollsters have consistently underestimated support for Trump and turnout in U.S. Senate races is typically lower than in presidential races. We also know that Trump drives up turnout, both for and against him. 
 
 ### 👀 Key Insights
+- Hindsight is 20/20. My logistic regression vote preference model, which was trained on CES 2022 data, estimated high support for Trump amongst men ages 18-29 across most races and highest-completed levels of education.
+- Pollsters have pointed to non-response bias as a major reason for their 2016 and 2020 polling misses. 
 
 ## 🗂️ File Structure
 
@@ -24,3 +26,4 @@ The repo is structured as:
 Aspects of this code, including the data visualizations and tables, were created with the assistance of a Large Language Model, ChatGPT-3.5. The entire interaction history with ChatGPT is available in other/llms/usage.txt.
 
 ## 👩🏻‍💻 Possible Next Steps
+Trump will be term-limited in 2028. My goal is to use 2024 pre and post-election survey data to develop a model that predicts whether an individual who voted in the presidential race will also vote in down-ballot races.
