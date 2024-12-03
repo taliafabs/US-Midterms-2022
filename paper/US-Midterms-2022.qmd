@@ -1,6 +1,6 @@
 ---
-title: "Civic Engagement and Trust in Government are Strong Predictors of Voting Behavior"
-subtitle: "Logistic Regression Analysis of Voter Behavior"
+title: "Trump's 2024 Winning Coalition: Insights from the 2022 Comprehensive Election Study"
+subtitle: "Logistic Regression Analysis Reveals Support for Trump Among Young Men and Infrequent Voters"
 author: 
   - Talia Fabregas
 thanks: "Code and data are available at: [https://github.com/taliafabs/US-Midterms-2022.git](https://github.com/taliafabs/US-Midterms-2022.git)."
@@ -8,6 +8,7 @@ date: today
 date-format: long
 abstract: "First sentence. Second sentence. Third sentence. Fourth sentence. Key Trump 2024 voting blocs, including young men without a college education were less likely to vote in the 2022 midterms when he was not on the ballot compared to 2020"
 format: pdf
+toc: true
 number-sections: true
 bibliography: references.bib
 ---
@@ -49,7 +50,7 @@ Based on the results of applying logistic regression models to predict voter tur
 
 Why it matters paragraph In the 2024 election, Democratic Senate candidates (both incumbent and non-incumbent) were elected in states that President-Elect Trump carried: Michigan, Wisconsin, Nevada, and Arizona. In Nevada and Wisconsin, Senators Jackie Rosen and Tammy Baldwin
 
-The remainder of this paper is structured as follows. @sec-data contains an overview of the survey data set from @ces2022 that was used, visualizations of different variables, and summary statistics. @sec-model contains the logistic regression models used to predict the probability that an individual who voted for either Trump or Biden in the 2020 presidential election would also vote in the 2022 midterm election and the probability that an individual would support Trump over Biden in 2020. @sec-results contains tables and data visualizations that present results about what characteristics made individuals who voted in the 2020 presidential election more likely to also vote in the 2022 midterm election and what characteristics make individuals more likely to support Trump. @sec-discussion contains detailed a detailed discussion about the results presented in @sec-results, including demographics where support for Trump is strong, why some 2020 presidential election voters were more likely than others to vote in the 2022 midterm election, and how the 2016, 2020, and 2024 polling misses can be explained by low civic engagement and distrust in government among Trump voters. [Appendix -@sec-surveys] contains an in-depth discussion about and evaluation of CES 2022 survey methodologies.
+The remainder of this paper is structured as follows. @sec-data contains an overview of the survey data set from @ces2022 that was used, visualizations of different variables, and summary statistics. @sec-model contains the logistic regression models used to predict the probability that an individual who voted for either Trump or Biden in the 2020 presidential election would also vote in the 2022 midterm election and the probability that an individual would support Trump over Biden in 2020. @sec-resuls contains tables and data visualizations that present results about what characteristics made individuals who voted in the 2020 presidential election more likely to also vote in the 2022 midterm election and what characteristics make individuals more likely to support Trump. @sec-discussion contains detailed a detailed discussion about the results presented in @sec-resuls, including demographics where support for Trump is strong, why some 2020 presidential election voters were more likely than others to vote in the 2022 midterm election, and how the 2016, 2020, and 2024 polling misses can be explained by low civic engagement and distrust in government among Trump voters. [Appendix -@sec-surveys] contains an in-depth discussion about and evaluation of CES 2022 survey methodologies.
 
 # Data {#sec-data}
 
@@ -460,20 +461,6 @@ ggplot(knowledge_data, aes(x = know_us_house, y = prop_voted)) +
 
 The goal of my modeling strategy is twofold. I use two logistic regression models: one to model the probability that an individual who voted in the 2020 presidential election would also vote in the 2022 midterm election, and one to model the probability that an individual voter supports Trump.
 
-The model to predict $voted\_in\_2022$ uses the following predictors:
-
--   `presvote2020`
-
--   `age_bracket`
-
--   `educ`
-
--   `trust`
-
--   `know_us_house`
-
--   `political_interest`
-
 The model to predict $voted\_for\_trump$ uses the following predictors:
 
 -   `age_bracket`
@@ -488,6 +475,20 @@ The model to predict $voted\_for\_trump$ uses the following predictors:
 
 -   `know_us_house`
 
+The model to predict $voted\_in\_2022$ uses the following predictors:
+
+-   `presvote2020`
+
+-   `age_bracket`
+
+-   `educ`
+
+-   `trust`
+
+-   `know_us_house`
+
+-   `political_interest`
+
 Here, I provide a brief description of how I used logistic regression to predict voter turnout and vote preference, and how my models are set up. Model details and diagnostics can be found in [Appendix -@sec-model-details].
 
 ## Model set-up
@@ -495,6 +496,28 @@ Here, I provide a brief description of how I used logistic regression to predict
 Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.
 
 Models the probability that someone who voted for either Trump or Biden in 2020 also voted in the 2022 mid-term elections.
+
+Models the probability
+
+### Vote choice model
+
+Models the probability that a respondent voted for Trump in 2020
+
+```{=tex}
+\begin{align*} 
+y_i | \pi_i &\sim \mbox{Bern}(\pi_i) \\
+\mbox{logit}(\pi_i) &= \beta_0 + \beta_1 \times age\_bracket_i + \beta_2 \times gender_i + \beta_3 \times race_i + \beta_4 \times educ\_i \\
+&+ \beta_5 \times trust_i + \beta_6 \times know\_us\_house-i  \\
+\beta_0 &\sim ~ \mbox{Normal}(0, 2.5) \\
+\beta_1 &\sim ~ \mbox{Normal}(0, 2.5) \\
+\beta_2 &\sim ~ \mbox{Normal}(0, 2.5) \\
+\beta_3 &\sim ~ \mbox{Normal}(0, 2.5) \\
+\beta_4 &\sim ~ \mbox{Normal}(0, 2.5) \\
+\beta_5 &\sim ~ \mbox{Normal}(0, 2.5) \\
+\beta_6 &\sim ~ \mbox{Normal}(0, 2.5) \\
+\end{align*}
+```
+### Turnout model
 
 Define $\pi_i$ as the probability that survey respondent $i$ voted in the 2022 midterm election
 
@@ -512,25 +535,9 @@ y_i | \pi_i &\sim \mbox{Bern}(\pi_i) \\
 \beta_6 &\sim ~ \mbox{Normal}(0, 2.5) \\
 \end{align*}
 ```
-Models the probability that a respondent voted for Trump in 2020:
-
-```{=tex}
-\begin{align*} 
-y_i | \pi_i &\sim \mbox{Bern}(\pi_i) \\
-\mbox{logit}(\pi_i) &= \beta_0 + \beta_1 \times age\_bracket_i + \beta_2 \times gender_i + \beta_3 \times race_i + \beta_4 \times educ\_i \\
-&+ \beta_5 \times trust_i + \beta_6 \times know\_us\_house-i  \\
-\beta_0 &\sim ~ \mbox{Normal}(0, 2.5) \\
-\beta_1 &\sim ~ \mbox{Normal}(0, 2.5) \\
-\beta_2 &\sim ~ \mbox{Normal}(0, 2.5) \\
-\beta_3 &\sim ~ \mbox{Normal}(0, 2.5) \\
-\beta_4 &\sim ~ \mbox{Normal}(0, 2.5) \\
-\beta_5 &\sim ~ \mbox{Normal}(0, 2.5) \\
-\beta_6 &\sim ~ \mbox{Normal}(0, 2.5) \\
-\end{align*}
-```
 The models are run in R [@citeR] using the `rstanarm` package and default priors from `rstanarm` [@rstanarm].
 
-### Model justification
+## Model justification
 
 I used two different logistic regression models to estimate $vote$ and $turnout$
 
@@ -572,6 +579,7 @@ turnout_model_2022 <-
 #| eval: true
 #| warning: false
 #| message: false
+#| include: false
 
 # # apply the model to predict who would vote in 2022
 # who_voted <- ces2022_analysis_data %>%
@@ -603,13 +611,14 @@ turnout_model_results_young_men <- new_voter_data %>%
   filter(gender == "Male" & age_bracket == "18-29")
 ```
 
-## Voting blocs that favored Trump
+## Voters that favor Trump
 
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
 #| eval: true
+#| include: false
 
 vote_preferences <- ces2022_analysis_data %>%
   group_by(age_bracket, gender, race, educ, trustfed, know_us_house) %>%
@@ -630,7 +639,7 @@ new_preference_data <- new_preference_data|>
 #             trump_actual = mean(voted_for_trump))
 ```
 
-### Trump support among young men
+### Young men
 
 ```{r}
 #| echo: false
@@ -638,7 +647,7 @@ new_preference_data <- new_preference_data|>
 #| message: false
 #| warning: false
 #| fig-label: fig-trumpyoungmen1
-#| fig-cap: The majority of men ages 18-29 without a college education support Trump. The blue bars show the estimated % of young men with at each level of education that are Biden/Harris/Democratic supporters and the red bars show the % of young men at each level of education that support Trump. 
+#| fig-cap: The majority of men ages 18-29 without a 4-year college degree support Trump, based on model estimates. The blue bars show the estimated % of young men with at each level of education that are Biden/Harris/Democratic supporters and the red bars show the % of young men at each level of education that support Trump. 
 
 trump_young_men <- new_preference_data |>
   filter(gender == "Male" & age_bracket == "18-29")
@@ -677,12 +686,12 @@ trump_young_men |>
 #| eval: true
 #| message: false
 #| warning: false
-#| label: tbl-trumpyoungmen1
-#| tbl-cap: The majority of white, hispanic, asian, and multiracial men ages 18-29 support Trump based on model estimates. The red bars
+#| label: fig-trumpyoungmen1
+#| fig-cap: The majority of white, hispanic, asian, and multiracial men ages 18-29 support Trump based on model estimates. The red bars
 # Calculate proportions
 trump_young_men_race <- new_preference_data |>
   filter(gender == "Male" & age_bracket == "18-29") |>
-  mutate(predicted_vote_choice = if_else(trump_prob < 0.5, "Joe Biden/Kamala Harris", "Donald Trump")) |>
+  mutate(predicted_vote_choice = if_else(trump_prob < 0.2, "Joe Biden/Kamala Harris", "Donald Trump")) |>
   group_by(race, predicted_vote_choice) |>
   summarise(count = n(), .groups = "drop") |>
   group_by(race) |>
@@ -712,7 +721,7 @@ trump_young_men_race |>
 #| warning: false
 #| message: false
 #| label: tbl-midtermelectionturnout1
-#| tbl-cap: Overall, Trump 2020 voters were more likely than Biden 2020 voters to vote in the 2022 midterm election based on model estimates.
+#| tbl-cap: Overall, Trump 2020 voters may have been a bit more likely than Biden 2020 voters to vote in the 2022 midterm election based on model estimates.
 
 biden_turnout_2022 <- new_voter_data |>
   filter(presvote2020 == "Joe Biden")
@@ -758,7 +767,7 @@ lp_trump <- new_preference_data |>
          )
 lp_table <- tibble(
   `Estimated Trump %` = round(mean(lp_trump$trump_prob)*100,2),
-  `Estimated 2022 turnout % among low propensity 2020 voters` = round(mean(lp_turnout$predicted_prob)*100, 2)
+  `Estimated 2022 turnout %` = round(mean(lp_turnout$predicted_prob)*100, 2)
 )
 kable(lp_table)
 
