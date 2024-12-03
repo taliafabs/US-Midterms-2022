@@ -1229,3 +1229,211 @@ Always interpret
 R 
 2
   in the context of your goals, domain, and data!
+
+make the scales percentages ggplot(interest_data, aes(x = political_interest, y = pct_voted, fill = presvote2020)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.7) +  # Use dodge position for side-by-side bars
+ scale_fill_brewer(palette = "Set1") + # Customize colors for Biden and Trump
+  coord_flip() +
+  labs(
+    title = "2020 Voters with Lower Political Interest Less Likely to Vote in 2022",
+    x = "Political Interest",
+    y = "% of 2020 Voters who Voted in 2022 Midterms",
+    fill = "2020 Presidential Vote"
+  ) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 100)) +  # Set the scale from 0% to 100%
+  theme_minimal() +  # Clean minimal theme
+  theme(
+    legend.position = "right",  # Move the legend to the top
+    axis.text.x = element_text(angle = 45, hjust = 1, size=9),  # Rotate x-axis labels for better readability
+    plot.title = element_text(size = 12)  # Adjust the title font size
+  )
+ChatGPT said:
+ChatGPT
+Your code has a couple of areas needing adjustments:
+
+scale_y_continuous with scales::percent:
+
+The labels = scales::percent applies percentage formatting, but limits = c(0, 100) expects raw values (not percentages). If your data is already on a 0–100 scale, this will work.
+If your data is on a 0–1 scale (e.g., 0.2 for 20%), you need limits = c(0, 1).
+coord_flip:
+
+When flipping coordinates, ensure the intended axis (y) corresponds to the percentage data.
+Legend Position:
+
+You specify legend.position = "right" but comment that it moves the legend to the "top." Fix this for clarity.
+Revised Code:
+R
+Copy code
+ggplot(interest_data, aes(x = political_interest, y = pct_voted, fill = presvote2020)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.7) +  # Use dodge position for side-by-side bars
+  scale_fill_brewer(palette = "Set1") +  # Customize colors for Biden and Trump
+  coord_flip() +
+  labs(
+    title = "2020 Voters with Lower Political Interest Less Likely to Vote in 2022",
+    x = "Political Interest",
+    y = "% of 2020 Voters who Voted in 2022 Midterms",
+    fill = "2020 Presidential Vote"
+  ) +
+  scale_y_continuous(labels = scales::percent_format(scale = 1), limits = c(0, 100)) +  # Set y-axis scale
+  theme_minimal() +  # Clean minimal theme
+  theme(
+    legend.position = "right",  # Place legend on the right
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 9),  # Rotate x-axis labels
+    plot.title = element_text(size = 12)  # Adjust the title font size
+  )
+Key Adjustments:
+Percentage Conversion:
+
+Use scales::percent_format(scale = 1) for values on a 0–100 scale. Use scale = 100 for values on a 0–1 scale.
+Legend Position:
+
+Retain "right" or change it to "top" if that was your intent.
+axis.text.x:
+
+Since you're using coord_flip, axis.text.x now controls the rotated text for what would have been the y-axis labels before flipping. Adjust as needed.
+
+
+
+
+
+You said:
+how do i apply logistic activation in r?
+ChatGPT said:
+ChatGPT
+To apply the logistic activation function (also known as the sigmoid function) in R, you use the formula:
+
+𝜎
+(
+𝑥
+)
+=
+1
+1
++
+𝑒
+−
+𝑥
+σ(x)= 
+1+e 
+−x
+ 
+1
+​
+ 
+Here’s how you can do it programmatically:
+
+1. Single Value:
+If you have a single value and want to apply the logistic activation:
+
+R
+Copy code
+logistic <- function(x) {
+  1 / (1 + exp(-x))
+}
+
+# Example:
+logistic(1)  # Output: ~0.731
+2. Vector of Values:
+If you have a vector of values, apply the function element-wise:
+
+R
+Copy code
+# Example vector
+x <- c(-2, -1, 0, 1, 2)
+
+# Apply logistic function
+logistic_values <- 1 / (1 + exp(-x))
+logistic_values
+3. Matrix or Data Frame:
+If your data is in a matrix or data frame, use apply for row-wise or column-wise calculations:
+
+R
+Copy code
+# Example matrix
+matrix_data <- matrix(c(-1, 0, 1, -2, 2, 3), nrow = 2)
+
+# Apply logistic function to each element
+logistic_matrix <- 1 / (1 + exp(-matrix_data))
+logistic_matrix
+4. Logistic Activation in dplyr Workflow:
+If you're using dplyr, you can use mutate to apply the logistic function to a column:
+
+R
+Copy code
+library(dplyr)
+
+# Example data frame
+df <- data.frame(x = c(-2, -1, 0, 1, 2))
+
+# Apply logistic function to a column
+df <- df %>% mutate(logistic_x = 1 / (1 + exp(-x)))
+df
+5. Using Built-in Sigmoid in Machine Learning Packages:
+Some machine learning libraries in R have sigmoid built-in. For example:
+
+In keras, logistic activation is specified using "sigmoid" when defining a layer.
+In nnet, logistic activation is the default for the output layer in neural networks.
+For custom cases, you can always define your own function as shown above.
+
+
+
+
+
+
+You said:
+how do i apply it to a column
+
+ChatGPT said:
+ChatGPT
+To apply the logistic activation function to a column in an R data frame, you can use the dplyr package for convenience. Here's a step-by-step guide:
+
+Example: Applying Logistic Activation to a Column
+1. Create a Data Frame
+R
+Copy code
+# Example data frame
+df <- data.frame(
+  id = 1:5,
+  scores = c(-2, -1, 0, 1, 2)
+)
+2. Define the Logistic Function
+R
+Copy code
+logistic <- function(x) {
+  1 / (1 + exp(-x))
+}
+3. Apply Logistic Activation Using mutate
+R
+Copy code
+library(dplyr)
+
+# Add a new column with logistic activation applied to 'scores'
+df <- df %>%
+  mutate(scores_logistic = logistic(scores))
+
+# View the updated data frame
+print(df)
+Output:
+plaintext
+Copy code
+  id scores scores_logistic
+1  1     -2       0.1192029
+2  2     -1       0.2689414
+3  3      0       0.5000000
+4  4      1       0.7310586
+5  5      2       0.8807971
+Without dplyr
+If you don't want to use dplyr, you can directly add the column:
+
+R
+Copy code
+df$scores_logistic <- logistic(df$scores)
+print(df)
+Both approaches will compute the logistic transformation for every value in the scores column.
+
+
+
+
+
+
+
