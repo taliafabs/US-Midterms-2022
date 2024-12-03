@@ -30,7 +30,8 @@ reduced_raw_data <- raw_data |>
          CC22_431a, # contacted by a campaign
          newsint, CC22_302
          ) |>
-  mutate(age = 2022 - birthyr)
+  mutate(age = 2022 - birthyr) 
+  # filter(tookpost == 2) # only include respondents who took the post-election survey
 
 reduced_raw_data$TS_g2022 <- as.numeric(reduced_raw_data$TS_g2022)
 
@@ -44,13 +45,21 @@ reduced_raw_data$TS_g2022 <- as.numeric(reduced_raw_data$TS_g2022)
 reduced_raw_data <- reduced_raw_data |>
   filter(presvote20post %in% c(1, 2)) |>
   mutate(voted_in_2022 = if_else(
-    (TS_g2022 == 7) | 
-      (is.na(TS_g2022) & CC22_401 == 5) | 
-      (is.na(TS_g2022) & is.na(CC22_401)),
-    0, 
+    (TS_g2022 >= 7 | is.na(TS_g2022)),
+    0,
     1
   )) |>
-  mutate(voted_in_2022 = replace_na(voted_in_2022, 1)) |>
+  # mutate(voted_in_2022 = if_else(
+  #   (
+  #     (TS_g2022 == 7) |
+  #     (is.na(TS_g2022) & CC22_401 == 5) |
+  #     (is.na(TS_g2022) & is.na(CC22_401)) |
+  #     (is.na(TS_g2022) & votereg_post == 2)  
+  #    ),
+  #   0,
+  #   1
+  #   )
+  # ) |>
   mutate(presvote2020 = if_else(presvote20post==1, "Joe Biden", "Donald Trump"),
          state = case_when(
            inputstate == 1 ~ "Alabama",
@@ -191,7 +200,7 @@ reduced_raw_data <- reduced_raw_data |>
 
 clean_data <- reduced_raw_data |>
   select(voted_in_2022, presvote2020, voted_for_trump, gender, age_bracket, educ, truststate, trustfed, 
-         know_us_house, know_us_senate, political_interest, commonweight, know_power, state, race)
+         know_us_house, know_us_senate, political_interest, commonweight, commonpostweight, know_power, race)
 
 clean_data$presvote2020 <- as.factor(clean_data$presvote2020)
 clean_data$age_bracket <- as.factor(clean_data$age_bracket)
@@ -202,15 +211,12 @@ clean_data$know_us_house <- as.factor(clean_data$know_us_house)
 clean_data$know_us_senate <- as.factor(clean_data$know_us_senate)
 clean_data$political_interest <- as.factor(clean_data$political_interest)
 clean_data$know_power <- as.factor(clean_data$know_power)
-clean_data$state <- as.factor(clean_data$state)
+# clean_data$state <- as.factor(clean_data$state)
 clean_data$race <- as.factor(clean_data$race)
 
+# remove na's
 clean_data <- na.omit(clean_data)
-  
-  
-
 
 #### Save data ####
 write_parquet(clean_data, "data/02-analysis_data/ces2022_analysis_data.parquet")
-# Will want to save this as a parquet
-# write_csv(cleaned_data, "outputs/data/analysis_data.csv")
+
