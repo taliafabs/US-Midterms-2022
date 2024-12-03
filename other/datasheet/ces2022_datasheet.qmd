@@ -1,13 +1,11 @@
 ---
 title: "Datasheet for 'Cooperative Election Study Common Content, 2022'"
-subtitle: "My subtitle if needed"
 author: 
-  - First author
-  - Another author
+  - Talia Fabregas
 thanks: "Code and data are available at: https://github.com/taliafabs/US-Midterms-2022.git"
 date: today
 date-format: long
-abstract: "The 2022 Cooperative Election Study (CES) ..."
+abstract: "The 2022 Cooperative Election Study (CES) survey data set contains a nationally representative sample of 60,000 American adults. The 2022 CES survey was conducted by 60 research teams in the Fall of 2022 to study the political attitudes and voting behavior of American adults. This dataset is available via Harvard Dataverse and has been used in recent publications about voting behavior and how Americans hold their government to account. The 2022 CES dataset can be used to study voting behavior but it should not be used to forecast U.S. presidential elections."
 format: pdf
 number-sections: true
 bibliography: datasheetreferences.bib
@@ -18,12 +16,16 @@ This datasheet answers a set of questions from @gebru2021datasheets about the Co
 **Motivation**
 
 1.  *For what purpose was the dataset created? Was there a specific task in mind? Was there a specific gap that needed to be filled? Please provide a description.*
-    -   The 2022 CES survey dataset was created to understand the American electorate
+    -   The 2022 CES survey dataset was created with the purpose of studying voting behavior in the 2022 miderm election [@ces2022]. It is part of the ongoing Cooperative Election Study (CES), previously known as the Cooperative Congressional Election Study (CCES), that aims to explore how Americans hold their government to account during elections and how voting behavior varies across America's diverse demographics, experiences, education levels, and social context [@ces2022]
 2.  *Who created the dataset (for example, which team, research group) and on behalf of which entity (for example, company, institution, organization)?*
-    -   The 2022 CES dataset was
+    -   The CES is a collaborative project between 62 different research teams and organizations [@ces2022].
+    -   The 2022 CES dataset was created by 60 different research teams, each of whom surveyed 1000 out of the 60,000 respondents.
 3.  *Who funded the creation of the dataset? If there is an associated grant, please provide the name of the grantor and the grant name and number.*
-4.  The Cooperative Election Study (CES), formerly known as the Cooperative Congressional Election Study (CCES) has received funding and support from the National Science Foundation in all even years (midterm and presidential election years) since 2010 [@cesFAQ].
-    -   The CES has received the following awards/grants from the National Science Foundation:
+    -   The Cooperative Election Study (CES), formerly known as the Cooperative Congressional Election Study (CCES) has received funding and support from the National Science Foundation in all even years (midterm and presidential election years) since 2010 [@ces2022].
+
+        -   The 2022 CES survey was supported by National Science Foundation Award #2148907 [@ces2022].
+
+    -   According to @cesFAQ, the CES has received the following awards/grants from the National Science Foundation since 2010:
 
         | **Study year** | NSF Award Number    |
         |:---------------|---------------------|
@@ -37,10 +39,9 @@ This datasheet answers a set of questions from @gebru2021datasheets about the Co
         | 2010 panel     | 1430473 and 1154420 |
         | 2014 panel     | 1430473 and 1154420 |
 
-        : National Science Foundation awards that the CES has received since 2010, as indicated on the FAQ page [@cesFAQ].
-
-1.  *Any other comments?*
-    -   TBD
+        : National Science Foundation awards that the CES has received since 2010.
+4.  *Any other comments?*
+    -   No
 
 **Composition**
 
@@ -59,7 +60,10 @@ This datasheet answers a set of questions from @gebru2021datasheets about the Co
 5.  *Is there a label or target associated with each instance? If so, please provide a description.*
     -   The raw dataset does not associate a particular label or target with each instance. However, the data can be prepared and subsetted to train models to predict vote preference, partisan affiliation, stance on an issue such as abortion or the economy
 6.  *Is any information missing from individual instances? If so, please provide a description, explaining why this information is missing (for example, because it was unavailable). This does not include intentionally removed information, but might include, for example, redacted text.*
-    -   TBD
+    -   Yes, some individual instances have `NA`, or missing values under certain variables.
+    -   For example, 50,981 of the 60,000 respondents participated in the post-election wave [@ces2022]. Respondents who did not participate in the post-election wave have `NA` values for all the variables associated with post-election wave questions, including whether they voted in the 2022 midterm, who they voted for in 2020, whether they voted in 2022 U.S. House and U.S. Senate races, and if they did, who they voted for in those races.
+    -   Respondents who did not match to a TargetSmart general election voter record would have an `NA` value in the `TS_g2022` column. It is likely that this missing value means that they did not vote in the 2022 midterm election, but that is not always the case [@ces2022].
+    -   Respondents who did not answer a particular question will have an `NA` under the variable associated with it. Respondents were allowed to skip/abstain from answering some questions if they chose to.
 7.  *Are relationships between individual instances made explicit (for example, users' movie ratings, social network links)? If so, please describe how these relationships are made explicit.*
     -   There are no explicit relationships between individual instances in the 2022 CES survey dataset.
 8.  *Are there recommended data splits (for example, training, development/validation, testing)? If so, please provide a description of these splits, explaining the rationale behind them.*
@@ -88,40 +92,49 @@ This datasheet answers a set of questions from @gebru2021datasheets about the Co
 **Collection process**
 
 1.  *How was the data associated with each instance acquired? Was the data directly observable (for example, raw text, movie ratings), reported by subjects (for example, survey responses), or indirectly inferred/derived from other data (for example, part-of-speech tags, model-based guesses for age or language)? If the data was reported by subjects or indirectly inferred/derived from other data, was the data validated/verified? If so, please describe how.*
-    -   TBD
+    -   Each of the 60 research teams involved in conducting the 2022 CES survey collected 1000 responses [@ces2022].
+    -   Most of the respondents were recruited from YouGov. This means that most respondents are individuals who made an account on YouGov to receive email notifications about new surveys to complete [@cesFAQ].
+    -   Some respondents were recruited from online advertisements or other survey providers [@cesFAQ].
+    -   Survey responses were directly observable.
+    -   Voter validation was conducted by matching respondents to TargetSmart votter files [@ces2022], and this information was used to infer whether or not a respondent actually voted in the 2022 midterm election.
 2.  *What mechanisms or procedures were used to collect the data (for example, hardware apparatuses or sensors, manual human curation, software programs, software APIs)? How were these mechanisms or procedures validated?*
-    -   TBD
+    -   The 2022 CES was conducted via an online survey [@cesFAQ].
+    -    The CES/CCES has been conducted via an online survey every year since 2006.
 3.  *If the dataset is a sample from a larger set, what was the sampling strategy (for example, deterministic, probabilistic with specific sampling probabilities)?*
-    -   TBD
+    -   The 2022 CES dataset is not a sample from a larger set.
 4.  *Who was involved in the data collection process (for example, students, crowdworkers, contractors) and how were they compensated (for example, how much were crowdworkers paid)?*
-    -   TBD
+    -   60 research teams from different American academic institutions were involved in the data collection process. It is not clear if, or how much each team was paid.
 5.  *Over what timeframe was the data collected? Does this timeframe match the creation timeframe of the data associated with the instances (for example, recent crawl of old news articles)? If not, please describe the timeframe in which the data associated with the instances was created.*
-    -   TBD
+    -   Responses for the 2022 CES survey were collected in the Fall of 2022 [@ces2022].
 6.  *Were any ethical review processes conducted (for example, by an institutional review board)? If so, please provide a description of these review processes, including the outcomes, as well as a link or other access point to any supporting documentation.*
-    -   TBD
+    -   No
 7.  *Did you collect the data from the individuals in question directly, or obtain it via third parties or other sources (for example, websites)?*
     -   I did not collect the data that I used for my project from the individuals in question directly. I obtained the CES 2022 data from Harvard dataverse.
 8.  *Were the individuals in question notified about the data collection? If so, please describe (or show with screenshots or other information) how notice was provided, and provide a link or other access point to, or otherwise reproduce, the exact language of the notification itself.*
-    -   TBD
+    -   Yes, the individuals in question were notified about the data collection. Most respondents were recruited from YouGov, and the only way for an individual to appear on YouGov in the first place is if they opt in [@cesFAQ].
+    -   Respondents recruited from YouGov and other survey platforms were prompted to take the CES survey, but they were not required to do so. They had the option to ignore the survey notification and not respond if they did not want their information used for this purpose.
+    -   The exact language of the notification itself is not publicly available.
 9.  *Did the individuals in question consent to the collection and use of their data? If so, please describe (or show with screenshots or other information) how consent was requested and provided, and provide a link or other access point to, or otherwise reproduce, the exact language to which the individuals consented.*
-    -   TBD
+    -   Yes, all 60,000 respondents gave consent for their responses to be used. The first question shown to them was consent, so those who did not consent did not continue the survey and were not included.
+    -   The question asking respondents for consent was worded as follows: **"Do you agree to participate in the survey?"**
+    -   It is encoded as the `CCEStake` variable in the dataset.
 10. *If consent was obtained, were the consenting individuals provided with a mechanism to revoke their consent in the future or for certain uses? If so, please provide a description, as well as a link or other access point to the mechanism (if appropriate).*
-    -   TBD
+    -   Yes, individuals were provided with the option to exit the survey, withdraw their consent, and discard their responses at any point for any reason.
 11. *Has an analysis of the potential impact of the dataset and its use on data subjects (for example, a data protection impact analysis) been conducted? If so, please provide a description of this analysis, including the outcomes, as well as a link or other access point to any supporting documentation.*
-    -   TBD
+    -   No
 12. *Any other comments?*
-    -   TBD
+    -   No
 
 **Preprocessing/cleaning/labeling**
 
 1.  *Was any preprocessing/cleaning/labeling of the data done (for example, discretization or bucketing, tokenization, part-of-speech tagging, SIFT feature extraction, removal of instances, processing of missing values)? If so, please provide a description. If not, you may skip the remaining questions in this section.*
-    -   TBD
+    -   For my project, I cleaned this data and used voter validation variables to label respondents as 2022 voters and non-voters.
 2.  *Was the "raw" data saved in addition to the preprocessed/cleaned/labeled data (for example, to support unanticipated future uses)? If so, please provide a link or other access point to the "raw" data.*
     -   Yes. The raw data was saved, but it is not available in this github repository due to file size limitations. The raw data can be found using the following link: <https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi%3A10.7910/DVN/PR4L8P>
 3.  *Is the software that was used to preprocess/clean/label the data available? If so, please provide a link or other access point.*
     -   Yes. The statistical programming language R from @citeR was used to preprocess, clean, and label the raw data.
 4.  *Any other comments?*
-    -   TBD
+    -   No
 
 **Uses**
 
@@ -130,13 +143,13 @@ This datasheet answers a set of questions from @gebru2021datasheets about the Co
 2.  *Is there a repository that links to any or all papers or systems that use the dataset? If so, please provide a link or other access point.*
     -   Recent publications that used the CES survey dataset can be found at this link: [CES Recent Publications](https://cces.gov.harvard.edu/publications)
 3.  *What (other) tasks could the dataset be used for?*
-    -   TBD
+    -   This dataset could be used to research what factors influence vote preference, what makes someone who voted in a presidential election more likely to vote in the subsequent midterm election, or the political attitudes and issue stances of American adults in 2022.
 4.  *Is there anything about the composition of the dataset or the way it was collected and preprocessed/cleaned/labeled that might impact future uses? For example, is there anything that a dataset consumer might need to know to avoid uses that could result in unfair treatment of individuals or groups (for example, stereotyping, quality of service issues) or other risks or harms (for example, legal risks, financial harms)? If so, please provide a description. Is there anything a dataset consumer could do to mitigate these risks or harms?*
-    -   TBD
+    -   No
 5.  *Are there tasks for which the dataset should not be used? If so, please provide a description.*
     -   This dataset should not be used to forecast U.S. presidential elections. Its purpose is to examine how Americans view their government, hold it to account during elections, how American adults voted in 2022, and how different geographic, demographic, and social factors influenced voting behavior [@ces2022]. Biden 2020 and college-educated voters are over-represented in this dataset. Weighting was used to account for groups/demographics who are less likely to respond to this survey, but this is not a representative sample of the American electorate's voting preferences or behavior. Neither Donald Trump nor Joe Biden will be on the ballot in any future presidential election, so that is another reason why this dataset should not be used to train an election forecasting model.
 6.  *Any other comments?*
-    -   TBD
+    -   No
 
 **Distribution**
 
@@ -155,26 +168,29 @@ This datasheet answers a set of questions from @gebru2021datasheets about the Co
 6.  *Do any export controls or other regulatory restrictions apply to the dataset or to individual instances? If so, please describe these restrictions, and provide a link or other access point to, or otherwise reproduce, any supporting documentation.*
     -   No export controls or regulatory restrictions apply to the dataaset or individual instances.
 7.  *Any other comments?*
-    -   TBD
+    -   No
 
 **Maintenance**
 
 1.  *Who will be supporting/hosting/maintaining the dataset?*
-    -   TBD
+    -   Harvard Dataverse supports, hosts, and maintains this dataset.
 2.  *How can the owner/curator/manager of the dataset be contacted (for example, email address)?*
     -   The owner of the dataset can be contacted by clicking the "contact owner" button on its Harvard Dataverse page.
 3.  *Is there an erratum? If so, please provide a link or other access point.*
-    -   TBD
+    -   No
 4.  *Will the dataset be updated (for example, to correct labeling errors, add new instances, delete instances)? If so, please describe how often, by whom, and how updates will be communicated to dataset consumers (for example, mailing list, GitHub)?*
-    -   TBD
+    -   This dataset was updated in September of 2023 to include voter validation information.
+    -   It is unclear if or when the dataset will be updated next.
+    -   If the dataset contains any errors, notifications and/or updates will be provided.
 5.  *If the dataset relates to people, are there applicable limits on the retention of the data associated with the instances (for example, were the individuals in question told that their data would be retained for a fixed period of time and then deleted)? If so, please describe these limits and explain how they will be enforced.*
-    -   TBD
+    -   No limits on how long the data can be retained were listed.
 6.  *Will older versions of the dataset continue to be supported/hosted/maintained? If so, please describe how. If not, please describe how its obsolescence will be communicated to dataset consumers.*
     -   Older versions of the dataset are available and supported via Harvard dataverse.
 7.  *If others want to extend/augment/build on/contribute to the dataset, is there a mechanism for them to do so? If so, please provide a description. Will these contributions be validated/verified? If so, please describe how. If not, why not? Is there a process for communicating/distributing these contributions to dataset consumers? If so, please provide a description.*
     -   There is no method for others to extend, augment, or build directly on the dataset.
+    -   If someone wants to contribute to or improve the dataset, they are encouraged to contact its owner via Harvard Dataverse.
 8.  *Any other comments?*
-    -   TBD
+    -   No
 
 \newpage
 
