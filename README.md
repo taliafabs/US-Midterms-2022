@@ -4,6 +4,10 @@
 
 This repository contains all code and data used to complete the 2022 U.S. Midterm Election Analysis Paper. It was created by Talia Fabregas.
 
+### ⭐️ Inspiration
+
+### 👀 Key Insights
+
 ## 🗂️ File Structure
 
 The repo is structured as:
@@ -19,10 +23,4 @@ The repo is structured as:
 ## 🤖 Statement on LLM usage
 Aspects of this code, including the data visualizations and tables, were created with the assistance of a Large Language Model, ChatGPT-3.5. The entire interaction history with ChatGPT is available in other/llms/usage.txt.
 
-## Some checks
-
-- [ ] Change the rproj file name so that it's not starter_folder.Rproj
-- [ ] Change the README title so that it's not Starter folder
-- [ ] Remove files that you're not using
-- [ ] Update comments in R scripts
-- [ ] Remove this checklist
+## 👩🏻‍💻 Possible Next Steps
