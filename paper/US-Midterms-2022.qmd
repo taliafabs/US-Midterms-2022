@@ -38,17 +38,19 @@ ces2022_analysis_data <- read_parquet("data/02-analysis_data/ces2022_analysis_da
 
 Overview paragraph
 
-This study aims to estimate how race, gender, education, trust in the federal government, civic engagement, and interest in politics impact voting behavior. The first thing that this study will examine is the effects of age, gender, race, education, trust in the federal government, civic knowledge, and civic engagement on the probabiliry that an individual supports Trump. The second thing that this study will examine is the effects of past presidential vote choice, age, highest level of education completed, trust in the federal government, knowledge of which party holds a majority in Congress, and interest in politics on the probability that an individual who voted for Donald Trump or Joe Biden in the 2020 U.S. presidential election would also vote in the 2022 U.S. midterm election. The estimands, which can never be known with complete certainty, include:
+This study aims to estimate how race, gender, education, trust in the federal government, civic engagement, and interest in politics impact voting behavior. The first thing that this study will examine is the effects of age, gender, race, education, trust in the federal government, civic knowledge, and civic engagement on the probability that an individual supports Trump. The second thing that this study will examine is the effects of past presidential vote choice, age, highest level of education completed, trust in the federal government, knowledge of which party holds a majority in Congress, and interest in politics on the probability that an individual who voted for Donald Trump or Joe Biden in the 2020 U.S. presidential election would also vote in the 2022 U.S. midterm election. The estimands, which can never be known with complete certainty, include:
 
 -   The true effects of age, gender, race, education, trust in the federal government, knowledge of which party has a majority in the U.S. House, and interest in politics on the likelihood that an individual supports Trump.
 
 -   The true effects of presidential vote preference, age, education, trust, civic knowledge, and interest in politics on the likelihood that an individual who voted in a presidential election will also vote in the subsequent midterm election [@tswd] .
 
-Results paragraph
+Based on the results of applying the logistic regression model to predict vote preference, I estimate that young men, voters without a college education, and voters with low trust in government are likely to support Trump. The logistic regression vote preference model estimates ...
 
-Based on the results of applying logistic regression models to predict voter turnout and vote preference, I estimate that
+Based on the results of applying the logistic regression model to predict voter turnout, I estimate that voters with
 
-Why it matters paragraph In the 2024 election, Democratic Senate candidates (both incumbent and non-incumbent) were elected in states that President-Elect Trump carried: Michigan, Wisconsin, Nevada, and Arizona. In Nevada and Wisconsin, Senators Jackie Rosen and Tammy Baldwin
+Why it matters paragraph
+
+In the 2024 election, Democratic Senate candidates (both incumbent and non-incumbent) were elected in states that President-Elect Trump carried: Michigan, Wisconsin, Nevada, and Arizona. In Nevada and Wisconsin, Senators Jackie Rosen and Tammy Baldwin
 
 The remainder of this paper is structured as follows. @sec-data contains an overview of the survey data set from @ces2022 that was used, visualizations of different variables, and summary statistics. @sec-model contains the logistic regression models used to predict the probability that an individual who voted for either Trump or Biden in the 2020 presidential election would also vote in the 2022 midterm election and the probability that an individual would support Trump over Biden in 2020. @sec-resuls contains tables and data visualizations that present results about what characteristics made individuals who voted in the 2020 presidential election more likely to also vote in the 2022 midterm election and what characteristics make individuals more likely to support Trump. @sec-discussion contains detailed a detailed discussion about the results presented in @sec-resuls, including demographics where support for Trump is strong, why some 2020 presidential election voters were more likely than others to vote in the 2022 midterm election, and how the 2016, 2020, and 2024 polling misses can be explained by low civic engagement and distrust in government among Trump voters. [Appendix -@sec-surveys] contains an in-depth discussion about and evaluation of CES 2022 survey methodologies.
 
@@ -56,21 +58,15 @@ The remainder of this paper is structured as follows. @sec-data contains an over
 
 ## Overview
 
-The 2022 Comprehensive Election Study (CES) data set from @ces2022 was used for this project. The Comprehensive Election Study (CES)
+The 2022 Comprehensive Election Study Common Content (CES) data set from @ces2022 was used for this project. The data was obtained from Harvard Dataverse on November 27, 2024. It is a nationally-representative survey that aims to study voting behavior in the United States. It contains 60,000 observations and over 700 variables.
 
-The data used for this project is the 2022 Comprehensive Election Study (CES) survey data set from @ces2022. The data was obtained from Harvard Dataverse on November 27, 2024. The CES is a nationally-representative survey that aims to study voting behavior in the United States. It is conducted every year
-
-The Comprehensive Election Study (CES) was previously known as the Cooperative Congressional Election Study (CCES) [@ces2022].
-
-from @ces2022 60,000 responses
-
-I cleaned the 2022 CES data set to only include respondents who voted for either Donald Trump or Joe Biden in the 2020 U.S. presidential election. I used the *pres20votepost* variable, which is each participant's response to a post-election survey wave question about who they voted for in 2020, to determine who each respondent voted for. This is not a perfect way to find out who each respondent voted for because it is subject to social desirability bias [@silvergut]. I am confident that most Trump and Biden 2020 voters are correctly labeled because most CES 2022 respondents' 2020 presidential votes are consistent with their party affiliation or ideological leanings [@ces2022]. However, there is still is a chance respondents who actually voted for Trump may have said that they voted for Biden in 2020 because of Trump's controversial nature or to say that they voted for the winning candidate [@silvergut]. I discuss this in depth in @sec-discussion-weaknesses. After sub-setting the data to only include identified Trump and Biden 2020 voters, I used TargetSmart voter file match status to determine which respondents voted in the 2022 midterm election and which respondents did not. Additional data details can be found in [Appendix -@sec-additional-data].
+I cleaned the 2022 CES data set to only include respondents who voted for either Donald Trump or Joe Biden in the 2020 U.S. presidential election. I used the *pres20votepost* variable, which is each participant's response to a post-election survey wave question about who they voted for in 2020, to determine who each respondent voted for. This is not a perfect way to find out who each respondent voted for because it is subject to social desirability bias [@silvergut]. I am confident that most Trump and Biden 2020 voters are correctly labeled because most CES 2022 respondents' 2020 presidential votes are consistent with their party affiliation or ideological leanings [@ces2022]. However, there is still is a chance respondents who actually voted for Trump may have said that they voted for Biden in 2020 because of Trump's controversial nature or to say that they voted for the winning candidate [@silvergut]. I discuss this in depth in @sec-discussion-weaknesses. After sub-setting the data to only include identified Trump and Biden 2020 voters, I used TargetSmart voter file match status to determine which respondents voted in the 2022 midterm election and which respondents did not. Additional data details can be found in [Appendix -@sec-additional-data-cleaning].
 
 I used the statistical programming language R [@citeR] and the `dplyr`, `janitor`, `ggplot2`, and `kable` packages to clean the data, prepare the data, and create tables and data visualizations.
 
 ## Measurement
 
-The primary measurement task is to capture how Americans view their representatives, how they hold the different levels of government to account during elections, how they voted, their electoral experiences, and how voting behavior and experiences vary across different regions, demographics, and social contexts [@ces2022]. Surveys are a widely-used instrument for measuring public opinion during election cycles [@tswd]. During U.S. presidential and midterm election cycles, pollsters and researchers conduct surveys that measure candidate preferences, public opinion, and how Americans’ diverse geography, demographics, and experiences impact them. Researchers often use these measurements to predict election outcomes, analyze election outcomes, and analyze which factors predict voting behavior and vote preference.
+The measurement task is to capture how Americans view their representatives, how they hold the different levels of government to account during elections, how they voted, their electoral experiences, and how voting behavior and experiences vary across different regions, demographics, and social contexts [@ces2022]. Surveys are a widely-used instrument for measuring public opinion during election cycles [@tswd]. During U.S. presidential and midterm election cycles, pollsters and researchers conduct surveys that measure candidate preferences, public opinion, and how Americans’ diverse geography, demographics, and experiences impact them. Researchers often use these measurements to predict election outcomes, analyze election outcomes, and analyze which factors predict voting behavior and vote preference.
 
 The Cooperative Election Study (CES) survey data set that I used is a collection of 60,000 responses from a nationally-representative sample of American adults. Each entry represents the political preferences, voting intentions, ideological leanings, demographics, issue evaluations, and past voting decisions of one respondent. The CES survey has been conducted every year since 2006 [@ces2022]. In presidential and midterm election years, it consists of a pre-election wave and a post-election wave. The pre-election wave aims to measure the opinions, vote preferences, vote intentions of the American public, and demographics [@ces2022]. The post-election wave aims to measure how different factors, including geography, demographics, issue-evaluations, and the state of the economy influenced Americans’ decisions about who to vote for or whether to vote at all in the recent election [@ces2022].
 
@@ -109,7 +105,7 @@ respondent_vote_2020 <- respondent_vote_2020 |>
 kable(respondent_vote_2020)
 ```
 
-The 2020 presidential election had record-setting turnout [@Grant2023]. @Hartig2023 found that midterm elections typically have lower turnout than the preceding presidential election and the responses to the 2022 CES survey are consistent with that. Just under 30% of 2022 CES respondents who did vote in the 2020 presidential election did not vote in the 2022 midterm election.
+The 2020 presidential election had record-setting turnout [@Grant2023]. As seen in @tbl-respondentturnout, the majority of 2022 CES respondents who voted for either Trump or Biden in the 2020 presidential election were also identified as 2022 midterm election voters. However, it appears that around 30% of 2022 CES respondents who did vote for one of the major candidates in the 2020 presidential election abstained from the 2022 midterm election when neither Trump nor Biden was on the ballot. @Hartig2023 found that midterm elections typically have lower turnout than the preceding presidential election and the responses to the 2022 CES survey are consistent with that. The remainder of this project aims to study what affects vote preference and which presidential election voters are most likely to vote in the subsequent midterm election and which presidential election voters are most likely to abstain from the subsequent midterm election.
 
 ```{r}
 #| echo: false
@@ -143,13 +139,15 @@ kable(voting_2022_summary)
 
 ```
 
+@tbl-table1 shows that 71.4% of respondents who voted for Biden in 2020 voted in the 2022 midterm election, compared to 69.9% of respondents who voted for Trump. This 1.5-point midterm turnout gap between Biden 2020 and Trump 2020 voters in the 2022 CES survey could be related to the fact that Trump voters are more likely to distrust the government and have low civic engagement, and are therefore less likely to respond to a survey or vote in an election where he is not on the ballot [@silvergut]. As shown in @tbl-respondentvotepreference, Trump voters are underrepresented in the 2022 CES survey, so non-response bias will be a factor throughout this project.
+
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
 #| eval: true
 #| label: tbl-table1
-#| tbl-cap: Biden 2020 Voters Voted in 2022 midterms slightly more than Trump 2020 voters. 73.26% of respondents who voted for Trump in 2020 voted in 2022, compared to 74.67% of respondents who voted for Biden.
+#| tbl-cap: 2022 midterm turnout was comparable among survey respondents who voted for Trump versus survey respondents who voted for Biden in 2020, but the turnout rate of Biden voters was 1.5 points higher than that of Trump voters.
 
 library(dplyr)
 library(knitr)
@@ -162,13 +160,13 @@ vote_2020_in_2022 <- ces2022_analysis_data %>%
   group_by(presvote2020) %>% # Group by 2020 vote choice
   mutate(
     total_voters = sum(n),                  # Total voters for each 2020 candidate
-    percentage = (n / total_voters) * 100  # Percentage within each group
+    percentage = round((n / total_voters) * 100,2)  # Percentage within each group
   ) %>%
-  ungroup()
+  ungroup() 
 
 # Format and display the table
 vote_2020_in_2022 <- vote_2020_in_2022 %>%
-  mutate(voted_status = ifelse(voted_in_2022 == 1, "Voted", "Did Not Vote")) %>%
+  mutate(voted_status = ifelse(voted_in_2022 == 1, "Voted in 2022", "Did Not Vote in 2022")) %>%
   select(presvote2020, voted_status, n, percentage)
 
 kable(vote_2020_in_2022)
@@ -212,9 +210,11 @@ ces2022_race |>
 
 ### Age
 
+As shown in @fig-fig1, there was lower turnout in 2022 midterm election than the 2020 presidential election across all age brackets. Voters in the 18-29 age bracket, especially those who voted for Trump in 2020, are under-represented in the 2022 CES survey.
+
 ```{r}
 #| label: fig-fig1
-#| fig-cap: Lower turnout in 2022 midterm election across all age brackets compared to 2020. The solid portion of the red and blue bars shows the number of respondents who voted in the 2020 election that also voted in the 2022 midterm. More than half of 18-29 year old respondents who voted for Trump in 2020 presidential election did not vote in the 2022 midterm election.
+#| fig-cap: More than half of 18-29 year old respondents who voted for Trump in 2020 presidential election did not vote in the 2022 midterm election. The solid portion of the red and blue bars shows the number of respondents who voted in the 2020 election that also voted in the 2022 midterm.
 #| echo: false
 #| warning: false
 #| message: false
@@ -311,15 +311,15 @@ Race, gender, highest level of education, income, and religion are widely used w
 
 ### Civic engagement and trust in government
 
-Midterm elections typically have lower turnout than presidential elections. But the drop in turnout between the 2020 presidential election and the 2022 midterm election was not distributed equally across all demographics.
-
-The CES 2022 survey does not contain an explicit question about civic engagement and there is no direct way to determine who is a low-propensity or low-information voter. I have used the following variables to measure civic engagement and trust in government:
+The 2022 CES survey does not contain an explicit question about civic engagement and there is no direct way to determine who is a low-propensity or low-information voter. I have used the following variables to measure civic engagement and trust in government:
 
 -   `trustfed`: response to the question about how much they trust the federal government)
 
 -   `newsint`: response to survey question about interest in politics
 
 -   `CC22_310b`: response to survey question asking which party has a majority in the U.S. House of Representatives.
+
+In my data preparation process, I labeled respondents with little to no trust in the government, little to no interest in politics, and who do not know which party controlled the U.S. House as low-propensity voters.
 
 As shown in @fig-distrustfulmaga, survey respondents with less trust in the government favored Trump in 2020.
 
@@ -459,7 +459,9 @@ ggplot(knowledge_data, aes(x = know_us_house, y = prop_voted)) +
 
 # Model {#sec-model}
 
-The goal of my modeling strategy is twofold. I use two logistic regression models: one to model the probability that an individual who voted in the 2020 presidential election would also vote in the 2022 midterm election, and one to model the probability that an individual voter supports Trump.
+The goal of my modeling strategy is twofold.
+
+I use two logistic regression models: one to model the probability that an individual who voted in the 2020 presidential election would also vote in the 2022 midterm election, and one to model the probability that an individual voter supports Trump.
 
 The model to predict $voted\_for\_trump$ uses the following predictors:
 
@@ -493,21 +495,15 @@ Here, I provide a brief description of how I used logistic regression to predict
 
 ## Model set-up
 
-Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.
-
-Models the probability that someone who voted for either Trump or Biden in 2020 also voted in the 2022 mid-term elections.
-
-Models the probability
-
 ### Vote choice model
 
-Models the probability that a respondent voted for Trump in 2020
+Define $\pi_i$ as the probability that respondent $i$ supports Trump, $age\_bracket_i$ as their age bracket, $gender_i$ as their gender, $race_i$ as their race, $educ_i$ as the highest level of education that they completed, $trust_i$ as their self-reported level of trust in the government, and $know\_us\_house_i$ as whether or not they know which party had a majority in the U.S. House of Representatives as of 2022:
 
 ```{=tex}
 \begin{align*} 
 y_i | \pi_i &\sim \mbox{Bern}(\pi_i) \\
-\mbox{logit}(\pi_i) &= \beta_0 + \beta_1 \times age\_bracket_i + \beta_2 \times gender_i + \beta_3 \times race_i + \beta_4 \times educ\_i \\
-&+ \beta_5 \times trust_i + \beta_6 \times know\_us\_house-i  \\
+\mbox{logit}(\pi_i) &= \beta_0 + \beta_1 \cdot age\_bracket_i + \beta_2 \cdot gender_i + \beta_3 \cdot race_i + \beta_4 \cdot educ_i \\
+&+ \beta_5 \cdot trust_i + \beta_6 \cdot know\_us\_house_i  \\
 \beta_0 &\sim ~ \mbox{Normal}(0, 2.5) \\
 \beta_1 &\sim ~ \mbox{Normal}(0, 2.5) \\
 \beta_2 &\sim ~ \mbox{Normal}(0, 2.5) \\
@@ -519,13 +515,13 @@ y_i | \pi_i &\sim \mbox{Bern}(\pi_i) \\
 ```
 ### Turnout model
 
-Define $\pi_i$ as the probability that survey respondent $i$ voted in the 2022 midterm election
+Define $\pi_i$ as the probability that survey respondent $i$ who voted in 2020 also voted in the 2022, $presvote2020_i$ as who they voted for in the 2020 election (Trump or Biden), $educ_i$ as the highest level of education they completed, $trust_i$ as their level of trust in the government,
 
 ```{=tex}
 \begin{align*} 
 y_i | \pi_i &\sim \mbox{Bern}(\pi_i) \\
-\mbox{logit}(\pi_i) &= \beta_0 + \beta_1 \times presvote2020_i + \beta_2 \times educ_i + \beta_3 \times trust_i + \beta_4 \times know\_us\_house_i \\
-&+ \beta_5 \times know\_us\_senate_i + \beta_6 \times political\_interest_i  \\
+\mbox{logit}(\pi_i) &= \beta_0 + \beta_1 \cdot presvote2020_i + \beta_3 \cdot educ_i + \beta_3 \cdot trust_i + \beta_4 \cdot know\_us\_house_i \\
+&+ \beta_5 \cdot political\_interest_i  \\
 \beta_0 &\sim ~ \mbox{Normal}(0, 2.5) \\
 \beta_1 &\sim ~ \mbox{Normal}(0, 2.5) \\
 \beta_2 &\sim ~ \mbox{Normal}(0, 2.5) \\
@@ -539,7 +535,7 @@ The models are run in R [@citeR] using the `rstanarm` package and default priors
 
 ## Model justification
 
-I used two different logistic regression models to estimate $vote$ and $turnout$
+I used two different logistic regression models to estimate support for Trump and voter turnout.
 
 We expect a positive relationship between the size of the wings and time spent aloft. In particular...
 
@@ -592,7 +588,9 @@ turnout_model_2022 <-
 # 
 # # apply model to the analysis data
 # # use predict function to predict the probability that each voter will vote based on characteristics
+
 new_voter_data <- ces2022_analysis_data
+
 new_voter_data$predicted_prob <- predict(turnout_model_2022, 
                                          newdata = new_voter_data, 
                                          type = "response")
@@ -803,13 +801,25 @@ One weakness is correctly identifying 2020 Trump voters and 2022 midterm non-vot
 
 # Surveys, Sampling, and Observational Data {#sec-surveys}
 
-## Deep Dive into CES Methodology
+## Deep dive into 2022 Cooperative Election Study (CES) survey methodology
 
-### Overview
+### Overview and survey objectives
 
-### Sampling method
+The 2022 CES survey is a collaboration between 60 research teams that aims to study public opinion and voting behavior across the United States [@ces2022]. It is part of the ongoing Cooperative Election Study (CES), previously known as the Cooperative Congressional Election Study (CCES). It consists of 60,000 responses from a nationally-representative sample of American adults. Each research team purchased a 1000 person nationally representative survey from YouGov [@ces2022]. The 2022 CES survey was conducted online by YouGov and 60,000 American adults were surveyed in two waves: the pre-election wave (September 29 -November 8, 2022) and the post-election wave (November-December 2022) [@ces2022]. Sample matching was used to build a nationally representative sample and weighting was used to further  ensure that the sample is representative [@ces2022].
 
-### Weighting
+### Population and sampling frame
+
+The target population of a survey is the population that it aims to represent and speak about [@tswd]. The target population of the 2022 CES survey is all American adults [@cesFAQ]. Researchers using the 2022 CES survey dataset can subset it to only include respondents who matched to a validated voter registration record if they wish to study registered voters [@ces2022]. The sampling frame of a survey is all potential respondents from its target population [@tswd]. The 2022 CES survey’s sampling frame is American adults who are YouGov panelists and receive notifications about surveys [@cesFAQ].
+
+### Sampling approach
+
+The 2022 CES uses an online survey conducted by YouGov to collect responses [@ces2022].
+
+### Data validation
+
+@ces2022 used the TargetSmart database of registered voters in the United States to validate individual voter records.
+
+### Weighting and data adjustments
 
 ```{r}
 #| echo: false
@@ -874,31 +884,79 @@ kable(weighting_data_trust)
 
 ```
 
-### Vote validation
+### Strengths and limitations
 
-### Weaknesses and limitations
+## Identifying non-voters and social desirability bias
+
+@ces2022 matched 2022 CES survey respondents to the TargetSmart registered voter database in August 2023. They matched a respondent to a TargetSmart record when there was a very high level of confidence that the respondent was being matched to the correct record [@ces2022]. The most common reason why a respondent was not matched to a TargetSmart record was because they were not registered to vote, but incomplete or inaccurate information, such as a recent name or address change could also prevent a match [@ces2022]. If a respondent matched to a TargetSmart voter record, then information about whether they voted in 2022, and the voting method they used if they voted is available [@ces2022]. The 2022 CES survey dataset does not include a variable that explicitly indicates whether an individual respondent voted in the midterm election. Instead, it includes information about whether each respondent matched to a TargetSmart record and whether they reported voting or non-voting in the post-election wave [@ces2022].
+
+@ces2022 outlined three approaches for identifying respondents who did not vote in the 2022 midterm election: labeling both un-matched respondents and matched non-voters as non-voters, labeling only matched non-voters as non-voters or labeling both matched non-voters and un-matched respondents, who are self-reported non-voters as non-voters. Each approach has strengths and limitations. @ces2022 recommend labeling both un-matched respondents and matched non-voters as 2022 midterm non-voters because it is the best way to ensure that no non-voter will be falsely labeled as a voter. However, the weakness of this approach is that it assumes that all unmatched respondents did not vote in 2022. Labeling only matched non-voters as 2022 midterm voters accounts for the possibility that some 2022 CES respondents who did not match to a TargetSmart voter record may have actually voted [@ces2022].
+
+Using self-reported participation instead of a blanket assumption to determine whether a respondent who did not match to a TargetSmart voter record addresses the tradeoffs associated with assuming that all un-matched respondents are non-voters (or vice versa). However, this approach relies on the assumption that social desirability bias was not a factor [@ces2022]. Social desirability bias happens when a survey respondent becomes inclined to answer a question in a way that they think would make them "look good" to others [@tswd]. There is a chance that unmatched respondents might be inclined to say that they did vote in 2022 because participating in the democratic process is seen as socially desirable behavior.
 
 ## Second Point: Idealized Survey Methodology to Study 2024 Down-Ballot Voter Attrition
-
-## Social Desirability Bias and Identifying Non-Voters
 
 # Additional data details {#sec-data-details}
 
 ## Data cleaning {#sec-additional-data-cleaning}
 
-## Identifying non-voters in the 2022 midterm election
+Data cleaning and preparation was done using R [@citeR] and the `dplyr` [@dplyr] and `janitor` [@janitor] packages. The original dataset from @ces2022 contained 60,000 observations and over 700 variables. 50,981 of the 60,000 respondents took the post-election survey and I required responses to post-election questions, so I subsetted to only include respondents who participated in the post-election survey. I then subsetted the data it to include only respondents who voted for either Trump or Biden in 2020 using the `filter` function from @dplyr. My analysis did not require the use of over 700 variables, so I used the `select` function from @dplyr to select the ones I needed.
 
-I identified 2022 non-voters as respondents who
+The variables from the raw data that I used in my analysis data include:
 
-One strength of this approach is that it does not assume that every respondent who was not matched to a TargetSmart or YouGov voting record is a non-voter. It is possible for ...
+-   *TS_g2022*: which method of voting the respondent used in the 2022 midterm election. NA if the respondent was not matched to a TargetSmart voter file [@ces2022].
 
-One trade off of this vote validation approach is its vulnerability to social desirability bias.
+-   *presvote2020post:* who the respondent voted for in the 2020 presidential election
+
+-   *race:* the respondent's race
+
+-   *birthyr:* year of birth (this was used to construct the age, and eventually *age_bracket* variables).
+
+-   *gender4:* gender identity
+
+-   *educ:* highest level of education completed
+
+-   *CC22_423*: the respondent's self-reported level of trust in the Government in Washington, D.C.
+
+-   *CC22_310a*: whether or not the respondent knew which party had a majority in the U.S. House of Representatives
+
+-   *newsint:* how often the respondent is interested in following what's going on in U.S. government and politics.
+
+### Identifying 2022 non-voters
+
+I constructed a new variable, $voted\_in\_2022$, which is equal to 1 if the respondent voted in the 2022 midterm election and 0 if they did not. I identified non-voters as respondents who did not match to a TargetSmart voter file (respondents where *TS_g2022* was `NA`). According to @ces2022, identifying un-matched voters as non-voters is a justified approach because the most common reason why a respondent will not have a TargetSmart voting record is because they are not registered to vote. Self-reported non-voting rates are very high among respondents who did not match to a TargetSmart record [@ces2022]. There is a small chance that this approach could falsely label un-matched voters without a TargetSmart match as non-voters, but it is the best way to make sure that no non-voters are falsely labeled as voters.
 
 # Model details {#sec-model-details}
 
-## Model Results {#sec-model-results}
+This section provides additional details about the models, including model summaries, posterior predictive checks, credibility intervals, and model diagnostics.
 
-The model summary is shown in @tbl-model-summary.
+## Model results {#sec-model-results}
+
+### Vote preference model
+
+The model summary for the vote preference model is shown in @tbl-model-summary1.
+
+```{r}
+#| echo: false
+#| eval: true
+#| label: tbl-model-summary1
+#| tbl-cap: "Explaining whether someone voted for Trump based on race, gender, age, education, trust in government, civic engagement "
+#| warning: false
+
+modelsummary::modelsummary(
+  list(
+    "Voter Turnout Model" = vote_preference_model
+  ),
+  statistic = "mad",
+  fmt = 2,
+  output = "kableExtra"
+) %>%
+  kableExtra::kable_styling(font_size = 10)
+```
+
+### Turnout model
+
+The model summary for the voter turnout model is shown in @tbl-model-summary.
 
 ```{r}
 #| echo: false
@@ -915,12 +973,12 @@ modelsummary::modelsummary(
   fmt = 2,
   output = "kableExtra"
 ) %>%
-  kableExtra::kable_styling(font_size = 11)
+  kableExtra::kable_styling(font_size = 10)
 ```
 
-@tbl-modelsummary makes
-
 ## Posterior predictive check
+
+### Turnout model
 
 In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows the comparison of the outcome variable $vote\_2022$, with simulations from the posterior distribution [@tswd].
 
@@ -951,6 +1009,8 @@ library(bayesplot)
 
 ## Credibility Intervals
 
+### Turnout model
+
 ```{r}
 #| echo: false
 #| eval: true
@@ -965,6 +1025,8 @@ modelplot(turnout_model_2022, conf_level = 0.95) +
 ```
 
 ## Diagnostics
+
+### Turnout model
 
 @fig-stanareyouokay-1 is a trace plot. It shows... This suggests...
 
