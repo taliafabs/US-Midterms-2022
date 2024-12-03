@@ -26,4 +26,4 @@ The repo is structured as:
 Aspects of this code, including the data visualizations and tables, were created with the assistance of a Large Language Model, ChatGPT-3.5. The entire interaction history with ChatGPT is available in other/llms/usage.txt.
 
 ## 👩🏻‍💻 Possible Next Steps
-Trump will be term-limited in 2028. My goal is to use 2024 pre and post-election survey data to develop a model that predicts whether an individual who voted in the presidential race will also vote in down-ballot races.
+Trump will be term-limited in 2028. My goal is to use 2024 pre and post-election survey data to develop a model that predicts whether an individual who voted in the presidential race will also vote in Senate and other down-ballot races that appear on the same ballot, and in a future midterm or presidential election once their preferred presidential candidate is no longer on the ballot.
