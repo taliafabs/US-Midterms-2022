@@ -4,7 +4,7 @@
 This project examines voting behavior in the 2022 U.S. midterm election using Comprehensive Election Study (CES) 2022 data and logistic regression.
 
 ### ⭐️ Inspiration
-In 2024, 4 Democratic Senators were elected in states that President-Elect Donald Trump won. Elissa Slotkin (MI), Tammy Baldwin (WI), and Jackie Rosen (NV) all received fewer votes than Kamala Harris in their respective states. Ruben Gallego (AZ) is the only Democratic U.S. Senate candidate who won a state that Kamala Harris lost and received more votes than her. We know that pollsters have consistently underestimated support for Trump and turnout in U.S. Senate races is typically lower than in presidential races. We also know that Trump drives up turnout, both for and against him. 
+In 2024, 4 Democratic Senators were elected in states that President-Elect Donald Trump won. Elissa Slotkin (MI), Tammy Baldwin (WI), and Jackie Rosen (NV) all received fewer votes than Kamala Harris in their respective states. Ruben Gallego (AZ) is the only Democratic U.S. Senate candidate who won a state that Kamala Harris lost and received more votes than her. We know that pollsters have consistently underestimated support for Trump and turnout in U.S. Senate races is typically lower than in presidential races. We also know that Trump drives up turnout, both for and against him. My goal is to analyze why Harris voters in swing states were more likely to vote for down-ballot Democrats than Trump voters were to vote for down-ballot Republicans.
 
 ### 👀 Key Insights
 - Hindsight is 20/20. My logistic regression vote preference model, which was trained on CES 2022 data, estimated high support for Trump amongst men ages 18-29 across most races and highest-completed levels of education.
