@@ -34,27 +34,14 @@ ces_2022_reduced <-
   ces22_analysis_data |>
   slice_sample(n = 7500)
 
-# use presvote20post, educ, and stuff about trust/engagement to predict whether or not someone voted in midterms
-
-### Model data ####
-# ces2022_split <- initial_split(ces22_analysis_data, prop = 0.8)
-# ces2022_train <- training(ces2022_split)
-# ces2022_test = testing(ces2022_split)
-# 
-# ces_turnout_tidymodel <- 
-#   logistic_reg(mode = "classification") |>
-#   set_engine("glm") |>
-#   fit(
-#     voted_in_2022 ~ presvote2020 + age_bracket + educ + truststate + trustfed + know_us_house + know_us_senate + political_interest,
-#     data = ces2022_train
-#   )
+# uses presvote20post, educ, and stuff about trust/engagement to predict whether or not someone voted in midterms
 
 turnout_model_2022 <- 
   stan_glm(
-    voted_in_2022 ~ presvote2020 + age_bracket + educ + trustfed + truststate + know_us_house + political_interest,
+    voted_in_2022 ~ presvote2020 + age_bracket + educ + know_us_house + know_us_senate + trustfed + truststate + political_interest,
     data = ces_2022_reduced,
     family = binomial(link="logit"),
-    weights = commonweight,
+    weights = commonpostweight,
     prior = normal(location = 0, scale = 2.5, autoscale = TRUE),
     prior_intercept = normal(location = 0, scale = 2.5, autoscale = TRUE),
     seed = 538
@@ -69,18 +56,6 @@ political_preferences <- stan_glm(
   prior_intercept = normal(location = 0, scale = 2.5, autoscale = TRUE),
   seed = 538
 )
-
-# model for vote preference
-# political_preferences <- 
-#   stan_glm(
-#     voted_for_trump ~ age_bracket + educ + trustfed + know_us_house + know_us_senate,
-#     data = ces_2022_reduced,
-#     family = binomial(link="logit"),
-#     weights = commonweight,
-#     prior = normal(location=0, scale=2.5, autoscale=TRUE),
-#     prior_intercept = normal(location = 0, scale = 2.5, autoscale = TRUE),
-#     seed = 538
-#   )
 
 
 #### Save model ####
