@@ -1,5 +1,5 @@
 ---
-title: "Title"
+title: "Civic Engagement and Trust in Government are Strong Predictors of Voting Behavior"
 subtitle: "Logistic Regression Analysis of Voter Behavior"
 author: 
   - Talia Fabregas
@@ -187,6 +187,8 @@ In the 2024 U.S. presidential election, there were gender and racial gaps in sup
 #| message: false
 #| warning: false
 #| eval: true
+#| label: fig-cesrace
+#| fig-cap: Support for Truo varied among CES respondents, with white men most likely to support Trump
 
 ces2022_race <- ces2022_analysis_data |>
   filter(gender == "Female" | gender == "Male")
@@ -197,7 +199,7 @@ ces2022_race |>
   facet_wrap(facets = vars(gender)) +
   theme_minimal() +
   labs(
-    title = "White respondents were more likely to support Trump in 2020",
+    title = " ",
     x = "Race",
     y = "Number of respondents",
     fill = "2020 presidential vote"
@@ -211,7 +213,7 @@ ces2022_race |>
 
 ```{r}
 #| label: fig-fig1
-#| fig-cap: More than half of 18-29 year old respondents who voted for Trump in 2020 presidential election did not vote in the 2022 midterm election.
+#| fig-cap: Lower turnout in 2022 midterm election across all age brackets compared to 2020. The solid portion of the red and blue bars shows the number of respondents who voted in the 2020 election that also voted in the 2022 midterm. More than half of 18-29 year old respondents who voted for Trump in 2020 presidential election did not vote in the 2022 midterm election.
 #| echo: false
 #| warning: false
 #| message: false
@@ -250,7 +252,7 @@ ggplot(age_data, aes(x = age_bracket, fill = presvote2020)) +
            stat = "identity", position = "dodge",  alpha = 1) +  # Higher alpha for voters
     scale_fill_brewer(palette = "Set1") +
   labs(
-    title = "Lower turnout in 2022 midterm elections across all age brackets compared to 2020",
+    title = " ",
     x = "Age Bracket",
     y = "Number of Respondents"
   ) +
@@ -279,7 +281,7 @@ Education gap in American politics.
 #| message: false
 #| eval: true
 #| label: fig-educationgap
-#| fig-cap: College-educated respondents were less likely to support Trump in 2020
+#| fig-cap: College-educated respondents were less likely to support Trump in 2020.
 
 
 ces2022 <-  ces2022_analysis_data |>
@@ -354,7 +356,7 @@ trust_data_by_candidate$trustfed <- factor(trust_data_by_candidate$trustfed,
 ggplot(trust_data_by_candidate, aes(x = trustfed, y = total_respondents, fill = presvote2020)) +
   geom_bar(stat = "identity", position = "dodge") +   # Position bars side by side
   labs(
-    title = "Trust in government is lower among Trump voters",
+    title = " ",
     x = "Trust in Federal Government",
     y = "Total Number of Respondents",
     fill = "2020 Presidential Vote"
@@ -380,7 +382,7 @@ As shown in @fig-interestpolitics and @fig-civicknowledge, respondents who voted
 
 # trust in the federal government
 interest_data <- ces2022_analysis_data %>%
-  group_by(political_interest, presvote2020) %>%
+  group_by(political_interest) %>%
   summarise(
     total_respondents = n(),                     # Total number of respondents
     num_voted = sum(voted_in_2022),              # Total number that voted
@@ -396,15 +398,13 @@ interest_data <- interest_data %>%
                                      levels = c("No", "Hardly at all", "Only now and then", "Some of the time", "Most of the time")))
 
 
-plot1 <- ggplot(interest_data, aes(x = political_interest, y = prop_voted, fill = presvote2020)) +
-  geom_bar(stat = "identity", position = "dodge", width = 0.7) +  # Use dodge position for side-by-side bars
- scale_fill_brewer(palette = "Set1") + # Customize colors for Biden and Trump
+plot1 <- ggplot(interest_data, aes(x = political_interest, y = prop_voted)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.7, fill="#7570b3") +  # Use dodge position for side-by-side bars
   coord_flip() +
   labs(
-    title = "2020 Voters with Lower Political Interest Less Likely to Vote in 2022",
+    title = " ",
     x = "Political Interest",
-    y = "% of 2020 Voters who Voted in 2022 Midterms",
-    fill = "2020 Presidential Vote"
+    y = "% of 2020 Voters who Voted in 2022 Midterms"
   ) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +  # Set the scale from 0% to 100%
   theme_minimal() +  # Clean minimal theme
@@ -426,7 +426,7 @@ plot1
 #| fig-cap: There is a nearly 15-point gap in 2022 turnout amongst respondents who voted for Trump or Biden in 2020 and know which party has a majority in the U.S. House of Representatives versus those who do not. 
 
 knowledge_data <- ces2022_analysis_data %>%
-  group_by(know_us_house, presvote2020) %>%
+  group_by(know_us_house) %>%
     summarise(
     total_respondents = n(),                     # Total number of respondents
     num_voted = sum(voted_in_2022),              # Total number that voted
@@ -437,15 +437,15 @@ knowledge_data <- ces2022_analysis_data %>%
     prop_voted = round(num_voted/total_respondents, 2)
   )
 
-ggplot(knowledge_data, aes(x = know_us_house, y = prop_voted, fill = presvote2020)) +
-  geom_bar(stat = "identity", position = "dodge", width = 0.7) +  # Use dodge position for side-by-side bars
- scale_fill_brewer(palette = "Set1") + # Customize colors for Biden and Trump
+ggplot(knowledge_data, aes(x = know_us_house, y = prop_voted)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.5, fill="#7570b3") +  # Use dodge position for side-by-side bars
+ # scale_fill_brewer(palette = "Set1") + # Customize colors for Biden and Trump
   coord_flip() +
   labs(
-    title = "2020 voters with higher civic knowledge more likely to vote in 2022 midterms",
+    title = " ",
     x = "Knows which party controls the House",
-    y = "% of 2020 Voters who Voted in 2022 Midterms",
-    fill = "2020 Presidential Vote"
+    y = "% of 2020 Voters who Voted in 2022 Midterms"
+    # fill = "2020 Presidential Vote"
   ) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +  # Set the scale from 0% to 100%
   theme_minimal() +  # Clean minimal theme
@@ -458,13 +458,35 @@ ggplot(knowledge_data, aes(x = know_us_house, y = prop_voted, fill = presvote202
 
 # Model {#sec-model}
 
-The goal of my modeling strategy is to use logistic regression models to investigate ... I use two logistic regression models: one to model the probability that an individual who voted in the 2020 presidential election would also vote in the 2022 midterm election, and one to model the probability that an individual voter supports Trump.
-
-The goal of my modeling strategy is twofold. Firstly, I want to The goal of our modelling strategy is twofold. Firstly,...
+The goal of my modeling strategy is twofold. I use two logistic regression models: one to model the probability that an individual who voted in the 2020 presidential election would also vote in the 2022 midterm election, and one to model the probability that an individual voter supports Trump.
 
 The model to predict $voted\_in\_2022$ uses the following predictors:
 
+-   `presvote2020`
+
+-   `age_bracket`
+
+-   `educ`
+
+-   `trust`
+
+-   `know_us_house`
+
+-   `political_interest`
+
 The model to predict $voted\_for\_trump$ uses the following predictors:
+
+-   `age_bracket`
+
+-   `gender`
+
+-   `race`
+
+-   `educ`
+
+-   `trust`
+
+-   `know_us_house`
 
 Here, I provide a brief description of how I used logistic regression to predict voter turnout and vote preference, and how my models are set up. Model details and diagnostics can be found in [Appendix -@sec-model-details].
 
@@ -506,9 +528,11 @@ y_i | \pi_i &\sim \mbox{Bern}(\pi_i) \\
 \beta_6 &\sim ~ \mbox{Normal}(0, 2.5) \\
 \end{align*}
 ```
-We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
+The models are run in R [@citeR] using the `rstanarm` package and default priors from `rstanarm` [@rstanarm].
 
 ### Model justification
+
+I used two different logistic regression models to estimate $vote$ and $turnout$
 
 We expect a positive relationship between the size of the wings and time spent aloft. In particular...
 
@@ -903,15 +927,17 @@ In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. Th
 #| fig-cap: "Examining how the model fits, and is affected by, the data"
 #| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
 
-pp_check(turnout_model_2022) +
-  theme_classic() +
-  theme(legend.position = "bottom")
+library(bayesplot)
 
-posterior_vs_prior(turnout_model_2022) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1") +
-  theme(legend.position = "bottom") +
-  coord_flip()
+# pp_check(turnout_model_2022) +
+#   theme_classic() +
+#   theme(legend.position = "bottom")
+# 
+# posterior_vs_prior(turnout_model_2022) +
+#   theme_minimal() +
+#   scale_color_brewer(palette = "Set1") +
+#   theme(legend.position = "bottom") +
+#   coord_flip()
 ```
 
 ## Credibility Intervals
