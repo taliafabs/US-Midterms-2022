@@ -99,13 +99,13 @@ This datasheet answers a set of questions from @gebru2021datasheets about the Co
     -   Voter validation was conducted by matching respondents to TargetSmart votter files [@ces2022], and this information was used to infer whether or not a respondent actually voted in the 2022 midterm election.
 2.  *What mechanisms or procedures were used to collect the data (for example, hardware apparatuses or sensors, manual human curation, software programs, software APIs)? How were these mechanisms or procedures validated?*
     -   The 2022 CES was conducted via an online survey [@cesFAQ].
-    -    The CES/CCES has been conducted via an online survey every year since 2006.
+    -   The CES/CCES has been conducted via an online survey every year since 2006.
 3.  *If the dataset is a sample from a larger set, what was the sampling strategy (for example, deterministic, probabilistic with specific sampling probabilities)?*
     -   The 2022 CES dataset is not a sample from a larger set.
 4.  *Who was involved in the data collection process (for example, students, crowdworkers, contractors) and how were they compensated (for example, how much were crowdworkers paid)?*
     -   60 research teams from different American academic institutions were involved in the data collection process. It is not clear if, or how much each team was paid.
 5.  *Over what timeframe was the data collected? Does this timeframe match the creation timeframe of the data associated with the instances (for example, recent crawl of old news articles)? If not, please describe the timeframe in which the data associated with the instances was created.*
-    -   Responses for the 2022 CES survey were collected in the Fall of 2022 [@ces2022].
+    -   The 2022 CES survey pre-election data was collected from September-November 2022 and the post-election data was collected from September-November 2022 [@ces2022].
 6.  *Were any ethical review processes conducted (for example, by an institutional review board)? If so, please provide a description of these review processes, including the outcomes, as well as a link or other access point to any supporting documentation.*
     -   No
 7.  *Did you collect the data from the individuals in question directly, or obtain it via third parties or other sources (for example, websites)?*
