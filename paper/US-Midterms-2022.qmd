@@ -1,6 +1,6 @@
 ---
-title: "Higher Information and Higher Trust in Government ..."
-subtitle: "My subtitle if needed"
+title: "Education, Hig"
+subtitle: "Logistic Regression Analysis of Voter Behavior"
 author: 
   - Talia Fabregas
 thanks: "Code and data are available at: [https://github.com/taliafabs/US-Midterms-2022.git](https://github.com/taliafabs/US-Midterms-2022.git)."
@@ -37,18 +37,19 @@ ces2022_analysis_data <- read_parquet("data/02-analysis_data/ces2022_analysis_da
 
 Overview paragraph
 
-Estimand paragraph
-This study aims to examine the effects of 2020 presidential vote preference, age, highest level of education completed, trust in the federal government, knowledge of which party holds a majority in Congress, and interest in politics on the likelihood that an individual who voted for Donald Trump or Joe Biden in the 2020 U.S. presidential election would also vote in the 2022 U.S. midterm election. The estimand, which can never be known with complete certainty, is the true effect of presidential vote preference, age, education, trust, civic knowledge, and interest in politics on the likelihood that an individual who voted in a presidential election will also vote in the subsequent midterm election [@tswd] .
+This study aims to estimate how race, gender, education, trust in the federal government, civic engagement, and interest in politics impact voting behavior. The first thing that this study will examine is the effects of age, gender, race, education, trust in the federal government, civic knowledge, and civic engagement on the probabiliry that an individual supports Trump. The second thing that this study will examine is the effects of past presidential vote choice, age, highest level of education completed, trust in the federal government, knowledge of which party holds a majority in Congress, and interest in politics on the probability that an individual who voted for Donald Trump or Joe Biden in the 2020 U.S. presidential election would also vote in the 2022 U.S. midterm election. The estimands, which can never be known with complete certainty, include:
 
+-   The true effects of age, gender, race, education, trust in the federal government, knowledge of which party has a majority in the U.S. House, and interest in politics on the likelihood that an individual supports Trump.
+
+-   The true effects of presidential vote preference, age, education, trust, civic knowledge, and interest in politics on the likelihood that an individual who voted in a presidential election will also vote in the subsequent midterm election [@tswd] .
 
 Results paragraph
-Based on the results of applying logistic regression models to predict voter turnout and vote preference, I estimate that ...
 
-Why it matters paragraph
-In the 2024 election, Democratic Senate candidates (both incumbent and non-incumbent) were elected in states that President-Elect Trump carried: Michigan, Wisconsin, Nevada, and Arizona. In Nevada and Wisconsin, Senators Jackie Rosen and Tammy Baldwin
+Based on the results of applying logistic regression models to predict voter turnout and vote preference, I estimate that
 
-Telegraphing paragraph: 
-The remainder of this paper is structured as follows. @sec-data contains an overview of the survey data set from @ces2022 that was used, visualizations of different variables, and summary statistics. @sec-model contains the logistic regression models used to predict the probability that an individual who voted for either Trump or Biden in the 2020 presidential election would also vote in the 2022 midterm election and the probability that an individual would support Trump over Biden in 2020. @sec-results contains tables and data visualizations that present results about what characteristics made individuals who voted in the 2020 presidential election more likely to also vote in the 2022 midterm election and what characteristics make individuals more likely to support Trump. @sec-discussion contains detailed discussiona about the results presented in @sec-results ...
+Why it matters paragraph In the 2024 election, Democratic Senate candidates (both incumbent and non-incumbent) were elected in states that President-Elect Trump carried: Michigan, Wisconsin, Nevada, and Arizona. In Nevada and Wisconsin, Senators Jackie Rosen and Tammy Baldwin
+
+The remainder of this paper is structured as follows. @sec-data contains an overview of the survey data set from @ces2022 that was used, visualizations of different variables, and summary statistics. @sec-model contains the logistic regression models used to predict the probability that an individual who voted for either Trump or Biden in the 2020 presidential election would also vote in the 2022 midterm election and the probability that an individual would support Trump over Biden in 2020. @sec-results contains tables and data visualizations that present results about what characteristics made individuals who voted in the 2020 presidential election more likely to also vote in the 2022 midterm election and what characteristics make individuals more likely to support Trump. @sec-discussion contains detailed a detailed discussion about the results presented in @sec-results, including demographics where support for Trump is strong, why some 2020 presidential election voters were more likely than others to vote in the 2022 midterm election, and how the 2016, 2020, and 2024 polling misses can be explained by low civic engagement and distrust in government among Trump voters. [Appendix - \@sec-surveys] contains a deep-dive into CES survey methodology.
 
 # Data {#sec-data}
 
@@ -56,25 +57,84 @@ The remainder of this paper is structured as follows. @sec-data contains an over
 
 The survey data set from @ces2022 contains ...
 
-We use the statistical programming language R [@citeR].... Our data [@ces2022].... Following @tswd, we consider...
+I cleaned the data set to include only individuals who
 
-Overview text
+We use the statistical programming language R [@citeR].... Our data [@ces2022].... Following @tswd, we consider...
 
 ## Measurement
 
-The primary measurement task is to capture voter characteristics and translate it into conclusions and predictions about voting behavior in U.S. presidential, senate, and congressional elections. During every midterm and presidential election cycle, teams of pollsters work together to conduct surveys that measure public opinion, voter demographics, and candidate preferences. Each survey response is an individual voter's preferences, which pollsters collect to build the Comprehensive Election Study (CES) dataset for each election cycle.
+The primary measurement task is to capture how Americans view their representatives, how they hold the different levels of government to account during elections, how they voted, their electoral experiences, and how voting behavior and experiences vary across different regions, demographics, and social contexts [@ces2022]. Surveys are a widely-used instrument for measuring public opinion during election cycles [@tswd]. During U.S. presidential and midterm election cycles, pollsters and researchers conduct surveys that measure candidate preferences, public opinion, and how Americans’ diverse geography, demographics, and experiences impact them. Researchers often use these measurements to predict election outcomes, analyze election outcomes, and analyze which factors predict voting behavior and vote preference.
+
+The Cooperative Election Study (CES) survey data set that I used is a collection of 60,000 responses from a nationally-representative sample of American adults. Each entry represents the political preferences, voting intentions, ideological leanings, demographics, issue evaluations, and past voting decisions of one respondent. The CES survey has been conducted every year since 2006 [@ces2022]. In presidential and midterm election years, it consists of a pre-election wave and a post-election wave. The pre-election wave aims to measure the opinions, vote preferences, vote intentions of the American public, and demographics [@ces2022]. The post-election wave aims to measure how different factors, including geography, demographics, issue-evaluations, and the state of the economy influenced Americans’ decisions about who to vote for or whether to vote at all in the recent election [@ces2022].
+
+The transformation of an individual American adult's opinion to an entry in the CES 2022 data set follows three steps, as outlined by @ces2022:
+
+1.  **Survey:** selected voters from a nationally representative sample respond to a Common Content survey.
+2.  **Adjustment:** survey responses are weighted to adjust for any imbalances that exist in the sample.
+3.  **Reporting:** the weighted survey results are recorded as entries in the data set. The data set then serves as a snapshot of American public opinion in the weeks leading up to and shortly after the midterm election.
 
 ## Outcome variables
 
-Add graphs, tables and text. Use sub-sub-headings for each outcome variable or update the subheading to be singular.
+Firstly, I will use age, gender, race, highest level of education completed, trust in the government, and knowledge of which party controls the U.S. House of Representatives to predict whether an individual supports Donald Trump.
 
-Some of our data is of penguins (@fig-fig1), from ...
+Then, I will use 2020 presidential vote, age, highest level of education completed, trust in the government, knowledge of which party holds a majority in the U.S. House of Representatives, and interest in politics to predict whether someone who did vote for either Donald Trump or Joe Biden in the 2020 presidential election would also vote in the 2022 midterm election, or more generally, in an election where neither Trump nor Biden was on the ballot.
 
-## Predictor variables
+It is possible that variables that predict support for Trump can also be used to predict turnout in the 2022 midterm election. Support for Trump is high among voters who are male, do not have a college education, do not trust the government, and have low civic engagement. These factors make them less likely to respond to a survey, and it is possible that these factors also make them less likely to vote in a midterm election where Trump is not on the ballot.
 
-Add graphs, tables and text.
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| eval: true
+#| label: tbl-respondentvotepreference
+#| tbl-cap: Biden voters are overrepresented in the CES 2022 survey data set.
 
-Use sub-sub-headings for each outcome variable and feel free to combine a few into one if they go together naturally.
+respondent_vote_2020 <- ces2022_analysis_data %>%
+  group_by(presvote2020) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  mutate(`%` = round(n / sum(n) * 100, 2),
+         `2020 Vote` = presvote2020,
+         `Num respondents` = n) # Calculate percentages
+
+respondent_vote_2020 <- respondent_vote_2020 |>
+  select(`2020 Vote`, `Num respondents`, `%`)
+
+kable(respondent_vote_2020)
+```
+
+The 2020 presidential election had record-setting turnout [@Grant2023]. @Hartig2023 found that midterm elections typically have lower turnout than the preceding presidential election and the responses to the 2022 CES survey are consistent with that. Just under 30% of 2022 CES respondents who did vote in the 2020 presidential election did not vote in the 2022 midterm election.
+
+```{r}
+#| echo: false
+#| message: false
+#| warninig: false
+#| eval: true
+#| label: tbl-respondentturnout
+#| tbl-cap: 70.64% of respondents who voted in the 2020 presidential election also voted in the 2022 midterm election
+
+library(dplyr)
+library(knitr)
+
+# Summarize voting data for 2022
+voting_2022_summary <- ces2022_analysis_data %>%
+  group_by(voted_in_2022) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  mutate(
+    voted_status = ifelse(voted_in_2022 == 1, "Voted in 2022", "Did Not Vote in 2022"),
+    percentage = round(n / sum(n) * 100,2)
+  ) %>%
+  select(voted_status, n, percentage) %>%
+  mutate(`Voting Status` = voted_status,
+         `Num respondents` = n,
+         `%` = percentage) %>%
+  select(`Voting Status`, `Num respondents`, `%`)
+
+# Create the kable table
+kable(voting_2022_summary)
+
+
+
+```
 
 ```{r}
 #| echo: false
@@ -84,11 +144,37 @@ Use sub-sub-headings for each outcome variable and feel free to combine a few in
 #| label: tbl-table1
 #| tbl-cap: Biden 2020 Voters Voted in 2022 midterms slightly more than Trump 2020 voters. 73.26% of respondents who voted for Trump in 2020 voted in 2022, compared to 74.67% of respondents who voted for Biden.
 
-# turnout_by_preference <- ces2022_analysis_data %>%
-#   group_by(gender, age_bracket, educ, trust_state, know) 
+library(dplyr)
+library(knitr)
 
-# kable(turnout_by_preference)
+# Summarize 2020 voters who voted in 2022
+vote_2020_in_2022 <- ces2022_analysis_data %>%
+  filter(presvote2020 %in% c("Donald Trump", "Joe Biden")) %>% # Filter for Trump and Biden voters
+  group_by(presvote2020, voted_in_2022) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  group_by(presvote2020) %>% # Group by 2020 vote choice
+  mutate(
+    total_voters = sum(n),                  # Total voters for each 2020 candidate
+    percentage = (n / total_voters) * 100  # Percentage within each group
+  ) %>%
+  ungroup()
+
+# Format and display the table
+vote_2020_in_2022 <- vote_2020_in_2022 %>%
+  mutate(voted_status = ifelse(voted_in_2022 == 1, "Voted", "Did Not Vote")) %>%
+  select(presvote2020, voted_status, n, percentage)
+
+kable(vote_2020_in_2022)
+
 ```
+
+## Predictor variables
+
+The tables and visualizations below present possible relationships between predictor variables and either support for Trump or voting in the 2022 midterm election.
+
+### Race and gender
+
+In the 2024 U.S. presidential election, there were gender and racial gaps in support for Trump, with more women supporting Vice President Harris and more men supporting Trump. Since 2016, a higher percentage of white voters than voters of color has supported Trump, but in the 2024 presidential election, Trump increased his vote share among voters of color, especially Hispanic voters and black men. As shown in @tbl-table1, white male survey respondents were more likely to support Trump, while black female respondents favored Biden in 2020. The gender gap in support for Trump is also shown, with white men more likely to support Trump than white women in the 2022 CES survey [@ces2022]. Support for Trump varies by race and gender, but these are not the only variables that predict vote preference.
 
 ```{r}
 #| echo: false
@@ -105,7 +191,7 @@ ces2022_race |>
   facet_wrap(facets = vars(gender)) +
   theme_minimal() +
   labs(
-    title = "White Voters Were More Likely to Support Trump in 2020",
+    title = "White respondents were more likely to support Trump in 2020",
     x = "Race",
     y = "Number of respondents",
     fill = "2020 presidential vote"
@@ -115,77 +201,7 @@ ces2022_race |>
   theme(legend.position = "bottom")
 ```
 
-```{r}
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-
-ces2022 <-  ces2022_analysis_data |>
-  filter(gender == "Male" | gender == "Female") |>
-  mutate(educ = factor(educ, levels=c("No HS", "High school graduate", "Some college", "2-year college degree",
-                                      "4-year college degree", "Post-grad")))
-
-ces2022 |>
-  ggplot(aes(x = educ, fill = presvote2020)) +
-  stat_count(position = "dodge") +
-  facet_wrap(facets = vars(gender)) +
-  theme_minimal() +
-  labs(
-    title = "College-Educated Voters are Less Likely to Support Trump",
-    x = "Highest education",
-    y = "Number of respondents",
-    fill = "2020 presidential vote"
-  ) +
-  coord_flip() +
-  scale_fill_brewer(palette = "Set1") +
-  theme(legend.position = "bottom")
-```
-
-```{r}
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-trust_data <- ces2022_analysis_data %>%
-  group_by(know_us_house) %>%
-  summarise(
-    total_respondents = n(),                     # Total number of respondents
-    num_voted = sum(voted_in_2022),              # Total number that voted
-    .groups = "drop"                             # Ensure the result is ungrouped
-  ) %>%
-  mutate(
-    pct_voted = round(100*(num_voted/total_respondents),2),
-    prop_voted = round(num_voted/total_respondents, 2)
-  )
-
-# Trust among Trump and Biden voters
-trust_data_by_candidate <- ces2022_analysis_data %>%
-  group_by(trustfed, presvote2020) %>%
-  summarise(
-    total_respondents = n(),                    
-    .groups = "drop"                            
-  ) 
-
-trust_data_by_candidate$trustfed <- factor(trust_data_by_candidate$trustfed, 
-                                           levels = rev(c("A great deal", "A fair amount", "Not very much", "None at all")))
-
-ggplot(trust_data_by_candidate, aes(x = trustfed, y = total_respondents, fill = presvote2020)) +
-  geom_bar(stat = "identity", position = "dodge") +   # Position bars side by side
-  labs(
-    title = "Trump Voters are Less Likely to Trust Government",
-    x = "Trust in Federal Government",
-    y = "Total Number of Respondents",
-    fill = "2020 Presidential Vote"
-  ) +
- scale_fill_brewer(palette = "Set1") + 
-  theme_minimal() +
-  theme(
-    legend.position = "right",          # Position legend on top
-    axis.text.x = element_text(angle = 45, hjust = 1)  # Rotate x-axis text for readability
-  ) +
-  coord_flip()
-```
+### Age
 
 ```{r}
 #| label: fig-fig1
@@ -193,47 +209,7 @@ ggplot(trust_data_by_candidate, aes(x = trustfed, y = total_respondents, fill = 
 #| echo: false
 #| warning: false
 #| message: false
-
-# graph the percentage of 2020 voters who also voted in 2022
-# age_data <- ces2022_analysis_data %>%
-#   group_by(age_bracket, presvote2020) %>%
-#   num_voted = (sum(voted_in_2022))
-  # summarise(n = sum(voted_in_2022)) %>%
-  # mutate(turnout = n / sum(n))
-
-# age_data <- ces2022_analysis_data %>%
-#   group_by(age_bracket, presvote2020) %>%
-#   summarise(
-#     total_respondents = n(),                     # Total number of respondents
-#     num_voted = sum(voted_in_2022),              # Total number that voted
-#     .groups = "drop"                             # Ensure the result is ungrouped
-#   ) %>%
-#   mutate(
-#     pct_voted = round(100*(num_voted/total_respondents),2)
-#   )
-# 
-# 
-# ggplot(age_data, aes(x = age_bracket, fill = presvote2020)) +
-#   geom_bar(aes(y = total_respondents, group = presvote2020), 
-#            stat = "identity", position = "dodge", alpha = 0.5) +
-#   geom_bar(aes(y = num_voted, group = presvote2020), 
-#            stat = "identity", position = "dodge",  alpha = 1) +
-#   # scale_fill_manual(values = c("Joe Biden" = "blue", "Donald Trump" = "red")) +
-#   scale_fill_brewer(palette = "Set1") +
-#   labs(
-#     title = "Lower Turnout Across All Age Brackets and Vote Preferences in 2022",
-#     x = "Age Bracket",
-#     y = "Number of Respondents",
-#     fill = "2020 Vote"
-#   ) +
-#   coord_flip() +
-#   theme_minimal() +
-#   theme(
-#     legend.position = "top",
-#     axis.text.x = element_text(angle = 45, hjust = 1)
-#   )
-
-# Graph the percentage of 2020 voters who also voted in 2022
+#| eval: true
 
 age_data <- ces2022_analysis_data %>%
   group_by(age_bracket, presvote2020) %>%
@@ -268,7 +244,7 @@ ggplot(age_data, aes(x = age_bracket, fill = presvote2020)) +
            stat = "identity", position = "dodge",  alpha = 1) +  # Higher alpha for voters
     scale_fill_brewer(palette = "Set1") +
   labs(
-    title = "Lower Turnout Across All Age Brackets and Vote Preferences in 2022 than 2020",
+    title = "Lower turnout in 2022 midterm elections across all age brackets compared to 2020",
     x = "Age Bracket",
     y = "Number of Respondents"
   ) +
@@ -284,13 +260,117 @@ ggplot(age_data, aes(x = age_bracket, fill = presvote2020)) +
     name = "Voter Turnout",
     labels = c("Did Not Vote in 2022", "Voted in 2022")
   )
+
 ```
+
+### Education
+
+Education gap in American politics.
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| eval: true
+#| label: fig-educationgap
+#| fig-cap: College-educated respondents were less likely to support Trump in 2020
+
+
+ces2022 <-  ces2022_analysis_data |>
+  filter(gender == "Male" | gender == "Female") |>
+  mutate(educ = factor(educ, levels=c("No HS", "High school graduate", "Some college", "2-year college degree",
+                                      "4-year college degree", "Post-grad")))
+
+ces2022 |>
+  ggplot(aes(x = educ, fill = presvote2020)) +
+  stat_count(position = "dodge") +
+  facet_wrap(facets = vars(gender)) +
+  theme_minimal() +
+  labs(
+    title = "",
+    x = "Highest education",
+    y = "Number of respondents",
+    fill = "2020 presidential vote"
+  ) +
+  coord_flip() +
+  scale_fill_brewer(palette = "Set1") +
+  theme(legend.position = "bottom",
+        plot.title = element_text(size = 12))
+```
+
+Race, gender, highest level of education, income, and religion are widely used when predicting political preference. In 2016, 2020, and 2024, pre-election polls and predictive models underestimated support for Trump.
+
+### Civic engagement and trust in government
+
+Midterm elections typically have lower turnout than presidential elections. But the drop in turnout between the 2020 presidential election and the 2022 midterm election was not distributed equally across all demographics.
+
+The CES 2022 survey does not contain an explicit question about civic engagement and there is no direct way to determine who is a low-propensity or low-information voter. I have used the following variables to measure civic engagement and trust in government:
+
+-   `trustfed`: response to the question about how much they trust the federal government)
+
+-    `newsint`: response to survey question about interest in politics
+
+-   `CC22_310b`: response to survey question asking which party has a majority in the U.S. House of Representatives.
+
+As shown in @fig-distrustfulmaga, survey respondents with less trust in the government favored Trump in 2020.
 
 ```{r}
 #| echo: false
 #| eval: true
 #| warning: false
 #| message: false
+#| label: fig-distrustfulmaga
+#| fig-cap: Voters with less trust in the government favored Trump in 2020, while voters with more trust favored Biden in 2020. The bars show the number of respodents with each level of trust in government who voted for Trump and Biden in 2020.
+
+trust_data <- ces2022_analysis_data %>%
+  group_by(know_us_house) %>%
+  summarise(
+    total_respondents = n(),                     # Total number of respondents
+    num_voted = sum(voted_in_2022),              # Total number that voted
+    .groups = "drop"                             # Ensure the result is ungrouped
+  ) %>%
+  mutate(
+    pct_voted = round(100*(num_voted/total_respondents),2),
+    prop_voted = round(num_voted/total_respondents, 2)
+  )
+
+# Trust among Trump and Biden voters
+trust_data_by_candidate <- ces2022_analysis_data %>%
+  group_by(trustfed, presvote2020) %>%
+  summarise(
+    total_respondents = n(),                    
+    .groups = "drop"                            
+  ) 
+
+trust_data_by_candidate$trustfed <- factor(trust_data_by_candidate$trustfed, 
+                                           levels = rev(c("A great deal", "A fair amount", "Not very much", "None at all")))
+
+ggplot(trust_data_by_candidate, aes(x = trustfed, y = total_respondents, fill = presvote2020)) +
+  geom_bar(stat = "identity", position = "dodge") +   # Position bars side by side
+  labs(
+    title = "Trust in government is lower among Trump voters",
+    x = "Trust in Federal Government",
+    y = "Total Number of Respondents",
+    fill = "2020 Presidential Vote"
+  ) +
+ scale_fill_brewer(palette = "Set1") + 
+  theme_minimal() +
+  theme(
+    legend.position = "right",          # Position legend on top
+    axis.text.x = element_text(angle = 45, hjust = 1)  # Rotate x-axis text for readability
+  ) +
+  coord_flip()
+```
+
+As shown in @fig-interestpolitics and @fig-civicknowledge, respondents who voted in 2020, have at least some interest in politics, and knew which party held a majority in the U.S. House of Representatives turned out to vote at a higher rate in the 2022 midterm election compared to respondents who do not.
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| fig-cap: Respondents with low interest in politics who voted in the 2020 presidential election were less likely to vote in the 2022 midterm election.
+#| label: fig-interestpolitics
 
 # trust in the federal government
 interest_data <- ces2022_analysis_data %>%
@@ -310,7 +390,7 @@ interest_data <- interest_data %>%
                                      levels = c("No", "Hardly at all", "Only now and then", "Some of the time", "Most of the time")))
 
 
-ggplot(interest_data, aes(x = political_interest, y = prop_voted, fill = presvote2020)) +
+plot1 <- ggplot(interest_data, aes(x = political_interest, y = prop_voted, fill = presvote2020)) +
   geom_bar(stat = "identity", position = "dodge", width = 0.7) +  # Use dodge position for side-by-side bars
  scale_fill_brewer(palette = "Set1") + # Customize colors for Biden and Trump
   coord_flip() +
@@ -327,7 +407,10 @@ ggplot(interest_data, aes(x = political_interest, y = prop_voted, fill = presvot
     axis.text.x = element_text(angle = 45, hjust = 1, size=9),  # Rotate x-axis labels for better readability
     plot.title = element_text(size = 10)  # Adjust the title font size
   )
+
+plot1
 ```
+
 ```{r}
 #| echo: false
 #| eval: true
@@ -367,11 +450,9 @@ ggplot(knowledge_data, aes(x = know_us_house, y = prop_voted, fill = presvote202
   )
 ```
 
-
-
 # Model {#sec-model}
-The goal of my modeling strategy is to use logistic regression models to investigate ...
-I use two logistic regression models: one to model the probability that an individual who voted in the 2020 presidential election would also vote in the 2022 midterm election, and one to model the probability that an individual voter supports Trump.
+
+The goal of my modeling strategy is to use logistic regression models to investigate ... I use two logistic regression models: one to model the probability that an individual who voted in the 2020 presidential election would also vote in the 2022 midterm election, and one to model the probability that an individual voter supports Trump.
 
 The goal of my modeling strategy is twofold. Firstly, I want to The goal of our modelling strategy is twofold. Firstly,...
 
@@ -379,16 +460,16 @@ The model to predict $voted\_in\_2022$ uses the following predictors:
 
 The model to predict $voted\_for\_trump$ uses the following predictors:
 
-Here we briefly describe the Bayesian analysis model used to investigate... Background details and diagnostics are included in [Appendix -@sec-model-details].
+Here, I provide a brief description of how I used logistic regression to predict voter turnout and vote preference, and how my models are set up. Model details and diagnostics can be found in [Appendix -@sec-model-details].
 
 ## Model set-up
 
-### Turnout model
 Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.
 
 Models the probability that someone who voted for either Trump or Biden in 2020 also voted in the 2022 mid-term elections.
 
 Define $\pi_i$ as the probability that survey respondent $i$ voted in the 2022 midterm election
+
 ```{=tex}
 \begin{align*} 
 y_i | \pi_i &\sim \mbox{Bern}(\pi_i) \\
@@ -403,8 +484,8 @@ y_i | \pi_i &\sim \mbox{Bern}(\pi_i) \\
 \beta_6 &\sim ~ \mbox{Normal}(0, 2.5) \\
 \end{align*}
 ```
-
 Models the probability that a respondent voted for Trump in 2020:
+
 ```{=tex}
 \begin{align*} 
 y_i | \pi_i &\sim \mbox{Bern}(\pi_i) \\
@@ -425,15 +506,17 @@ We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use
 
 We expect a positive relationship between the size of the wings and time spent aloft. In particular...
 
-We can use maths by including latex between dollar signs, for instance $\theta$.
-Confounders have not been eliminated - 
+We can use maths by including latex between dollar signs, for instance $\theta$. Confounders have not been eliminated -
 
 I found that trust in the federal government is related to both support for Trump and likelihood that someone who voted in 2020 also voted in 2022. education same thing.
 
-## Model Weaknesses and Limitations
+## Model Weaknesses and Limitations {#sec-model-weaknesses}
 
-Trained using a random subset of the data. Refer to codebook about the risks of that.
-I randomly sampled 5,000 observations from the 2022 CES survey data set. This was a tradeoff; training a model on more observations would have had a significantly longer runtime. However, randomly subsetting the 2022 CES survey data set is risky because ...
+The models were trained using a random subset of the 2022 CES survey data set. My analysis data set (after data cleaning) contained 41,968 observations. I took a random subset of 5000 observations to train my models. This was a trade-off because
+
+@ces2022 warn that using a small sub sample of the CES survey data to train a model because measurement error can lead to flawed inferences. The CES is a large survey and as a whole, it provides a sufficient number of observations to analyze small sub-populations [@ces2022].
+
+Trained using a random subset of the data. Refer to codebook about the risks of that. I randomly sampled 5,000 observations from the 2022 CES survey data set. This was a tradeoff; training a model on more observations would have had a significantly longer runtime. However, randomly subsetting the 2022 CES survey data set is risky because ...
 
 # Results {#sec-resuls}
 
@@ -490,6 +573,8 @@ turnout_model_results_young_men <- new_voter_data %>%
   filter(gender == "Male" & age_bracket == "18-29")
 ```
 
+## Voting blocs that favored Trump
+
 ```{r}
 #| echo: false
 #| message: false
@@ -509,18 +594,21 @@ new_preference_data <- new_preference_data|>
   select(trump_prob, voted_for_trump, presvote2020, age_bracket, gender, 
                               race, educ, trustfed, know_us_house)
 
-preference_results <- new_preference_data %>%
-  group_by(age_bracket, gender, race, educ, trustfed, know_us_house) %>%
-  summarise(trump_estimate = mean(trump_prob),
-            trump_actual = mean(voted_for_trump))
+# preference_results <- new_preference_data %>%
+#   group_by(age_bracket, gender, race, educ, trustfed, know_us_house) %>%
+#   summarise(trump_estimate = mean(trump_prob),
+#             trump_actual = mean(voted_for_trump))
 ```
 
-## Trump support amongst young men
+### Trump support among young men
+
 ```{r}
 #| echo: false
 #| eval: true
 #| message: false
 #| warning: false
+#| fig-label: fig-trumpyoungmen1
+#| fig-cap: The majority of men ages 18-29 without a college education support Trump. The blue bars show the estimated % of young men with at each level of education that are Biden/Harris/Democratic supporters and the red bars show the % of young men at each level of education that support Trump. 
 
 trump_young_men <- new_preference_data |>
   filter(gender == "Male" & age_bracket == "18-29")
@@ -530,7 +618,10 @@ turnout_young_men <- new_voter_data |>
 
 # Calculate proportions
 trump_young_men <- trump_young_men |>
-  mutate(predicted_vote_choice = if_else(trump_prob >= 0.5, "Trump", "Biden")) |>
+    mutate(educ = factor(educ, levels=c("No HS", "High school graduate", "Some college", 
+                                        "2-year college degree",
+                                      "4-year college degree", "Post-grad"))) |>
+  mutate(predicted_vote_choice = if_else(trump_prob < 0.2, "Joe Biden/Kamala Harris", "Donald Trump")) |>
   group_by(educ, predicted_vote_choice) |>
   summarise(count = n(), .groups = "drop") |>
   group_by(educ) |>
@@ -543,39 +634,105 @@ trump_young_men |>
   theme_minimal() +
   labs(
     x = "Highest education",
-    y = "Estimated % of voters",
-    fill = "Voted for"
+    y = "Estimated % of men ages 18-29",
+    fill = "Preferred presidential candidate"
   ) +
   coord_flip() +
   scale_fill_brewer(palette = "Set1") +
   theme(legend.position = "bottom")
 ```
 
-## Low Propensity Trump Voters are Less Likely to Vote in Midterms
-This result foreshadowed the fact that young men, especially those without a college degree who are infrequent voters, would become a key part of Trump's winning coalition in 2024.
 ```{r}
-# young men who voted for trump, no college education, low trust, do not know us house
-young_men_lp <- turnout_young_men %>%
-  filter(presvote2020 == "Donald Trump" &
-           (educ == "High school graduate" | educ == "No HS" | educ == "Some college") &
-           (trustfed == "None at all" | trustfed == "Not very much") &
-           know_us_house == "No"
-         )
+#| echo: false
+#| eval: true
+#| message: false
+#| warning: false
+#| label: tbl-trumpyoungmen1
+#| tbl-cap: The majority of white, hispanic, asian, and multiracial men ages 18-29 support Trump based on model estimates. The red bars
+# Calculate proportions
+trump_young_men_race <- new_preference_data |>
+  filter(gender == "Male" & age_bracket == "18-29") |>
+  mutate(predicted_vote_choice = if_else(trump_prob < 0.5, "Joe Biden/Kamala Harris", "Donald Trump")) |>
+  group_by(race, predicted_vote_choice) |>
+  summarise(count = n(), .groups = "drop") |>
+  group_by(race) |>
+  mutate(percentage = count / sum(count) * 100) |>
+  filter(race != "Other")
 
-young_men_lp_trump <- new_preference_data |>
-  filter(gender == "Male" & age_bracket == "18-29") %>%
+# Create the plot with percentages
+trump_young_men_race |> 
+  ggplot(aes(x = race, y = percentage, fill = predicted_vote_choice)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(
+    x = "Race",
+    y = "Estimated % of men ages 18-29",
+    fill = "Preferred presidential candidate"
+  ) +
+  coord_flip() +
+  scale_fill_brewer(palette = "Set1") +
+  theme(legend.position = "bottom")
+```
+
+## 2022 midterm election turnout
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| label: tbl-midtermelectionturnout1
+#| tbl-cap: Overall, Trump 2020 voters were more likely than Biden 2020 voters to vote in the 2022 midterm election based on model estimates.
+
+biden_turnout_2022 <- new_voter_data |>
+  filter(presvote2020 == "Joe Biden")
+
+trump_turnout_2022 <- new_voter_data |>
+  filter(presvote2020 == "Donald Trump")
+
+turnout_estimates <- tibble(
+  # `All 2020 voters` = round(100*mean(new_voter_data$predicted_prob),2),
+  `Biden 2020 voters` = round(100*mean(biden_turnout_2022$predicted_prob),2),
+  `Trump 2020 voters` = round(100*mean(trump_turnout_2022$predicted_prob),2)
+)
+
+
+kable(turnout_estimates)
+
+```
+
+### Voters with low interest in politics and low civic engagement are less likely to vote in midterm elections
+
+### Low propensity voters that favored Trump in 2020 were less likely to vote in 2022
+
+This result foreshadowed the fact that young men, especially those without a college degree who are infrequent voters, would become a key part of Trump's winning coalition in 2024.
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| label: tbl-lpturnout
+#| tbl-cap: Based on model estimates, 2020 presidential election voters with no college education, low trust in government, and low civic engagement/knowledge were likely to support Trump but less likely than the average 2020 voter to also vote in the 2022 midterm election. 
+
+lp_turnout <- new_voter_data |>
     filter( (educ == "High school graduate" | educ == "No HS" | educ == "Some college") &
            (trustfed == "None at all" | trustfed == "Not very much") &
            know_us_house == "No"
          )
 
+lp_trump <- new_preference_data |>
+    filter( (educ == "High school graduate" | educ == "No HS" | educ == "Some college") &
+           (trustfed == "None at all" | trustfed == "Not very much") &
+           know_us_house == "No"
+         )
+lp_table <- tibble(
+  `Estimated Trump %` = round(mean(lp_trump$trump_prob)*100,2),
+  `Estimated 2022 turnout % among low propensity 2020 voters` = round(mean(lp_turnout$predicted_prob)*100, 2)
+)
+kable(lp_table)
+
 ```
-
-## Voters with Little Interest in Politics are Less Likely to Vote in Midterms
-
-## College Education is Associated with Higher Support for the Democratic Party and Higher Likelihood to Vote in Midterms
-
-## Young men are more likely to support Trump and less likely to vote when he is not on the ballot
 
 # Discussion
 
@@ -583,12 +740,13 @@ young_men_lp_trump <- new_preference_data |>
 
 If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this.
 
-## Second discussion point
+## Overlapping predictors for Trump support and not voting in an election where he is not on the ballot
 
 Please don't use these as sub-heading labels - change them to be what your point actually is.
 
-## Polling Misses and Trump's Unique Appeal to Low Propensity Voters
-Young men who are not college-educated, do not know which party controls the U.S. House of Representatives, 
+## Polling misses and Trump's unique appeal to infrequent, low-propensity voters
+
+Young men who are not college-educated, do not know which party controls the U.S. House of Representatives,
 
 ## 2024 Polling Misses and Non-Response Bias
 
@@ -602,13 +760,76 @@ Weaknesses and next steps should also be included.
 
 # Appendix {.unnumbered}
 
-# Surveys, Sampling, and Observational Data
+# Surveys, Sampling, and Observational Data {#sec-surveys}
 
 ## Deep Dive into CES Methodology
 
 ### Sampling Method
 
 ### Weighting
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| label: tbl-educweighting
+#| tbl-cap: Respondents without a college education were given more weight because they are less likely to respond to a survey.
+
+weighting_data_education <- ces2022_analysis_data %>%
+  mutate(`Highest Education Completed` = factor(educ, levels = c("No HS",
+    "High school graduate",
+    "Some college",
+    "2-year college degree",
+    "4-year college degree",
+    "Post-grad"))) %>%
+  group_by(`Highest Education Completed`) %>%
+  summarize(`Average weight` = mean(commonpostweight, na.rm = TRUE),
+            .groups = "drop")
+
+kable(weighting_data_education)
+```
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| label: tbl-trumpvoterweighting
+#| tbl-cap: Respondents who voted for Trump in 2020 were given more weight. 
+
+weighting_data_trump <- ces2022_analysis_data %>%
+  group_by(presvote2020) %>%
+  summarize(`Average weight` = mean(commonpostweight, na.rm = TRUE),
+            .groups = "drop") %>%
+  mutate(`2020 presidential vote` = presvote2020) %>%
+  select(`2020 presidential vote`, `Average weight`)
+
+kable(weighting_data_trump)
+```
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| label: tbl-trustweighting
+#| tbl-cap: Respondents had less trust in government were given more weight because they are less likely to respond to a survey. 
+
+weighting_data_trust <- ces2022_analysis_data %>%
+    mutate(`Trust in government` = factor(trustfed, levels = c("None at all",
+    "Not very much",
+    "A fair amount",
+    "A great deal"))) %>%
+  group_by(`Trust in government`) %>%
+  summarize(`Average weight` = mean(commonpostweight, na.rm = TRUE),
+            .groups = "drop") %>%
+  # mutate(`Trust in government` = trustfed) %>%
+  select(`Trust in government`, `Average weight`)
+
+kable(weighting_data_trust)
+
+```
 
 ### Verification
 
@@ -621,6 +842,14 @@ Weaknesses and next steps should also be included.
 # Additional data details
 
 ## Data cleaning
+
+## Identifying non-voters in the 2022 midterm election
+
+I identified 2022 non-voters as respondents who
+
+One strength of this approach is that it does not assume that every respondent who was not matched to a TargetSmart or YouGov voting record is a non-voter. It is possible for ...
+
+One trade off of this vote validation approach is its vulnerability to social desirability bias.
 
 # Model details {#sec-model-details}
 
@@ -645,6 +874,7 @@ modelsummary::modelsummary(
 ) %>%
   kableExtra::kable_styling(font_size = 11)
 ```
+
 @tbl-modelsummary makes
 
 ## Posterior predictive check
