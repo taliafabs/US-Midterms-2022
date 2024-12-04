@@ -611,14 +611,14 @@ new_preference_data <- new_preference_data|>
 
 ### Young men
 
-As shown in @fig-trumpyoungmen1 and @trump-youngmen2, one of Trump's strongest voter demographics is men between the ages of 18 and 29. The majority of men in this age group, across most races and education levels support Trump. One of his strongest voter blocks is young men without a college education. Based on my model estimates, nearly two-thirds of men between the ages of 18 and 29 without a college education support Trump.
+As shown in @fig-trumpyoungmen1 and @fig-trumpyoungmen2, one of Trump's strongest voter demographics is men between the ages of 18 and 29. The majority of men in this age group, across most races and education levels support Trump. One of his strongest voter blocks is young men without a college education. Based on my model estimates, nearly two-thirds of men between the ages of 18 and 29 without a college education support Trump.
 
 ```{r}
 #| echo: false
 #| eval: true
 #| message: false
 #| warning: false
-#| fig-label: fig-trumpyoungmen1
+#| label: fig-trumpyoungmen1
 #| fig-cap: The majority of men ages 18-29 without a 4-year college degree support Trump, based on model estimates. The blue bars show the estimated % of young men with at each level of education that are Biden/Harris/Democratic supporters and the red bars show the % of young men at each level of education that support Trump. 
 
 trump_young_men <- new_preference_data |>
@@ -842,17 +842,27 @@ kable(lp_table)
 
 In @sec-results, I found across most races and education levels, a majority of men between the ages of 18 and 29 support Trump.
 
+## Under-representation of Trump voters in the 2022 CES survey dataset
+
+The 2022 CES survey dataset from @ces2022 contains nearly one-third more Biden 2020 voters than Trump 2020 voters. This
+
 ## Polling misses and the "Trump only" voter {#sec-first-point}
 
-In @sec-results, I found that voters with no college education, low or no trust in the government, and low civic engagement heavily favor Trump. I also found that Trump 2020 voters with these same characteristics were close to 14 percentage points less likely to vote in the 2022 midterm election than the average 2020 presidential election voter. These are likely the same voters that pollsters failed to account for when they underestimated support for Trump in the 2016, 2020, and 2024 presidential elections [@silvergut].
+Trump only low-propensity voters did not emerge in 2024. In @sec-results, I found that voters with no college education, low or no trust in the government, and low civic engagement heavily favor Trump. I also found that Trump 2020 voters with these same characteristics were close to 14 percentage points less likely to vote in the 2022 midterm election than the average 2020 presidential election voter. These are likely the same voters that pollsters failed to account for when they underestimated support for Trump in the 2016, 2020, and 2024 presidential elections [@silvergut].
 
 ## Weaknesses and next steps {#sec-discussion-weaknesses}
 
 Weaknesses and next steps should also be included.
 
+This project's major weakess is that it uses 2022 CES survey data to try to understand
+
 One weakness is correctly identifying 2020 Trump voters and 2022 midterm non-voters in the 2022 CES survey data set.
 
 correctly identifying trump 2020 voters
+
+My next step towards understanding the "Trump only" voter
+
+Survey that addresses non-response bias or incorporates some sort of incentive to reach them
 
 \newpage
 
@@ -874,15 +884,19 @@ The target population of a survey is the population that it aims to represent an
 
 ### Sampling approach
 
-The 2022 CES uses an online survey conducted by YouGov to collect responses [@ces2022].
+The 2022 CES survey uses sample matching instead of stratified sampling to build a representative sample [@ces2022]. Stratified sampling is a probability-based sampling approach that allows researcners to examine every stratnum of a population and perform simple random sampling within the strata [@tswd]. Sample matching is ideal for online suveys because it allows researchers to match respondents who are as similar as possible to members of the target sample [@ces2022]. Stratified sampling and sample matching have the same goal: to ensure that every strata of the target population is sufficiently represented in the sample [@tswd].
+
+Instead of using a traditional stratified sampling approach, @ces2022 draw a target sample, defined as a random sample from their target population of all American adults. The target sample represents every strata of the target population [@ces2022]. Stratified sampling is not realistic for the 2022 CES because it recruits its respondents from the YouGov online survey platform and cannot contact them directly [@ces2022]. Instead of randomly sampling from each strata, @ces2022 find one or more opt-in respondent who matches each member of their target population using a large set of variables and a similarity function. Demographic variables, geography, and political preferences are considered during this process. @ces2022 repeat this process until they have "matched" every member of their target sample with a similar enough opt-in survey respondent.
 
 ### Data validation
 
-@ces2022 used the TargetSmart database of registered voters in the United States to validate individual voter records.
+@ces2022 used the TargetSmart database of registered voters in the United States to validate individual voter records. The TargetSmart database can only be used to validate which general and party primary elections a respondent has voted in, and what method of voting they used, not who they voted for.
+
+Respondents are matched to a TargetSmart voter record if there is a high level of confidence that the information they provided matches the record [@ces2022].
 
 ### Weighting and data adjustments
 
-The 2022 CES survey dataset is weighted to adjust for any imbalances that still exist after sample matching is complete [@ces2022].
+The 2022 CES survey dataset is weighted to adjust for any imbalances that still exist after sample matching is complete [@ces2022]. Respondents who were underrepresented or less likely to respond to a survey, such as respondents with no college education or low trust in government, were assigned higher weights. Respondents who are more likely to respond to a survey, including those with a college-education or interest in poltiics were assigned lower weights.
 
 ```{r}
 #| echo: false
@@ -949,7 +963,19 @@ kable(weighting_data_trust)
 
 ### Strengths and limitations
 
-## Identifying non-voters and social desirability bias
+One strength of the 2022 CES survey is its design, specifically the concise questions and the length of the post-election wave. According to @cesFAQ, the pre-election wave is designed to be completed by respondents in around 20 minutes and the post-election wave is designed to be completed by respondents in around 10 minutes. @stantcheva2023 identifies survey length versus the need to collect data as a trade-off that needs to be made when designing surveys. Attrition, defined by @tswd is the rate at which respondents drop out before completing a survey.
+
+Initially, I was concerned about the 20-minute length of the pre-election wave because longer surveys are at risk of having a high attrition rate [@stantcheva2023]. However, with the amount of information about demographics, income, positions on issues like abortion, guns, and the economy, voter registration status, past voting behavior, and 2022 vote intentions it collects, the length is worth it. 85% of respondents who answered the pre-election wave also answered the post-election wave a few weeks later [@ces2022]. The overall survey design also addresses concerns about the length of the pre-election survey. Most questions are not required, so if a respondent wants to leave a question blank and move on, they are able to do that. Incomplete responses are collected, and the dataset just includes an `NA` value if a respondent left a question blank. The 10-minute length of the post-election wave is a major strength because it manages to collect sufficient information about respondents' voter registration status, how they voted (or didn't) in the different 2022 midterm election races, and their positions on hot issues following the midterm election.
+
+The 2022 CES survey has a lot of questions, but its questions are clear, and in plain language. This is a strength because short questions, especially in a longer survey, help reduce the cognitive load, the risk of voters finding the survey too tedious to answer, and the attrition rate [@stantcheva2023]. Examples of 2022 CES survey questions from @ces2022 include:
+
+-   Who did you vote for in the election for president in 2020? Joe Biden; Donald Trump; Jo Jorgensen; Howie Hawkins; Other; Did not vote for president.
+
+-   Do you intend to vote in the 2022 general election on November 8th? Yes definitely; Probably; I already voted (early or absentee); I plan to vote before November 8th; No; Undecided.
+
+The 2022 CES survey used only an online survey conducted by YouGov to collect responses. It does not use multi-channel respondent recruitment. This is a weakness because the types of individuals who sign up for online survey platforms like YouGov and willingly respond to online surveys about politics are not random. Individuals with time, access to a reliable computer, high civic engagement, and trust in government are more likely to respond. That makes the 2022 CES survey susceptible to non-response bias. Non-response bias happens when observations, or in this case, survey responses, are missing not at random (MNAR) [@tswd]. Survey responses are MNAR when there is a correlation between the reason that they are missing and one of the variables being examined [@tswd]. @silvergut found that Trump voters are less likely to trust the government, and low trust in government makes an individual less likely to respond to a survey. Multi-channel recruitment and survey incentives such as a small financial compensation, which the 2022 CES survey does not use, are effective ways to increase survey participation within hard-to-reach populations [@tswd].
+
+### Identifying non-voters and social desirability bias
 
 @ces2022 matched 2022 CES survey respondents to the TargetSmart registered voter database in August 2023. They matched a respondent to a TargetSmart record when there was a very high level of confidence that the respondent was being matched to the correct record [@ces2022]. The most common reason why a respondent was not matched to a TargetSmart record was because they were not registered to vote, but incomplete or inaccurate information, such as a recent name or address change could also prevent a match [@ces2022]. If a respondent matched to a TargetSmart voter record, then information about whether they voted in 2022, and the voting method they used if they voted is available [@ces2022]. The 2022 CES survey dataset does not include a variable that explicitly indicates whether an individual respondent voted in the midterm election. Instead, it includes information about whether each respondent matched to a TargetSmart record and whether they reported voting or non-voting in the post-election wave [@ces2022].
 
