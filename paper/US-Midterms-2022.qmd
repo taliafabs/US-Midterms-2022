@@ -840,25 +840,25 @@ kable(lp_table)
 
 ## Young men were an important part of Trump's 2024 winning coalition
 
-In @sec-results, I found across most races and education levels, a majority of men between the ages of 18 and 29 support Trump.
-
-## Under-representation of Trump voters in the 2022 CES survey dataset
+In @sec-results, I found across most races and education levels, a majority of men between the ages of 18 and 29 support Trump. This foreshadowed the 2024 election, where young men without a college degree became a major part of Trump's winning coalition [@cnnresults].
 
 ## Polling misses and the "Trump only" voter {#sec-first-point}
 
 @silvergut found that Trump voters were less likely to respond to pollsters because they are more likely to distrust the government and have low civic engagement. After applying my logistic regression models to estimate vote preference and voter turnout, I found that voters with no college education, low or no trust in the government, and low civic engagement heavily favor Trump. I also found that Trump 2020 voters with these same characteristics were close to 14 percentage points less likely to vote in the 2022 midterm election than the average 2020 presidential election voter. These are likely the same voters that pollsters failed to account for when they underestimated support for Trump in 2016 and 2020.
 
-My results suggest that the same characteristics that made low-propensity Trump voters less likely to respond to a pollster also made them less likely to vote in the 2022 midterm election when Trump was not on the ballot.
+My results suggest that the same characteristics that made low-propensity Trump voters less likely to respond to a pollster also made them less likely to vote in the 2022 midterm election when Trump was not on the ballot. What this means for the success of Republican candidates in the 2026 midterm election and in the 2028 presidential election remains unclear. Low-propensity Trump voters are less likely to respond to surveys, but they might also be less likely to vote in elections where he is not on the ballot.
+
+Pollsters will need to use survey incentives and new multi-channel respondent recruitment strategies to reach this important, but hard-to-reach group in 2026 and 2028 . There are two ways that pollsters could inaccurately estimate support for the 2028 Republican presidential nominee. If they do not find a way to survey enough Republican voters, especially ones with low government trust and civic engagement, they could repeat their 2016 and 2020 polling misses. Pollsters could overestimate support for the 2028 Republican nominee if they over-correct their 2016, 2020, and 2024 polling misses and ignore the 2024 Michigan, Wisconsin, and Nevada senate results.
+
+Assuming that low-propensity Trump voters will vote (or not vote) a certain way in 2026 and 2028 will lead to polling misses one way or another. They have been difficult to survey since 2016, so there is limited data about Trump voters who did not support down-ballot Republicans available. New polling strategies, such as shortening surveys so that respondents do not find them tedious and promoting surveys on X (formerly known as Twitter) and other social media platforms widely used by low-propensity voters, will be needed to reach enough of them.
 
 ## Weaknesses and next steps {#sec-discussion-weaknesses}
 
-This project's greatest weakness is the fact that it uses non-response biased data from 2022 to try to understand and identify the Trump only voter. The 2022 CES survey dataset from @ces2022 contains nearly one-third more Biden 2020 voters than Trump 2020 voters. Trump voters are missing not at random (MNAR) from this dataset.
-
-Throughout this project, I have tried to connect my results, which do show that
+This project's greatest weakness is the fact that it uses non-response biased data from 2022 to try to understand and identify the Trump only voter. The 2022 CES survey dataset from @ces2022 contains nearly one-third more Biden 2020 voters than Trump 2020 voters. Trump voters are missing not at random (MNAR) from this dataset: their low survey response rates are correlated to their low trust in government and low civic engagement [@tswd]. Throughout this project, I have tried to connect my results, which do show that the same characteristics that made low-propensity Trump voters unlikely to respond to surveys also made them less likely to vote in the 2022 midterm election to the 2024 U.S. Senate results in Michigan, Wisconsin, and Nevada. In these three states that Trump won in 2024, close to 250,000 voters did not vote in the Senate races [@cnnresults]. This fact and my results both suggest, but do not confirm, that the could be a significant share of low-propensity Trump voters who are Trump only voters, and are likely to abstain from elections that he does not run in.
 
 My next step towards understanding the "Trump only" voter would be to compare the results of 2024 pre-election polls to the actual results, do a deep-dive into 2024 pollster methodology, and conduct my own survey that targets low-propensity voters. Comparing the 2024 pre-election polls to the actual results and analyzing 2024 pollster methodology in depth will allow me to understand how much the polls underestimated support for Trump, yet again, what they did to try to address the non-response bias from 2016 and 2020, and how well it worked.
 
-In 2024, most pollsters used weighting on recalled vote to try to correct the 2016 and 2020 polling misses.
+Low-propensity Trump only voters are extremely difficult to survey, so one of my future steps could be to design and distribute a short, clear, and concise survey using non-traditional methodologies. Current survey methodologies, such as stratified sampling, assigning higher weights to underrepresented sub-populations, and administering surveys over the phone have not worked. Non-response bias has plagued pollsters since 2016. Non-traditional voter blocks require non-traditional survey and respondent recruitment methodologies. Although this recruitment method is not backed by @tswd or supporting literature, I would develop a survey that takes less than five minutes to complete, asks only a few straightforward questions about demographics, and simply asks respondents who they voted for in the presidential race, and who they voted for/if they voted at all in a U.S. house or senate race. I would then promote the survey it where many young, low-propensity Trump only voters are: X and Parler. I would advertise it as a way for them to affirm their support for Trump. @stantcheva2023 did find that short surveys and simple questions reduce attrition, so there is some literature to justify this.
 
 \newpage
 
