@@ -523,9 +523,9 @@ y_i | \pi_i &\sim \mbox{Bern}(\pi_i) \\
 ```
 ## Model justification
 
-I used two different logistic regression models to estimate support for Trump and voter turnout.
+I used two different logistic regression models to estimate support for Trump and voter turnout. This allows me to investigate how characteristic such as highest educational attainment, trust in government, civic knowledge, and interest in politics affect two different aspects of voting behavior: who someone votes for and whether someone who voted in a presidential election would also vote in a midterm election.
 
-Logistic regression is the right model to use here because both things that I am estimating have binary outcomes.
+Logistic regression is appropriate for predicting whether an individual supports Trump and whether someone who voted for Trump or Biden in 2020 would also vote in 2022 because both variables have binary outcomes: yes or no [@tswd].
 
 ## Model weaknesses and limitations {#sec-model-weaknesses}
 
@@ -844,19 +844,21 @@ In @sec-results, I found across most races and education levels, a majority of m
 
 ## Under-representation of Trump voters in the 2022 CES survey dataset
 
-The 2022 CES survey dataset from @ces2022 contains nearly one-third more Biden 2020 voters than Trump 2020 voters.
-
 ## Polling misses and the "Trump only" voter {#sec-first-point}
 
-Trump only low-propensity voters did not emerge in 2024. In @sec-results, I found that voters with no college education, low or no trust in the government, and low civic engagement heavily favor Trump. I also found that Trump 2020 voters with these same characteristics were close to 14 percentage points less likely to vote in the 2022 midterm election than the average 2020 presidential election voter. These are likely the same voters that pollsters failed to account for when they underestimated support for Trump in the 2016, 2020, and 2024 presidential elections [@silvergut].
+@silvergut found that Trump voters were less likely to respond to pollsters because they are more likely to distrust the government and have low civic engagement. After applying my logistic regression models to estimate vote preference and voter turnout, I found that voters with no college education, low or no trust in the government, and low civic engagement heavily favor Trump. I also found that Trump 2020 voters with these same characteristics were close to 14 percentage points less likely to vote in the 2022 midterm election than the average 2020 presidential election voter. These are likely the same voters that pollsters failed to account for when they underestimated support for Trump in 2016 and 2020.
+
+My results suggest that the same characteristics that made low-propensity Trump voters less likely to respond to a pollster also made them less likely to vote in the 2022 midterm election when Trump was not on the ballot.
 
 ## Weaknesses and next steps {#sec-discussion-weaknesses}
 
-This project's major weakness is the fact that it tries use estimates about voting behavior from the 2022 midterm election to understand voting behavior in the 2024 election. Throughout this project, I have tried to connect my findings about who
+This project's greatest weakness is the fact that it uses non-response biased data from 2022 to try to understand and identify the Trump only voter. The 2022 CES survey dataset from @ces2022 contains nearly one-third more Biden 2020 voters than Trump 2020 voters. Trump voters are missing not at random (MNAR) from this dataset.
 
-Weaknesses and next steps should also be included.
+Throughout this project, I have tried to connect my results, which do show that
 
-My next step towards understanding the "Trump only" voter would be
+My next step towards understanding the "Trump only" voter would be to compare the results of 2024 pre-election polls to the actual results, do a deep-dive into 2024 pollster methodology, and conduct my own survey that targets low-propensity voters. Comparing the 2024 pre-election polls to the actual results and analyzing 2024 pollster methodology in depth will allow me to understand how much the polls underestimated support for Trump, yet again, what they did to try to address the non-response bias from 2016 and 2020, and how well it worked.
+
+In 2024, most pollsters used weighting on recalled vote to try to correct the 2016 and 2020 polling misses.
 
 \newpage
 
@@ -1057,40 +1059,27 @@ modelsummary::modelsummary(
   kableExtra::kable_styling(font_size = 10)
 ```
 
-## Posterior predictive check
-
-### Turnout model
-
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows the comparison of the outcome variable $vote\_2022$, with simulations from the posterior distribution [@tswd].
-
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows...
-
-```{r}
-#| eval: true
-#| echo: false
-#| message: false
-#| warning: false
-#| label: fig-ppcheckandposteriorvsprior
-#| layout-ncol: 2
-#| fig-cap: "Examining how the model fits, and is affected by, the data"
-#| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
-
-library(bayesplot)
-
-# pp_check(turnout_model_2022) +
-#   theme_classic() +
-#   theme(legend.position = "bottom")
-# 
-# posterior_vs_prior(turnout_model_2022) +
-#   theme_minimal() +
-#   scale_color_brewer(palette = "Set1") +
-#   theme(legend.position = "bottom") +
-#   coord_flip()
-```
-
 ## Credibility Intervals
 
+### Vote preference model
+
+@fig-credibilityintervals2 shows the 95% credibility intervals for the coefficients of predictors used in the vote preference model.
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| label: fig-credibilityintervals2
+#| fig-cap: Credible intervals for predictors of support for Donald Trump
+
+modelplot(vote_preference_model, conf_level = 0.95) +
+  labs(x = "95 per cent credibility interval")
+```
+
 ### Turnout model
+
+@fig-credibilityintervals shows the 95% credibility intervals for the coefficients of predictors used in the voter turnout model.
 
 ```{r}
 #| echo: false
@@ -1109,6 +1098,10 @@ modelplot(turnout_model_2022, conf_level = 0.95) +
 
 ### Vote preference model
 
+@fig-stanareyouokayv-1 is a trace plot. It shows horizontal lines that bounce and overlap in between chains. This suggests that the vote preference model does not have any major issues [@tswd].
+
+@fig-stanareyouokayv-2 is a Rhat plot. It shows values very close to 1.0. This suggests that the predictors used in the vote preference model do not have any major issues and the model does not need to be simplified [@tswd].
+
 ```{r}
 #| echo: false
 #| eval: true
@@ -1126,9 +1119,9 @@ plot(vote_preference_model, "rhat")
 
 ### Turnout model
 
-@fig-stanareyouokay-1 is a trace plot. It shows... This suggests...
+@fig-stanareyouokay-1 is a trace plot. It shows horizontal lines that bounce and overlap in between chains. This suggests that the turnout model does not have any major issues [@tswd].
 
-@fig-stanareyouokay-2 is a Rhat plot. It shows... This suggests...
+@fig-stanareyouokay-2 is a Rhat plot. It shows values very close to 1.0. This suggests that the predictors used in the turnout model do not have any major issues and the model does not need to be simplified [@tswd].
 
 ```{r}
 #| echo: false
