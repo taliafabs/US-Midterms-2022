@@ -6,7 +6,7 @@ author:
 thanks: "Code and data are available at: [https://github.com/taliafabs/US-Midterms-2022.git](https://github.com/taliafabs/US-Midterms-2022.git)."
 date: today
 date-format: long
-abstract: "Key Trump 2024 voting blocs, including young men without a college education were less likely to vote in the 2022 midterms when he was not on the ballot compared to 2020"
+abstract: "The most recent U.S. midterm election took place on November 8, 2022. The 2020 U.S. presidential election set voter turnout records, and as expected, turnout in the subsequent midterm election was lower. In this project, I used logistic regression to estimate what characteristics make a voter more likely to support Trump and which individuals who voted for either Trump or Biden in the 2020 election were more likely to vote in the 2022 midterm election. Based on the results of applying my models, I estimate that not having a college education, low trust in government, and low civic engagement make an individual more likely to support Trump, but less likely to vote in a midterm election."
 format: pdf
 toc: true
 number-sections: true
@@ -844,7 +844,7 @@ In @sec-results, I found across most races and education levels, a majority of m
 
 ## Under-representation of Trump voters in the 2022 CES survey dataset
 
-The 2022 CES survey dataset from @ces2022 contains nearly one-third more Biden 2020 voters than Trump 2020 voters. This
+The 2022 CES survey dataset from @ces2022 contains nearly one-third more Biden 2020 voters than Trump 2020 voters.
 
 ## Polling misses and the "Trump only" voter {#sec-first-point}
 
@@ -852,17 +852,11 @@ Trump only low-propensity voters did not emerge in 2024. In @sec-results, I foun
 
 ## Weaknesses and next steps {#sec-discussion-weaknesses}
 
+This project's major weakness is the fact that it tries use estimates about voting behavior from the 2022 midterm election to understand voting behavior in the 2024 election. Throughout this project, I have tried to connect my findings about who
+
 Weaknesses and next steps should also be included.
 
-This project's major weakess is that it uses 2022 CES survey data to try to understand
-
-One weakness is correctly identifying 2020 Trump voters and 2022 midterm non-voters in the 2022 CES survey data set.
-
-correctly identifying trump 2020 voters
-
-My next step towards understanding the "Trump only" voter
-
-Survey that addresses non-response bias or incorporates some sort of incentive to reach them
+My next step towards understanding the "Trump only" voter would be
 
 \newpage
 
@@ -1112,6 +1106,23 @@ modelplot(turnout_model_2022, conf_level = 0.95) +
 ```
 
 ## Diagnostics
+
+### Vote preference model
+
+```{r}
+#| echo: false
+#| eval: true
+#| message: false
+#| warning: false
+#| label: fig-stanareyouokayv
+#| fig-cap: "Checking the convergence of the MCMC algorithm"
+#| fig-subcap: ["Trace plot", "Rhat plot"]
+#| layout-ncol: 2
+
+plot(vote_preference_model, "trace")
+
+plot(vote_preference_model, "rhat")
+```
 
 ### Turnout model
 
