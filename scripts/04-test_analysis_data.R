@@ -1,29 +1,31 @@
 #### Preamble ####
-# Purpose: Tests... [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 26 September 2024 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Tests the cleaned and prepared data to.
+# Author: Talia Fabregas
+# Date: December 1, 2024
+# Contact: talia.fabregas@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: 
+# - Install the tidyverse and testthat packages
+# - Run 02-download_data.R and 03-clean_data.R
+# Any other information needed? No
 
 
 #### Workspace setup ####
 library(tidyverse)
 library(testthat)
 
-data <- read_csv("data/02-analysis_data/analysis_data.csv")
+analysis_data <- read_parquet("data/02-analysis_data/ces2022_analysis_data.parquet")
 
 
 #### Test data ####
-# Test that the dataset has 151 rows - there are 151 divisions in Australia
-test_that("dataset has 151 rows", {
-  expect_equal(nrow(analysis_data), 151)
+# Test that the cleaned dataset has no new rows
+test_that("the cleaned dataset has no new rows", {
+  expect_true(nrow(analysis_data) <= 60000)
 })
 
-# Test that the dataset has 3 columns
-test_that("dataset has 3 columns", {
-  expect_equal(ncol(analysis_data), 3)
+# Test that the dataset has 15 columns
+test_that("dataset has 15 columns", {
+  expect_equal(ncol(analysis_data), 15)
 })
 
 # Test that the 'division' column is character type
@@ -31,14 +33,14 @@ test_that("'division' is character", {
   expect_type(analysis_data$division, "character")
 })
 
-# Test that the 'party' column is character type
-test_that("'party' is character", {
-  expect_type(analysis_data$party, "character")
+# Test that the 'presvote2020' column is character type
+test_that("'presvote2020' is character", {
+  expect_type(analysis_data$presvote2020, "character")
 })
 
-# Test that the 'state' column is character type
-test_that("'state' is character", {
-  expect_type(analysis_data$state, "character")
+# Test that the 'know_us_house' column is character type
+test_that("'know_us_house' is character", {
+  expect_type(analysis_data$know_us_house, "character")
 })
 
 # Test that there are no missing values in the dataset
@@ -46,24 +48,15 @@ test_that("no missing values in dataset", {
   expect_true(all(!is.na(analysis_data)))
 })
 
-# Test that 'division' contains unique values (no duplicates)
-test_that("'division' column contains unique values", {
-  expect_equal(length(unique(analysis_data$division)), 151)
-})
 
-# Test that 'state' contains only valid Australian state or territory names
-valid_states <- c("New South Wales", "Victoria", "Queensland", "South Australia", "Western Australia", 
-                  "Tasmania", "Northern Territory", "Australian Capital Territory")
-test_that("'state' contains valid Australian state names", {
-  expect_true(all(analysis_data$state %in% valid_states))
+# Test that 'presvote2020' contains only Donald Trump and Joe Biden
+valid_candidates <- c("Donald Trump", "Joe Biden")
+test_that("'presvote2020' contains only Donald Trump and Joe Biden", {
+  expect_true(all(analysis_data$presvote2020 %in% valid_candidates))
 })
 
 # Test that there are no empty strings in 'division', 'party', or 'state' columns
-test_that("no empty strings in 'division', 'party', or 'state' columns", {
-  expect_false(any(analysis_data$division == "" | analysis_data$party == "" | analysis_data$state == ""))
+test_that("no empty strings in 'presvote2020', 'gender', or 'trustfed' columns", {
+  expect_false(any(analysis_data$presvote2020 == "" | analysis_data$gender == "" | analysis_data$trustfed == ""))
 })
 
-# Test that the 'party' column contains at least 2 unique values
-test_that("'party' column contains at least 2 unique values", {
-  expect_true(length(unique(analysis_data$party)) >= 2)
-})
