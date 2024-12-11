@@ -1,5 +1,5 @@
 ---
-title: "Analyzing the Trump only voter"
+title: "Voter Preference and Turnout Analysis"
 subtitle: "Voters with no college education, low civic engagement, and low trust in government were among the most likely to support Trump in 2020 and least likely to vote in the 2022 midterm election based on logistic regression modeling"
 author: 
   - Talia Fabregas
@@ -28,6 +28,9 @@ library(rstanarm)
 library(modelsummary)
 library(kableExtra)
 library(RColorBrewer)
+
+# analyzing the trump only voter??
+
 
 # load the analysis data
 setwd(here::here())
