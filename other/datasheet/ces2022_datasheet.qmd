@@ -46,7 +46,7 @@ This datasheet answers a set of questions from @gebru2021datasheets about the Co
 **Composition**
 
 1.  *What do the instances that comprise the dataset represent (for example, documents, photos, people, countries)? Are there multiple types of instances (for example, movies, users, and ratings; people and interactions between them; nodes and edges)? Please provide a description.*
-    -   Each instance in the dataset represents one American adult. This is the only type of instance.
+    -   Each instance in the dataset represents one American adult who responded to the 2022 CES pre-election wave. Most respondents also completed the post-election wave, and the `tookpost` variable indicates whether a respondent took the post-election wave. This is the only type of instance.
 2.  *How many instances are there in total (of each type, if appropriate)?*
     -   The 2022 CES survey dataset contains 60,000 instances in total.
     -   Each instance is of the same type: an American adult.
