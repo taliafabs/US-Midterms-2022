@@ -41,7 +41,7 @@ ces2022_analysis_data <- read_parquet("data/02-analysis_data/ces2022_analysis_da
 
 During even years, elections take place in all 438 seats in the United States House of Representatives and 33 or 34 of the 100 seats in the United States Senate [@usagov]. Presidential elections take place every fourth year and midterm elections take place in non-presidential even years [@Grant2023]. The most recent U.S. midterm election took place on November 8, 2022 and the most recent U.S. presidential election took place on November 5, 2024. The 2020 presidential election set turnout records, but as expected, turnout decreased in the 2022 midterm election [@Hartig2023].
 
-This study aims to estimate how race, gender, education, trust in the federal government, civic engagement, and interest in politics impact voting behavior. The first thing that this study will examine is the effects of age, gender, race, education, trust in the federal government, civic knowledge, and civic engagement on the probability that an individual supports Trump. The second thing that this study will examine is the effects of past presidential vote choice, age, highest level of education completed, trust in the federal government, knowledge of which party holds a majority in Congress, and interest in politics on the probability that an individual who voted for Donald Trump or Joe Biden in the 2020 U.S. presidential election would also vote in the 2022 U.S. midterm election. The estimands, which can never be known with complete certainty, include:
+This project aims to estimate how race, gender, education, trust in the federal government, civic engagement, and interest in politics impact voting behavior. The first thing that this study will examine is the effects of age, gender, race, education, trust in the federal government, civic knowledge, and civic engagement on the probability that an individual supports Trump. The second thing that this study will examine is the effects of past presidential vote choice, age, highest level of education completed, trust in the federal government, knowledge of which party holds a majority in Congress, and interest in politics on the probability that an individual who voted for Donald Trump or Joe Biden in the 2020 U.S. presidential election would also vote in the 2022 U.S. midterm election. The estimands, which can never be known with complete certainty, include:
 
 -   The true effects of age, gender, race, education, trust in the federal government, knowledge of which party has a majority in the U.S. House, and interest in politics on the likelihood that an individual supports Trump.
 
@@ -51,7 +51,7 @@ Based on the results of applying first logistic regression model to predict vote
 
 In the 2024 election, four Democratic Senate candidates (both incumbent and non-incumbent) were elected in states that President-Elect Trump won [@cnnresults]. Three of those four Democratic Senate candidates, Elisa Slotkin (Michigan), Tammy Baldwin (Wisconsin), and Jacky Rosen (Nevada) received fewer votes statewide than Vice President Harris [@cnnresults]. It is typical for senate races to have slightly lower turnout than presidential races [@Hartig2023], but there were approximately 117,000 Trump voters in Michigan, 54,000 Trump voters in Wisconsin, and 70,000 Trump voters in Nevada who did not vote for the Republican Senate candidates [@cnnresults]. This 2024 election data suggests that there could be a decisive number of low-propensity Trump only voters who have no interest in voting for anyone else. Extensive 2024 pre and post-election data is not available, so this project instead uses 2022 CES data to try to understand who is more likely to vote for Trump and which Trump voters are actually Trump only voters. These patterns highlight the importance of understanding voter behavior, especially among low-propensity Trump voters who may vote in presidential elections but not in midterms, as their future engagement (or lack thereof) could be decisive in future elections.
 
-The remainder of this paper is structured as follows. @sec-data contains an overview of the survey data set from @ces2022 that was used, visualizations of different variables, and summary statistics. @sec-model contains the logistic regression models used to predict the probability that an individual who voted for either Trump or Biden in the 2020 presidential election would also vote in the 2022 midterm election and the probability that an individual would support Trump over Biden in 2020. @sec-resuls contains tables and data visualizations that present results about what characteristics made individuals who voted in the 2020 presidential election more likely to also vote in the 2022 midterm election and what characteristics make individuals more likely to support Trump. @sec-discussion contains detailed a detailed discussion about the results presented in @sec-resuls, including demographics where support for Trump is strong, why some 2020 presidential election voters were more likely than others to vote in the 2022 midterm election, and how the 2016, 2020, and 2024 polling misses can be explained by low civic engagement and distrust in government among Trump voters. [Appendix -@sec-surveys] contains an in-depth discussion about and evaluation of CES 2022 survey methodologies.
+The remainder of this paper is structured as follows. @sec-data contains an overview of the survey data set from @ces2022 that was used, visualizations of different variables, and summary statistics. @sec-model contains the logistic regression models used to predict the probability that an individual who voted for either Trump or Biden in the 2020 presidential election would also vote in the 2022 midterm election and the probability that an individual would support Trump over Biden in 2020. @sec-resuls contains tables and data visualizations that present results about what characteristics made individuals who voted in the 2020 presidential election more likely to also vote in the 2022 midterm election and what characteristics make individuals more likely to support Trump. @sec-discussion contains detailed a detailed discussion about the results presented in @sec-resuls, including demographics where support for Trump is strong, why some 2020 presidential election voters were more likely than others to vote in the 2022 midterm election, and how the 2016, 2020, and 2024 polling misses can be explained by low civic engagement and distrust in government among Trump voters. [Appendix -@sec-surveys] contains an in-depth discussion evaluation of CES 2022 survey methodologies.
 
 # Data {#sec-data}
 
@@ -458,31 +458,31 @@ I use two logistic regression models: one to model the probability that an indiv
 
 The model to predict $voted\_for\_trump$ uses the following predictors:
 
--   `age_bracket`
+-   `age_bracket:` the age bracket of the respondent (18-29, 30-39, 40-49, 50-59, or over 60). This variable was constructed using the `birthyr` variable in the raw dataset from @ces2022.
 
--   `gender`
+-   `gender:` the respondent's gender identity.
 
--   `race`
+-   `race:` the respondent's race.
 
--   `educ`
+-   `educ:` the respondent's highest level of education completed.
 
--   `trust`
+-   `trust:` the respondent's self-reported level of trust in the federal government.
 
--   `know_us_house`
+-   `know_us_house:` whether respondent knows which party held a majority in the United States House of Representatives as of 2022.
 
 The model to predict $voted\_in\_2022$ uses the following predictors:
 
--   `presvote2020`
+-   `presvote2020:` who the respondent voted for in the 2020 presidential election (only Trump and Biden were considered in this project)
 
--   `age_bracket`
+-   `age_bracket:` the respondent's age bracket
 
--   `educ`
+-   `educ:` the respondent's highest level of education completed.
 
--   `trust`
+-   `trust:` the respondent's self-reported level of trust in the federal government.
 
--   `know_us_house`
+-   `know_us_house:` whether the respondent knows which party held a majority in the United States House of Representatives as of 2022.
 
--   `political_interest`
+-   `political_interest:` the respondent's level of interest in politics.
 
 ## Model set-up {#sec-modelsetup}
 
@@ -841,6 +841,8 @@ kable(lp_table)
 
 # Discussion {#sec-discussion}
 
+## Measuring civic engagement and trust in government
+
 ## Young men were an important part of Trump's 2024 winning coalition
 
 In @sec-resuls, I found across most races and education levels, a majority of men between the ages of 18 and 29 support Trump. This foreshadowed the 2024 election, where young men without a college degree became a major part of Trump's winning coalition [@cnnresults]. Based on my model estimates presented in @sec-resuls, nearly two-thirds of men between the ages of 18 and 29 without a college education support Trump.
@@ -1020,6 +1022,8 @@ I constructed a new variable, $voted\_in\_2022$, which is equal to 1 if the resp
 
 This section provides additional details about the models, including model summaries, posterior predictive checks, credibility intervals, and model diagnostics.
 
+## Model summary
+
 ## Model results {#sec-model-results}
 
 ### Vote preference model
@@ -1030,7 +1034,7 @@ The model summary for the vote preference model is shown in @tbl-model-summary1.
 #| echo: false
 #| eval: true
 #| label: tbl-model-summary1
-#| tbl-cap: "Explaining whether someone voted for Trump based on race, gender, age, education, trust in government, civic engagement "
+#| tbl-cap: "Explaining whether someone voted for Trump or Biden in 2020 based on race, gender, age, education, trust in government, civic engagement "
 #| warning: false
 
 modelsummary::modelsummary(
