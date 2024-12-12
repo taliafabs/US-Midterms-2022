@@ -899,7 +899,7 @@ Respondents are matched to a TargetSmart voter record if there is a high level o
 
 ### Weighting and data adjustments
 
-The 2022 CES survey dataset is weighted to adjust for any imbalances that still exist after sample matching is complete [@ces2022]. Respondents who were underrepresented or less likely to respond to a survey, such as respondents with no college education or low trust in government, were assigned higher weights. Respondents who are more likely to respond to a survey, including those with a college-education or interest in poltiics were assigned lower weights.
+@ces2022 used weighting to address non-response bias in the 2022 CES survey dataset. The 2022 CES survey dataset is weighted to adjust for any imbalances that still exist after sample matching is complete [@ces2022]. Respondents who were underrepresented or less likely to respond to a survey, such as respondents with no college education, respondents who supported Trump in 2020, or respondents with low trust in government, were assigned higher weights. Respondents who are more likely to respond to a survey, including those with a college-education or interest in politics were assigned lower weights.
 
 ```{r}
 #| echo: false
