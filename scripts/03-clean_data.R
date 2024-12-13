@@ -49,17 +49,6 @@ reduced_raw_data <- reduced_raw_data |>
     0,
     1
   )) |>
-  # mutate(voted_in_2022 = if_else(
-  #   (
-  #     (TS_g2022 == 7) |
-  #     (is.na(TS_g2022) & CC22_401 == 5) |
-  #     (is.na(TS_g2022) & is.na(CC22_401)) |
-  #     (is.na(TS_g2022) & votereg_post == 2)  
-  #    ),
-  #   0,
-  #   1
-  #   )
-  # ) |>
   mutate(presvote2020 = if_else(presvote20post==1, "Joe Biden", "Donald Trump"),
          state = case_when(
            inputstate == 1 ~ "Alabama",
