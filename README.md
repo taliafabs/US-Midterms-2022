@@ -1,7 +1,7 @@
 # Analysis of Voting Behavior in the 2022 U.S. Midterm Elections and Beyond
 
 ## 🗳️ Overview
-This project examines voting behavior in the 2022 U.S. midterm election using Comprehensive Election Study (CES) 2022 data. All code, data, and files used to complete it can be found in this repository.
+This project examines voting behavior in the 2022 U.S. midterm election using Comprehensive Election Study (CES) 2022 data. All code, data, and files used to complete it can be found in this repository. The raw data that I used for this project can be downloaded via this link: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi%3A10.7910/DVN/PR4L8P
 
 ### ⭐️ Inspiration
 In 2024, 4 Democratic Senators were elected in states that President-Elect Donald Trump won. Elissa Slotkin (MI), Tammy Baldwin (WI), and Jackie Rosen (NV) all received fewer votes than Kamala Harris in their respective states. Ruben Gallego (AZ) is the only Democratic U.S. Senate candidate who won a state that Kamala Harris lost and received more votes than her. We know that pollsters have consistently underestimated support for Trump and turnout in U.S. Senate races is typically lower than in presidential races. We also know that Trump drives up turnout, both for and against him. 2024 pre and post-election survey data is not publicly available yet, so I settled for the 2022 CES survey dataset to analyze who was most likely to support Trump in 2020 and which Trump 2020 voters were less likely to vote in the 2022 midterm election.
