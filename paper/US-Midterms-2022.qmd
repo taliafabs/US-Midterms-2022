@@ -53,6 +53,8 @@ In the 2024 election, four Democratic Senate candidates (both incumbent and non-
 
 The remainder of this paper is structured as follows. @sec-data contains an overview of the survey data set from @ces2022 that was used, visualizations of different variables, and summary statistics. @sec-model contains the logistic regression models used to predict the probability that an individual who voted for either Trump or Biden in the 2020 presidential election would also vote in the 2022 midterm election and the probability that an individual would support Trump over Biden in 2020. @sec-resuls contains tables and data visualizations that present results about what characteristics made individuals who voted in the 2020 presidential election more likely to also vote in the 2022 midterm election and what characteristics make individuals more likely to support Trump. @sec-discussion contains detailed a detailed discussion about the results presented in @sec-resuls, including demographics where support for Trump is strong, why some 2020 presidential election voters were more likely than others to vote in the 2022 midterm election, and how the 2016, 2020, and 2024 polling misses can be explained by low civic engagement and distrust in government among Trump voters. [Appendix -@sec-surveys] contains an in-depth discussion evaluation of CES 2022 survey methodologies.
 
+The statistical programming language R [@citeR] and the `tidyverse`, `janitor`, `rstanarm`, `ggplot`, and `kableExtra` packages were used to complete this project.
+
 # Data {#sec-data}
 
 ## Overview
@@ -843,6 +845,8 @@ kable(lp_table)
 
 ## Measuring civic engagement and trust in government
 
+The 2022 CES survey dataset does not have single variable to measure civic engagement. I used responses to questions about trust in the federal government, which party has a majority in the U.S. House of Representatives, and interest in politics to try to quantify each respondent's level of civic knowledge and civic engagement. I
+
 ## Young men were an important part of Trump's 2024 winning coalition
 
 In @sec-resuls, I found across most races and education levels, a majority of men between the ages of 18 and 29 support Trump. This foreshadowed the 2024 election, where young men without a college degree became a major part of Trump's winning coalition [@cnnresults]. Based on my model estimates presented in @sec-resuls, nearly two-thirds of men between the ages of 18 and 29 without a college education support Trump.
@@ -851,13 +855,11 @@ My results were produced by logistic regression models trained on the 2022 CES s
 
 ## Polling misses and the "Trump only" voter {#sec-first-point}
 
-@silvergut found that Trump voters were less likely to respond to pollsters because they are more likely to distrust the government and have low civic engagement. After applying my logistic regression models to estimate vote preference and voter turnout, I found that voters with no college education, low or no trust in the government, and low civic engagement heavily favor Trump. I also found that Trump 2020 voters with these same characteristics were close to 14 percentage points less likely to vote in the 2022 midterm election than the average 2020 presidential election voter. These are likely the same voters that pollsters failed to account for when they underestimated support for Trump in 2016 and 2020.
+@silvergut found that Trump voters were less likely to respond to pollsters because they are more likely to distrust the government and have low civic engagement. After applying my logistic regression models to estimate vote preference and voter turnout, I found that across all races, genders, and age brackets, voters with no college education, low or no trust in the government, and low civic engagement heavily favor Trump. I also found that Trump 2020 voters with these same characteristics were close to 14 percentage points less likely to vote in the 2022 midterm election than the average 2020 presidential election voter. These are likely the same voters that pollsters failed to account for when they underestimated support for Trump in 2016 and 2020.
 
-My results suggest that the same characteristics that made low-propensity Trump voters less likely to respond to a pollster also made them less likely to vote in the 2022 midterm election when Trump was not on the ballot. What this means for the success of Republican candidates in the 2026 midterm election and in the 2028 presidential election remains unclear. Low-propensity Trump voters are less likely to respond to surveys, but they might also be less likely to vote in elections where he is not on the ballot.
+My results suggest that the same characteristics that made low-propensity Trump voters less likely to respond to a pollster also made them less likely to vote in the 2022 midterm election when Trump was not on the ballot. What this means for the success of Republican candidates in the 2026 midterm election and in the 2028 presidential election remains unclear. Low-propensity Trump voters are less likely to respond to surveys, but they might also be less likely to vote in elections where he is not on the ballot. Assuming that low-propensity Trump voters will vote (or not vote) a certain way in 2026 and 2028 will lead to polling misses one way or another. They have been difficult to survey since 2016, so there is limited data available about Trump voters who did not support down-ballot Republicans. New polling strategies, such as shortening surveys so that respondents do not find them tedious and promoting surveys on X (formerly known as Twitter) and other social media platforms widely used by low-propensity voters, will be needed to reach enough of them.
 
-Pollsters will need to use survey incentives and new multi-channel respondent recruitment strategies to reach this important, but hard-to-reach group in 2026 and 2028 . There are two ways that pollsters could inaccurately estimate support for the 2028 Republican presidential nominee. If they do not find a way to survey enough Republican voters, especially ones with low government trust and civic engagement, they could repeat their 2016 and 2020 polling misses. Pollsters could overestimate support for the 2028 Republican nominee if they over-correct their 2016, 2020, and 2024 polling misses and ignore the 2024 Michigan, Wisconsin, and Nevada senate results.
-
-Assuming that low-propensity Trump voters will vote (or not vote) a certain way in 2026 and 2028 will lead to polling misses one way or another. They have been difficult to survey since 2016, so there is limited data about Trump voters who did not support down-ballot Republicans available. New polling strategies, such as shortening surveys so that respondents do not find them tedious and promoting surveys on X (formerly known as Twitter) and other social media platforms widely used by low-propensity voters, will be needed to reach enough of them.
+<!--# Pollsters will need to use survey incentives and new multi-channel respondent recruitment strategies to reach this important, but hard-to-reach group in 2026 and 2028 . There are two ways that pollsters could inaccurately estimate support for the 2028 Republican presidential nominee. If they do not find a way to survey enough Republican voters, especially ones with low government trust and civic engagement, they could repeat their 2016 and 2020 polling misses. Pollsters could overestimate support for the 2028 Republican nominee if they over-correct their 2016, 2020, and 2024 polling misses and ignore the 2024 Michigan, Wisconsin, and Nevada senate results. -->
 
 ## Weaknesses and next steps {#sec-discussion-weaknesses}
 
@@ -865,9 +867,11 @@ This project's greatest weakness is the fact that it uses non-response biased da
 
 My next step towards understanding the "Trump only" voter would be to compare the results of 2024 pre-election polls to the actual results, do a deep-dive into 2024 pollster methodology, and conduct my own survey that targets low-propensity voters. Comparing the 2024 pre-election polls to the actual results and analyzing 2024 pollster methodology in depth will allow me to understand how much the polls underestimated support for Trump, yet again, what they did to try to address the non-response bias from 2016 and 2020, and how well it worked.
 
-Low-propensity Trump only voters are extremely difficult to survey, so one of my future steps could be to design and distribute a short, clear, and concise survey using non-traditional methodologies. Current survey methodologies, such as stratified sampling, assigning higher weights to subpopulations that are harder to survey, and weighting on recalled vote have not worked [@silvergut]. Non-response bias has plagued pollsters since 2016. Causes of non-response and vote preference are correlated. The use of stratified sampling to collect a represenative sample and post-stratification weighting to correct imbalances within that sample is based on the assumption that the political preferences of the respondents within each stratnum are representative of the actual voters within that stratnum who were not surveyed [@tswd]. Non-traditional voter blocks require non-traditional survey and respondent recruitment methodologies. Although this recruitment method is not backed by @tswd or supporting literature, I would develop a survey that takes less than five minutes to complete, asks only a few straightforward questions about demographics, and simply asks respondents who they voted for in the presidential race, and who they voted for/if they voted at all in a U.S. house or senate race. I would then promote the survey it where many young, low-propensity Trump only voters are: X and Parler. I would advertise it as a way for them to affirm their support for Trump, instead of using traditional respondent recruitment methods. @stantcheva2023 did find that short surveys and simple questions reduce attrition, so there is some literature to justify this.
+Low-propensity Trump only voters are extremely difficult to survey, so another one of my future steps could be to design and distribute a short, clear, and concise survey that combines conventional with non-conventional survey methodologies. Current survey methodologies, such as stratified sampling, assigning higher weights to subpopulations that are harder to survey, and weighting on recalled vote have not worked [@silvergut]. Non-response bias has plagued pollsters since 2016. Causes of non-response and vote preference are correlated. The use of stratified sampling to collect a representative sample and post-stratification weighting to correct imbalances within that sample is based on the assumption that the political preferences of the respondents within each stratum are representative of the actual voters within that stratum who were not surveyed [@tswd]. Non-traditional voter blocks require non-traditional survey and respondent recruitment methodologies. My idealized survey methodology is available in [Appendix -@sec-idealized].
 
-Once I build or obtain a survey dataset that successfully measures voting behavior of all Americans, including the ones who are most difficult to survey, I will develop a very specific logistic regression model to estimate whether or not an individual who voted for Trump or Harris in 2024 also voted in the U.S. Senate race on the same ballot based on vote preference, age, education, civic engagement, trust in government, and interest in politics.
+Once I build or obtain a survey dataset that successfully measures voting behavior of all Americans, including the ones who are most difficult to survey, I will develop a very specific logistic regression model to estimate whether or not an individual who voted for Trump or Harris in 2024 also voted in the U.S. Senate race on the same ballot based on vote preference, age, education, civic engagement, trust in government, and interest in politics. Trump increases voter turnout, both for and against him, so I would extend this analysis to estimate which 2024 voters will be most likely to abstain from the 2028 presidential election, which will be the first without Trump on the ballot since 2012.
+
+<!--# Although this recruitment method is not backed by tswd or supporting literature, I would develop a survey that takes five to ten minutes to complete, asks only a few straightforward questions, and offers incentives that are tailored to the intended audience. I would then promote the survey it where many young, low-propensity Trump only voters are: X (formerly known as Twitter), Meta, and YouTube. I would advertise it as a way for them to affirm their support for Trump, instead of using traditional respondent recruitment methods. My complete idealized survey methodology can be found in ... -->
 
 \newpage
 
@@ -988,6 +992,110 @@ The 2022 CES survey used only an online survey conducted by YouGov to collect re
 
 Using self-reported participation instead of a blanket assumption to determine whether a respondent who did not match to a TargetSmart voter record addresses the tradeoffs associated with assuming that all un-matched respondents are non-voters (or vice versa). However, this approach relies on the assumption that social desirability bias was not a factor [@ces2022]. Social desirability bias happens when a survey respondent becomes inclined to answer a question in a way that they think would make them "look good" to others [@tswd]. There is a chance that unmatched respondents might be inclined to say that they did vote in 2022 because participating in the democratic process is seen as socially desirable behavior.
 
+## Idealized Methodology {#sec-idealized}
+
+This idealized methodology subsection outlines my plan to conduct a survey to measure the opinions of American adults immediately after the 2024 U.S. presidential election and estimate which Trump 2024 voters are "Trump only" voters with a \$1 million USD budget. My goal is to maximize data collection and minimize attrition. One tradeoff that I will have to consider is survey length; a small number of questions collects less data but will have lower attrition, while a larger number of questions will collect more data but have higher attrition [@stantcheva2023].
+
+My idealized survey methodology includes a sampling approach, a respondent recruitment strategy, a plan for reaching low-propensity voters, and data validation. I will focus on correcting the non-response bias seen in the 2022 CES survey dataset and in 2016, 2020, and 2024 election cycle polling. This idealized methodology will focus primarily on reaching groups that pollsters have failed to reach in the past.
+
+### Sampling approach
+
+The target population, defined as the population that I would like to represent in my idealized survey is American adults [@tswd]. The sampling frame, defined as all potential respondents from my target population, is American adults who either use the YouGov survey platform, X (formerly known as Twitter), Meta, or YouTube or are in the L2 voter database.
+
+I will use quota sampling and respondent-driven sampling to try to overcome the non-response bias that plagued 2016, 2020, and 2024 presidential election cycle polls. Quota sampling is a non-probability sampling approach where the population is divided into strata, but non-random sampling is used to select respondents [@tswd]. Respondent-driven sampling is a non-probability sampling approach that compensates participants for their own responses and for recruiting other respondents [@tswd]. Respondents do not have to provide any information about anyone, but are given incentives for recruiting them into the survey [@salganik2004]. This allows for the selection of individuals from outside the sampling frame as long as they are from the network of an individual who is in the sampling frame [@salganik2004].
+
+### Respondent recruitment
+
+I will use multi-channel respondent recruitment, including both conventional and non-conventional channels. Conventional channels, including recruitment from the L2 voter database, phone interviews, and online questionnaires failed in 2016, 2020, and 2024. Pollsters simply did not reach enough low-propensity Trump voters. Recruiting respondents from YouGov and conducting either phone interviews or online questionnaires can amplify non-response bias; trust in government and college education can make individuals more likely to opt-in to the YouGov survey platform and less likely to support Trump. This does not mean that conventional respondent recruitment channels cannot be used;
+
+In addition to online, phone, and L2 database respondent recruitment, I will promote my survey and incentives on X (formerly known as Twitter), Meta, and YouTube. I will allocate a significant portion of my \$1 million idealized methodology budget
+
+### Data validation
+
+Survey responses will be matched to the TargetSmart voter file database in the Summer of 2025 [@ces2022]. If a respondent matches to a TargetSmart 2024 voter file, that means that they cast a ballot in the 2024 U.S. election. Votes are anonymous, so TargetSmart records do not indicate who someone voted for or which races they voted in [@ces2022].
+
+### Handling missing and incomplete values
+
+Respondents will be allowed to submit incomplete survey responses. Missing and incomplete values will not be ignored. My first step when addressing missing and incomplete responses will be to determine whether they are missing completely at random (MCAR), missing at random (MAR), or missing not at random (MNAR) through exploratory data analysis [@tswd]. If values are MCAR, meaning that the reason why they are missing is not related to my survey dataset, I will ignore them. If values, more specifically responses to questions about vote preference or trust in government are MAR or MNAR, I will include them in my analysis.
+
+### Weighting
+
+I will use weighting in addition to non-conventional respondent recruitment channels and promoting my survey on social media to address non-response bias. Post-stratification weighting is a statistical weight adjustment strategy where ...
+
+My idealized methodology aims to address the non-response bias that has plagued 2016, 2020, and 2024 election cycle polling by reaching more low-propensity voters. Polls in 2016, 2020, and in 2024 (where post-stratification weighting was used) still failed. A reason why post-stratification weighted surveys have failed to measure support for Trump in recent election cycles could be too much dependence on the assumption that the voters in each stratum who responded to the survey have similar views to those who did not [@clinton2024].
+
+### Budget
+
+My \$1 million USD budget will be allocated to build a reliable and representative survey, with an emphasis on reaching low-propensity voters.
+
+| Task/resource                                         | Amount allocated |
+|-------------------------------------------------------|------------------|
+| Personnel costs                                       | \$300,000        |
+| Incentives                                            | \$200,000        |
+| Survey advertising and digital respondent recruitment | \$250,000        |
+| Data validation                                       | \$250,000        |
+| Poll aggregation and computing software               | \$50,000         |
+| Total                                                 | \$1,000,000      |
+
+### Survey design
+
+My survey will be conducted via GoogleForms. GoogleForms is an easy, cost-effective, and user-friendly way to conduct online surveys. A user-friendly platform can increase response likelihood and decrease attrition in online surveys by minimizing the burden on the respondent [@stantcheva2023]. According to @TourangeauRipsRasinski2000, survey questions should be worded with the intended audience, or target population in mind. My survey contains 14 questions. Each question is short, clear, and written in plain language to reduce the cognitive load and burden on the respondent and to ensure that questions can be answered as accurately as possible [@stantcheva2023]. I expect that my survey would take 5 to 10 minutes to complete.
+
+Priming is a cognitive question ordering effect, where questions are arranged in a way to prompt respondents to think of something before answering a particular question [@stantcheva2023]. My idealized survey was not designed to prime respondents, but the open-ended question about preferred 2028 presidential candidate appears at the end of the vote preference section, after questions about 2024 presidential vote choice and participation in down-ballot races. This could prompt respondents to think of their preferred 2024 candidate before sharing who they would like to see run in 2028, so support for Harris and Trump as 2028 candidates could be inflated. I made this question open-ended and did not inform the voter that Trump will be ineligible to run for president in 2028 due to term limits to encourage users to answer openly and honestly. No one has declared their 2028 candidacy and the purpose of this question is to help identify Trump-only voters. Providing context, including that Trump is term-limited could have induced social desirability bias by making respondents less willing to say that they support Trump going against the 22nd Amendment and running for a third term.
+
+My survey can be found via this link: <https://docs.google.com/forms/d/e/1FAIpQLSeB79RS8Xjmnn9-Yyuu4nGUFPfNjPg9Zv8sIrKrQAbc4aUsdg/viewform?usp=header>
+
+### Weaknesses, limitations, and tradeoffs
+
+My survey aims to reach low-propensity Trump voters and I prioritized minimizing the burden on respondents. My questions collect just enough data to identify low-propensity and Trump-only voters, and match respondents to TaragetSmart. I focused on demographics, 2024 voting behavior, and civic engagement. I did not ask questions about past presidential votes, past participation in elections, or party affiliation. My survey is significantly shorter than the 2022 CES pre and post-election waves, which took respondents around 20 and 10 minutes to complete, respectively [@ces2022]. I believe that trading off extensive data collection for a shorter and less tedious survey is worth it because it is already difficult enough to reach low-propensity voters
+
+### Survey questions
+
+**Welcome message**
+
+Thank you for your interest in my 2024 post-election public opinion survey. The most recent U.S. election took place on Tuesday November 5th, 2024. President-Elect Donald Trump (Republican) defeated Vice President Kamala Harris (Democratic) in the popular vote 49.9% to 48.4% and in the electoral college 312 to 226. The Republican party won majorities in the U.S. House and in the U.S. Senate.
+
+Your participation in this survey is 100% by choice. You can withdraw and erase your responses at any point during the survey or after you have completed the survey, no questions asked.
+
+This survey collects information about respondents' vote choices and views. None of the data collected will be shared with any external party and it will be used for research purposes only. Any published materials related to the results of this survey will be anonymous and not traceable back to you.
+
+[Contact Information]{.underline}
+
+If you have any questions or concerns about this survey, please contact the organizer, Talia Fabregas.
+
+Email: talia.fabregas\@mail.utoronto.ca
+
+Phone number: 123-456-7890
+
+**Consent**
+
+By checking this box, I consent to this survey collecting personal information and information about my political preferences that will not be traceable back to me.
+
+-   I consent
+
+**Demographics**
+
+1.  What state do you live in? Drop down menu of all 50 states.
+2.  What is your age bracket? 18-29; 30-39; 40-49; 50-59; 60-69; 70 or older
+3.  What race do you identify as? (Select all that apply) White; Black; Asian; Hispanic; Latina/Latino; Native American; Middle Eastern; Two or more races; Prefer not to say; Other
+4.  What sex were you assigned at birth, on your birth certificate? Female; Male; Prefer not to say.
+5.  What gender best describes you? Select all that apply. Female; Male; Non-binary; Prefer not to say; Other (please specify).
+6.  What is the highest level of education that you have completed? I do not have a high school diploma or GED; High School or GED; 2-year college diploma; 4-year college degree; Post-graduate
+
+**2024 election questions**
+
+7.  Who did you vote for in the [2024 presidential election?]{.underline} Kamala Harris (Democratic); Donald Trump (Republican); Chase Oliver (Libertarian); Jill Stein (Green); Cornell West (Independent); Robert F. Kennedy Jr (Independent); I did not vote in the 2020 presidential election; Other (please specify).
+8.  Did you vote in each of the following 2024 down-ballot elections? U.S. Senate; U.S. House of Representatives; Governor; State Attorney General; State Senate; State House.
+9.  Do you plan to vote in the 2026 mid-term election? Yes, I plan to vote in 2026; No, I do not plan to vote in 2026; I am considering voting in 2026; I'm not sure yet.
+10. Who do you want to run for president in 2028? (short answer question)
+
+**Trust and engagement**
+
+11. How much do you trust the government? (Select an option from 1 to 5) 1 I do not trust the government at all; 2 I have very little trust in the government; 3 I have some trust in the government; 4 I trust the government; 5 I strongly trust the government.
+12. How much do you care about politics? 1 I do not care about politics at all; 2 I care about politics a little bit; 3 I care about politics sometimes/a moderate amount 4; I usually care about politics; 5 I care a lot about/have strong interest in politics
+13. How much do you trust the Center for Disease Control (CDC)? 1 I do not trust the CDC at all; 2 I have very little trust in the CDC; 3 I have some trust in the CDC; 4 I have trust in the CDC; 5 I strongly trust the CDC.
+14. What would you tell someone who trusts the government some of the time, but not all the time? (Short answer question)
+
 # Additional data details {#sec-data-details}
 
 ## Data cleaning {#sec-additional-data-cleaning}
@@ -1021,8 +1129,6 @@ I constructed a new variable, $voted\_in\_2022$, which is equal to 1 if the resp
 # Model details {#sec-model-details}
 
 This section provides additional details about the models, including model summaries, posterior predictive checks, credibility intervals, and model diagnostics.
-
-## Model summary
 
 ## Model results {#sec-model-results}
 
@@ -1070,7 +1176,7 @@ modelsummary::modelsummary(
   kableExtra::kable_styling(font_size = 10)
 ```
 
-## Credibility Intervals
+## Distribution
 
 ### Vote preference model
 
